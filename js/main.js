@@ -53,6 +53,7 @@
 				$(this).removeClass('active');
 			} else {
 				$(this).addClass('active');	
+				
 			}
 
 			

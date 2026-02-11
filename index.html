@@ -145,6 +145,27 @@
       align-items: start;
     }
 
+    .work-item.with-preview {
+      grid-template-columns: 120px 1fr auto;
+    }
+
+    .work-preview {
+      width: 120px;
+      height: 240px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .work-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
     .work-item:first-child {
       border-top: 1px solid var(--border);
     }
@@ -339,6 +360,17 @@
         grid-template-columns: 1fr;
       }
 
+      .work-item.with-preview {
+        grid-template-columns: 1fr;
+      }
+
+      .work-preview {
+        width: 100%;
+        max-width: 200px;
+        height: 400px;
+        margin-bottom: 16px;
+      }
+
       .work-metrics {
         flex-direction: row;
         text-align: left;
@@ -437,7 +469,10 @@
         </div>
       </div>
 
-      <div class="work-item">
+      <div class="work-item with-preview">
+        <div class="work-preview">
+          <img src="./images/workout-preview.png" alt="Workout Tracker App">
+        </div>
         <div>
           <div class="work-title">Workout Tracker</div>
           <div class="work-tech">React • TypeScript • PWA • IndexedDB</div>
@@ -451,7 +486,10 @@
         </div>
       </div>
 
-      <div class="work-item">
+      <div class="work-item with-preview">
+        <div class="work-preview">
+          <img src="./images/nourish-preview.png" alt="Nourish Food Tracker App">
+        </div>
         <div>
           <div class="work-title">Nourish — Food Tracker</div>
           <div class="work-tech">React • USDA API • Open Food Facts • Barcode Scanner</div>

@@ -14,81 +14,98 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f5f5;
+      background: #fafafa;
       color: #0a0a0a;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* Back link */
-    .back-link {
+    /* Nav */
+    .nav {
       position: fixed;
-      top: 24px;
-      left: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #666;
-      text-decoration: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(250, 250, 250, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
       z-index: 100;
+    }
+
+    .nav-brand {
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-
-    .back-link:hover {
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
       color: #0a0a0a;
+      text-decoration: none;
     }
 
-    .back-link svg {
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      background: #0a0a0a;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-icon svg {
       width: 16px;
       height: 16px;
+      color: #fff;
     }
 
-    /* Hero Section */
+    /* Hero */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
       text-align: center;
-      padding: 120px 24px 0;
+      padding: 140px 24px 60px;
       position: relative;
     }
 
     .hero h1 {
-      font-size: clamp(48px, 12vw, 80px);
+      font-size: clamp(48px, 10vw, 72px);
       font-weight: 800;
-      letter-spacing: -3px;
-      line-height: 1;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.05;
       margin-bottom: 20px;
     }
 
     .hero p {
-      font-size: clamp(16px, 3vw, 20px);
-      color: #666;
-      max-width: 420px;
+      font-size: clamp(17px, 2.5vw, 20px);
+      color: #555;
+      max-width: 480px;
       line-height: 1.5;
       margin-bottom: 32px;
     }
 
-    /* CTA Button */
+    /* CTA */
     .cta-button {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       background: #0a0a0a;
       color: #fff;
-      padding: 14px 28px;
-      border-radius: 100px;
-      font-size: 15px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
       font-weight: 600;
       text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -96,122 +113,189 @@
 
     .cta-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
       color: #fff;
     }
 
     .cta-button svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
 
-    /* Phone Mockups */
-    .phone-mockups {
-      position: absolute;
-      bottom: -80px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* Hero Phones */
+    .hero-phones {
+      margin-top: 60px;
       display: flex;
       justify-content: center;
-      gap: -60px;
+      gap: 0;
       width: 100%;
       max-width: 700px;
     }
 
     .phone {
-      position: relative;
-      width: 280px;
-      border-radius: 40px;
+      width: 260px;
+      border-radius: 36px;
       overflow: hidden;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
       background: #1a1a1a;
-      padding: 12px;
+      padding: 10px;
+      flex-shrink: 0;
     }
 
     .phone img {
       width: 100%;
-      border-radius: 28px;
+      border-radius: 26px;
       display: block;
     }
 
     .phone:first-child {
-      transform: translateX(30px) translateY(40px) rotate(-3deg);
+      transform: translateX(40px) rotate(-6deg);
       z-index: 1;
     }
 
     .phone:last-child {
-      transform: translateX(-30px) rotate(3deg);
+      transform: translateX(-40px) rotate(6deg);
       z-index: 2;
     }
 
-    /* Features Section */
+    /* Feature Cards Section */
     .features {
-      background: #fff;
-      padding: 200px 24px 100px;
-      margin-top: 100px;
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     .features-grid {
-      max-width: 900px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 48px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
 
-    .feature {
-      text-align: center;
+    .feature-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      background: #f5f5f5;
-      border-radius: 12px;
+    .feature-card h2 {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    .feature-card .card-image {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
+      margin-top: auto;
     }
 
-    .feature-icon svg {
-      width: 24px;
-      height: 24px;
-      color: #0a0a0a;
+    .feature-card .card-phone {
+      width: 200px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      background: #1a1a1a;
+      padding: 8px;
     }
 
-    .feature h3 {
+    .feature-card .card-phone img {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+    }
+
+    /* Wide card */
+    .feature-card.wide {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 48px;
+      min-height: auto;
+      padding: 48px;
+    }
+
+    .feature-card.wide .card-content {
+      flex: 1;
+    }
+
+    .feature-card.wide .card-image {
+      flex: 1;
+      margin-top: 0;
+    }
+
+    /* App Icon Section */
+    .app-section {
+      text-align: center;
+      padding: 100px 24px 80px;
+    }
+
+    .app-icon {
+      width: 120px;
+      height: 120px;
+      background: #0a0a0a;
+      border-radius: 28px;
+      margin: 0 auto 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .app-icon svg {
+      width: 60px;
+      height: 60px;
+      color: #fff;
+    }
+
+    .app-section h2 {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .app-section p {
       font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .feature p {
-      font-size: 15px;
       color: #666;
-      line-height: 1.5;
     }
 
     /* Tech Stack */
     .tech-stack {
-      padding: 80px 24px;
+      padding: 60px 24px;
       text-align: center;
+      border-top: 1px solid #eee;
     }
 
-    .tech-stack h2 {
-      font-size: 14px;
+    .tech-stack h3 {
+      font-size: 13px;
       font-weight: 600;
       color: #999;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 24px;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
     }
 
     .tech-badges {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .tech-badge {
@@ -228,7 +312,6 @@
     .footer {
       text-align: center;
       padding: 40px 24px;
-      border-top: 1px solid #e5e5e5;
     }
 
     .footer p {
@@ -246,64 +329,72 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .hero {
-        padding-top: 100px;
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: 1fr;
       }
 
-      .phone-mockups {
-        bottom: -40px;
+      .feature-card.wide {
+        grid-column: span 1;
+        flex-direction: column;
       }
 
-      .phone {
-        width: 200px;
-        border-radius: 28px;
-        padding: 8px;
-      }
-
-      .phone img {
-        border-radius: 20px;
-      }
-
-      .phone:first-child {
-        transform: translateX(20px) translateY(30px) rotate(-3deg);
-      }
-
-      .phone:last-child {
-        transform: translateX(-20px) rotate(3deg);
-      }
-
-      .features {
-        padding-top: 160px;
+      .feature-card.wide .card-image {
+        order: 2;
       }
     }
 
-    @media (max-width: 480px) {
-      .back-link {
-        top: 16px;
-        left: 16px;
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-phones {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
       }
 
       .phone {
-        width: 160px;
-        border-radius: 24px;
-        padding: 6px;
+        width: 220px;
       }
 
-      .phone img {
-        border-radius: 18px;
+      .phone:first-child,
+      .phone:last-child {
+        transform: none;
+      }
+
+      .phone:first-child {
+        z-index: 2;
+      }
+
+      .feature-card {
+        padding: 32px;
+        min-height: 420px;
+      }
+
+      .feature-card h2 {
+        font-size: 24px;
+      }
+
+      .feature-card .card-phone {
+        width: 160px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Back Link -->
-  <a href="index.html" class="back-link">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-    </svg>
-    Back
-  </a>
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+        </svg>
+      </div>
+      Workout Tracker
+    </a>
+  </nav>
 
   <!-- Hero -->
   <section class="hero">
@@ -318,9 +409,9 @@
     </a>
 
     <!-- Phone Mockups -->
-    <div class="phone-mockups">
+    <div class="hero-phones">
       <div class="phone">
-        <img src="images/workout-preview.png" alt="Workout selection screen">
+        <img src="images/workout-home.png" alt="Workout selection screen">
       </div>
       <div class="phone">
         <img src="images/workout-push.png" alt="Exercise tracking screen">
@@ -328,44 +419,62 @@
     </div>
   </section>
 
-  <!-- Features -->
+  <!-- Feature Cards -->
   <section class="features">
     <div class="features-grid">
-      <div class="feature">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
+      
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <h2>Pick your workout</h2>
+        <p>Pre-built Push, Pull, and Legs splits with the right exercises for each muscle group. Or create your own custom routine.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <img src="images/workout-home.png" alt="Workout selection">
+          </div>
         </div>
-        <h3>Push/Pull/Legs</h3>
-        <p>Pre-built workout splits with exercises targeting the right muscle groups.</p>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <h2>Track every rep</h2>
+        <p>Log weight and reps for each set. See your previous lifts so you know what to beat. Exercise GIFs show proper form.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <img src="images/workout-push.png" alt="Exercise tracking">
+          </div>
         </div>
-        <h3>Track Progress</h3>
-        <p>Log weight, reps, and sets. See your previous lifts to beat them.</p>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-          </svg>
+      <!-- Feature 3 - Wide -->
+      <div class="feature-card wide">
+        <div class="card-content">
+          <h2>Works on your wrist</h2>
+          <p>Syncs with Apple Watch so you can log sets without pulling out your phone. Perfect for staying focused during your workout.</p>
         </div>
-        <h3>Works on Any Device</h3>
-        <p>PWA with Apple Watch sync. Use it at the gym without your phone.</p>
+        <div class="card-image">
+          <div class="card-phone" style="width: 180px; border-radius: 40px;">
+            <img src="images/workout-preview.png" alt="Apple Watch sync" style="border-radius: 32px;">
+          </div>
+        </div>
       </div>
+
     </div>
+  </section>
+
+  <!-- App Section -->
+  <section class="app-section">
+    <div class="app-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+      </svg>
+    </div>
+    <h2>Build strength,<br>track progress.</h2>
+    <p>A PWA that works offline. Install it on any device.</p>
   </section>
 
   <!-- Tech Stack -->
   <section class="tech-stack">
-    <h2>Built with</h2>
+    <h3>Built with</h3>
     <div class="tech-badges">
       <span class="tech-badge">React</span>
       <span class="tech-badge">TypeScript</span>

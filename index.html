@@ -170,6 +170,18 @@
       border-top: 1px solid var(--border);
     }
 
+    a.work-item {
+      transition: background 0.2s, transform 0.2s;
+      border-radius: 12px;
+      margin: 0 -16px;
+      padding: 32px 16px;
+    }
+
+    a.work-item:hover {
+      background: var(--card);
+      transform: translateX(4px);
+    }
+
     .work-title {
       font-size: 20px;
       font-weight: 700;
@@ -469,7 +481,7 @@
         </div>
       </div>
 
-      <div class="work-item with-preview">
+      <a href="workout-tracker.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
         <div class="work-preview">
           <img src="./images/workout-demo.gif" alt="Workout Tracker App">
         </div>
@@ -484,7 +496,7 @@
             <div class="metric-label">Offline-First</div>
           </div>
         </div>
-      </div>
+      </a>
 
       <div class="work-item with-preview">
         <div class="work-preview">

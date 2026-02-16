@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Tracker — Track your lifts</title>
+  <meta name="description" content="A minimal workout tracker built for the Push/Pull/Legs routine. Track sets, reps, and progress.">
+  <link rel="icon" href="./images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f5f5;
+      color: #0a0a0a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Back link */
+    .back-link {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      text-decoration: none;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #0a0a0a;
+    }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      padding: 120px 24px 0;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 12vw, 80px);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 3vw, 20px);
+      color: #666;
+      max-width: 420px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0a0a0a;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      color: #fff;
+    }
+
+    .cta-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Phone Mockups */
+    .phone-mockups {
+      position: absolute;
+      bottom: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: -60px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .phone {
+      position: relative;
+      width: 280px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+      background: #1a1a1a;
+      padding: 12px;
+    }
+
+    .phone img {
+      width: 100%;
+      border-radius: 28px;
+      display: block;
+    }
+
+    .phone:first-child {
+      transform: translateX(30px) translateY(40px) rotate(-3deg);
+      z-index: 1;
+    }
+
+    .phone:last-child {
+      transform: translateX(-30px) rotate(3deg);
+      z-index: 2;
+    }
+
+    /* Features Section */
+    .features {
+      background: #fff;
+      padding: 200px 24px 100px;
+      margin-top: 100px;
+    }
+
+    .features-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 48px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: #f5f5f5;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #0a0a0a;
+    }
+
+    .feature h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .tech-stack h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .tech-badge {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .footer a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #0a0a0a;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 100px;
+      }
+
+      .phone-mockups {
+        bottom: -40px;
+      }
+
+      .phone {
+        width: 200px;
+        border-radius: 28px;
+        padding: 8px;
+      }
+
+      .phone img {
+        border-radius: 20px;
+      }
+
+      .phone:first-child {
+        transform: translateX(20px) translateY(30px) rotate(-3deg);
+      }
+
+      .phone:last-child {
+        transform: translateX(-20px) rotate(3deg);
+      }
+
+      .features {
+        padding-top: 160px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .back-link {
+        top: 16px;
+        left: 16px;
+      }
+
+      .phone {
+        width: 160px;
+        border-radius: 24px;
+        padding: 6px;
+      }
+
+      .phone img {
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Link -->
+  <a href="index.html" class="back-link">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Back
+  </a>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Track your lifts.</h1>
+    <p>A minimal workout tracker built for the Push/Pull/Legs routine. Log sets, reps, and weight with zero friction.</p>
+    
+    <a href="https://github.com/sammersheikh/workout-tracker" class="cta-button" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+      </svg>
+      View on GitHub
+    </a>
+
+    <!-- Phone Mockups -->
+    <div class="phone-mockups">
+      <div class="phone">
+        <img src="images/workout-preview.png" alt="Workout selection screen">
+      </div>
+      <div class="phone">
+        <img src="images/workout-push.png" alt="Exercise tracking screen">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </div>
+        <h3>Push/Pull/Legs</h3>
+        <p>Pre-built workout splits with exercises targeting the right muscle groups.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3>Track Progress</h3>
+        <p>Log weight, reps, and sets. See your previous lifts to beat them.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+          </svg>
+        </div>
+        <h3>Works on Any Device</h3>
+        <p>PWA with Apple Watch sync. Use it at the gym without your phone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="tech-stack">
+    <h2>Built with</h2>
+    <div class="tech-badges">
+      <span class="tech-badge">React</span>
+      <span class="tech-badge">TypeScript</span>
+      <span class="tech-badge">Vite</span>
+      <span class="tech-badge">SQLite</span>
+      <span class="tech-badge">Express</span>
+      <span class="tech-badge">PWA</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
+  </footer>
+</body>
+</html>

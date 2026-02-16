@@ -175,7 +175,7 @@
       background: #fff;
       border-radius: 24px;
       padding: 40px;
-      min-height: 500px;
+      min-height: 520px;
       display: flex;
       flex-direction: column;
     }
@@ -190,8 +190,7 @@
     .feature-card p {
       font-size: 16px;
       color: #666;
-      line-height: 1.5;
-      margin-bottom: 32px;
+      line-height: 1.6;
     }
 
     .feature-card .card-image {
@@ -199,11 +198,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: auto;
+      margin-top: 24px;
     }
 
     .feature-card .card-phone {
-      width: 200px;
+      width: 180px;
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.2);
@@ -234,6 +233,10 @@
     .feature-card.wide .card-image {
       flex: 1;
       margin-top: 0;
+    }
+
+    .feature-card.wide .card-phone {
+      width: 200px;
     }
 
     /* App Icon Section */
@@ -370,7 +373,7 @@
 
       .feature-card {
         padding: 32px;
-        min-height: 420px;
+        min-height: 450px;
       }
 
       .feature-card h2 {
@@ -389,7 +392,7 @@
     <a href="index.html" class="nav-brand">
       <div class="nav-icon">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
         </svg>
       </div>
       Workout Tracker
@@ -411,10 +414,10 @@
     <!-- Phone Mockups -->
     <div class="hero-phones">
       <div class="phone">
-        <img src="images/workout-home.png" alt="Workout selection screen">
+        <img src="images/wt-01-home.png" alt="Workout selection screen">
       </div>
       <div class="phone">
-        <img src="images/workout-push.png" alt="Exercise tracking screen">
+        <img src="images/wt-02-exercise.png" alt="Exercise tracking screen">
       </div>
     </div>
   </section>
@@ -423,37 +426,59 @@
   <section class="features">
     <div class="features-grid">
       
-      <!-- Feature 1 -->
+      <!-- Feature 1: Workout Selection -->
       <div class="feature-card">
         <h2>Pick your workout</h2>
-        <p>Pre-built Push, Pull, and Legs splits with the right exercises for each muscle group. Or create your own custom routine.</p>
+        <p>Pre-built Push, Pull, and Legs splits with exercises targeting the right muscle groups. Each workout shows which muscles you'll hit and how many exercises are included.</p>
         <div class="card-image">
           <div class="card-phone">
-            <img src="images/workout-home.png" alt="Workout selection">
+            <img src="images/wt-01-home.png" alt="Workout selection">
           </div>
         </div>
       </div>
 
-      <!-- Feature 2 -->
+      <!-- Feature 2: Exercise Tracking -->
       <div class="feature-card">
-        <h2>Track every rep</h2>
-        <p>Log weight and reps for each set. See your previous lifts so you know what to beat. Exercise GIFs show proper form.</p>
+        <h2>Track every set</h2>
+        <p>Log weight and reps for each set with scroll pickers. Exercise GIFs show proper form. See your previous lifts right on screen so you know what to beat.</p>
         <div class="card-image">
           <div class="card-phone">
-            <img src="images/workout-push.png" alt="Exercise tracking">
+            <img src="images/wt-02-exercise.png" alt="Exercise tracking">
           </div>
         </div>
       </div>
 
-      <!-- Feature 3 - Wide -->
+      <!-- Feature 3: History -->
+      <div class="feature-card">
+        <h2>Review your history</h2>
+        <p>See monthly stats at a glance — total workouts, sets completed, pounds lifted, and time spent training. Compare your performance vs last month with automatic trend indicators.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <img src="images/wt-03-history.png" alt="Workout history">
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4: Progress -->
+      <div class="feature-card">
+        <h2>Track your gains</h2>
+        <p>Muscle group breakdown shows which areas you're hitting most. Exercise progress cards highlight your improvements with +lbs badges. See your total weight increases over time.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <img src="images/wt-04-progress.png" alt="Progress tracking">
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 5: Custom Workouts (Wide) -->
       <div class="feature-card wide">
         <div class="card-content">
-          <h2>Works on your wrist</h2>
-          <p>Syncs with Apple Watch so you can log sets without pulling out your phone. Perfect for staying focused during your workout.</p>
+          <h2>Build custom workouts</h2>
+          <p>Don't want to follow PPL? Build your own routine. Filter exercises by muscle group — Back, Chest, Shoulders, Core, and more. Select the exercises you want and start your custom workout.</p>
         </div>
         <div class="card-image">
-          <div class="card-phone" style="width: 180px; border-radius: 40px;">
-            <img src="images/workout-preview.png" alt="Apple Watch sync" style="border-radius: 32px;">
+          <div class="card-phone">
+            <img src="images/wt-05-custom.png" alt="Custom workout builder">
           </div>
         </div>
       </div>

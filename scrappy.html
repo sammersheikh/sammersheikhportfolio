@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrappy — Android mirroring from the menu bar</title>
+  <meta name="description" content="A tiny macOS menu-bar app for scrcpy mirroring, wireless ADB pairing, and per-device Android screen control.">
+  <link rel="icon" href="./images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f8fafc;
+      --text: #06111f;
+      --muted: #64748b;
+      --panel: #ffffff;
+      --line: #e2e8f0;
+      --accent: #2563eb;
+      --accent-2: #06b6d4;
+      --dark: #09111f;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(37,99,235,0.16), transparent 30%),
+        radial-gradient(circle at 82% 6%, rgba(6,182,212,0.18), transparent 26%),
+        var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      padding: 16px 24px;
+      background: rgba(248,250,252,0.82);
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 14px 36px rgba(37,99,235,0.24);
+    }
+
+    .hero {
+      max-width: 1180px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 132px 24px 72px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 0.95fr);
+      align-items: center;
+      gap: 64px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: clamp(54px, 9vw, 104px);
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.08em;
+      line-height: 0.92;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      color: var(--muted);
+      font-size: clamp(18px, 2.2vw, 22px);
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .cta-button,
+    .ghost-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 900;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .cta-button {
+      color: #fff;
+      background: var(--dark);
+      box-shadow: 0 18px 42px rgba(15,23,42,0.18);
+    }
+
+    .ghost-button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.68);
+      color: var(--text);
+    }
+
+    .cta-button:hover,
+    .ghost-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .device-stage {
+      position: relative;
+      min-height: 570px;
+    }
+
+    .menu-card {
+      position: absolute;
+      top: 26px;
+      right: 34px;
+      width: min(410px, 92vw);
+      border-radius: 28px;
+      padding: 18px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(226,232,240,0.9);
+      box-shadow: 0 36px 100px rgba(15,23,42,0.18);
+      backdrop-filter: blur(18px);
+    }
+
+    .menu-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px 16px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .status-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .menu-row {
+      display: grid;
+      grid-template-columns: 74px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 12px;
+      border-radius: 14px;
+      color: var(--text);
+    }
+
+    .menu-row:hover,
+    .menu-row.active {
+      background: #f1f5f9;
+    }
+
+    .action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .action.stop {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .device-name {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .serial {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 8px 0;
+      background: var(--line);
+    }
+
+    .utility-row {
+      padding: 12px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .utility-row strong {
+      color: var(--text);
+    }
+
+    .phone-card {
+      position: absolute;
+      left: 0;
+      bottom: 32px;
+      width: 232px;
+      height: 470px;
+      border-radius: 38px;
+      padding: 12px;
+      background: #0f172a;
+      box-shadow: 0 32px 90px rgba(15,23,42,0.28);
+      transform: rotate(-7deg);
+    }
+
+    .phone-screen {
+      height: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #1d4ed8, #020617);
+      position: relative;
+      color: white;
+    }
+
+    .phone-screen::before {
+      content: '';
+      position: absolute;
+      inset: 18px 76px auto;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.36);
+    }
+
+    .android-grid {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      top: 86px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .app-dot {
+      aspect-ratio: 1;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
+    }
+
+    .mirror-badge {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 28px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+      font-weight: 900;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .pair-card {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 270px;
+      border-radius: 26px;
+      padding: 22px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 28px 76px rgba(37,99,235,0.28);
+    }
+
+    .pair-card span {
+      display: block;
+      color: rgba(255,255,255,0.72);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .pair-card strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .features {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 90px 24px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .feature-card {
+      min-height: 300px;
+      padding: 34px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 22px 70px rgba(15,23,42,0.08);
+    }
+
+    .feature-card.wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+      background: var(--dark);
+      color: #fff;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .feature-card.wide p {
+      color: #cbd5e1;
+    }
+
+    .feature-number {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 28px;
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-weight: 900;
+    }
+
+    .feature-card h2 {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .steps-visual {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .step-chip span:last-child {
+      color: #67e8f9;
+    }
+
+    .app-section {
+      text-align: center;
+      padding: 92px 24px 80px;
+    }
+
+    .app-icon {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 36px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 54px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 24px 70px rgba(37,99,235,0.24);
+    }
+
+    .app-section h2 {
+      max-width: 760px;
+      margin: 0 auto 18px;
+      font-size: clamp(36px, 7vw, 66px);
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.07em;
+      line-height: 0.98;
+    }
+
+    .app-section p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .tech-stack {
+      padding: 62px 24px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .tech-stack h3 {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 38px 24px 52px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-copy,
+      .hero-actions {
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+      }
+
+      .device-stage {
+        min-height: 640px;
+      }
+
+      .phone-card {
+        left: 8%;
+      }
+
+      .menu-card {
+        right: 0;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card.wide {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        padding-top: 112px;
+      }
+
+      .device-stage {
+        min-height: 720px;
+      }
+
+      .phone-card {
+        left: 50%;
+        transform: translateX(-50%) rotate(-5deg);
+      }
+
+      .menu-card {
+        top: 240px;
+        right: 50%;
+        transform: translateX(50%);
+        width: min(360px, 94vw);
+      }
+
+      .pair-card {
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 0;
+      }
+
+      .menu-row {
+        grid-template-columns: 70px 1fr;
+      }
+
+      .serial {
+        display: none;
+      }
+
+      .feature-card {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-icon">📲</span>
+      Scrappy
+    </a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">macOS menu-bar app</div>
+        <h1>Mirror without the mess.</h1>
+        <p class="hero-copy">Scrappy turns adb and scrcpy into a tiny menu-bar control center for Android devices, wireless pairing, and per-device mirror sessions.</p>
+        <div class="hero-actions">
+          <a class="cta-button" href="#features">See the workflow</a>
+          <a class="ghost-button" href="index.html#work">Back to portfolio</a>
+        </div>
+      </div>
+
+      <div class="device-stage" aria-label="Scrappy menu bar interface mockup">
+        <div class="phone-card">
+          <div class="phone-screen">
+            <div class="android-grid" aria-hidden="true">
+              <span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span>
+              <span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span>
+              <span class="app-dot"></span><span class="app-dot"></span><span class="app-dot"></span>
+            </div>
+            <div class="mirror-badge"><span>Mirroring</span><strong>1×</strong></div>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="menu-top">
+            <span>📲 Mirroring 1 of 2</span>
+            <span class="status-pill">Live</span>
+          </div>
+          <div class="menu-row active">
+            <span class="action stop">■ Stop</span>
+            <span class="device-name">Pixel 7 Pro</span>
+            <span class="serial">29291FDH</span>
+          </div>
+          <div class="menu-row">
+            <span class="action">▶ Mirror</span>
+            <span class="device-name">Galaxy Tab S9</span>
+            <span class="serial">R3CW501</span>
+          </div>
+          <div class="divider"></div>
+          <div class="utility-row"><strong>Pair new device over Wi‑Fi</strong><span>⌘P</span></div>
+          <div class="utility-row"><strong>Reconnect by IP</strong><span>⌘R</span></div>
+          <div class="divider"></div>
+          <div class="utility-row"><strong>Refresh devices</strong><span>5s</span></div>
+          <div class="utility-row"><strong>Restart ADB server</strong><span>safe</span></div>
+        </div>
+
+        <div class="pair-card">
+          <span>Wireless debugging</span>
+          <strong>Pair, connect, mirror — no Terminal spelunking.</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-number">01</div>
+          <h2>Mirror any attached device</h2>
+          <p>Plug in Android phones or tablets and Scrappy lists them from the menu bar. Start scrcpy mirroring per device instead of memorizing serial numbers.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-number">02</div>
+          <h2>Pair over Wi‑Fi</h2>
+          <p>Wireless debugging setup walks through the pairing address, 6-digit code, and connect address so fresh devices can go cable-free fast.</p>
+        </article>
+
+        <article class="feature-card wide">
+          <div>
+            <div class="feature-number">03</div>
+            <h2>Control sessions individually</h2>
+            <p>Start one mirror, stop another, refresh the device list, or stop every Scrappy-owned mirror without touching the command line.</p>
+          </div>
+          <div class="steps-visual" aria-hidden="true">
+            <div class="step-chip"><span>Pixel 7 Pro</span><span>Stop</span></div>
+            <div class="step-chip"><span>Galaxy Tab S9</span><span>Mirror</span></div>
+            <div class="step-chip"><span>ADB server</span><span>Restart</span></div>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-number">04</div>
+          <h2>See state at a glance</h2>
+          <p>The menu-bar icon changes based on state: nothing connected, devices idle, or active mirrors with a running count.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-number">05</div>
+          <h2>Recover without Terminal</h2>
+          <p>Reconnect by IP, refresh the list, stop all mirrors, and restart ADB from one tiny utility when Android tooling gets weird.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="app-section">
+      <div class="app-icon">📲</div>
+      <h2>Android screen control, tucked into the menu bar.</h2>
+      <p>A private macOS utility for fast device demos, QA, support, and tinkering.</p>
+    </section>
+
+    <section class="tech-stack">
+      <h3>Built with</h3>
+      <div class="tech-badges">
+        <span class="tech-badge">Python</span>
+        <span class="tech-badge">rumps</span>
+        <span class="tech-badge">adb</span>
+        <span class="tech-badge">scrcpy</span>
+        <span class="tech-badge">launchd</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
+  </footer>
+</body>
+</html>

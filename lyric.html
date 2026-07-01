@@ -6,7 +6,9 @@
   <title>Live Lyric — Synced Lyrics from the Mic</title>
   <meta name="description" content="An iOS app that identifies songs with ShazamKit and shows time-synced lyrics in portrait or landscape hero typography.">
   <link rel="icon" href="./images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -15,12 +17,13 @@
     }
 
     :root {
-      --bg: #050505;
-      --surface: #0f0f0f;
-      --text: #ffffff;
-      --muted: #a0a0a0;
+      --bg: #030303;
+      --surface: #0c0c0c;
+      --text: #f5f5f5;
+      --muted: #888;
+      --dim: #444;
+      --line: rgba(255,255,255,0.08);
       --accent: #ff2d55;
-      --line: rgba(255,255,255,0.1);
     }
 
     html {
@@ -40,14 +43,25 @@
       text-decoration: none;
     }
 
+    /* Noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
     .nav {
       position: fixed;
       inset: 0 0 auto;
       z-index: 20;
       display: flex;
       justify-content: center;
-      padding: 16px 24px;
-      background: rgba(5,5,5,0.78);
+      padding: 18px 24px;
+      background: rgba(3,3,3,0.72);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(16px);
     }
@@ -56,88 +70,100 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text);
     }
 
     .nav-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
       object-fit: cover;
     }
 
     .hero {
-      max-width: 1200px;
+      position: relative;
+      padding: 160px 24px 0;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(255,45,85,0.18) 0%, rgba(255,45,85,0.05) 35%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 140px 24px 80px;
       text-align: center;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--accent);
+      display: inline-block;
+      margin-bottom: 32px;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 600;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      letter-spacing: 1.4px;
-      margin-bottom: 28px;
+      color: var(--accent);
     }
 
     h1 {
-      font-size: clamp(48px, 9vw, 96px);
-      font-weight: 900;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(56px, 11vw, 120px);
+      font-weight: 700;
       font-style: italic;
-      letter-spacing: -0.06em;
-      line-height: 0.95;
-      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      margin-bottom: 28px;
     }
 
     .hero-copy {
-      max-width: 640px;
-      margin: 0 auto 40px;
+      max-width: 560px;
+      margin: 0 auto 48px;
       color: var(--muted);
-      font-size: clamp(17px, 2.2vw, 21px);
-      line-height: 1.55;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.6;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 16px;
       justify-content: center;
-      margin-bottom: 80px;
+      margin-bottom: 90px;
     }
 
     .cta-button,
     .ghost-button {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 15px 24px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 900;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      gap: 8px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s, opacity 0.2s;
     }
 
     .cta-button {
-      color: #fff;
-      background: var(--accent);
-      box-shadow: 0 18px 42px rgba(255,45,85,0.22);
+      background: var(--text);
+      color: var(--bg);
     }
 
     .ghost-button {
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
       color: var(--text);
     }
 
@@ -146,210 +172,274 @@
       transform: translateY(-2px);
     }
 
-    .phone-stage {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-      align-items: flex-end;
-    }
-
-    .phone {
-      width: 280px;
-      border-radius: 44px;
-      padding: 14px;
-      background: #1a1a1a;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-    }
-
-    .phone img {
-      width: 100%;
-      border-radius: 34px;
-      display: block;
-      background: #000;
-    }
-
-    .phone-landscape {
-      width: 560px;
-      max-width: 92vw;
-      border-radius: 38px;
-      padding: 14px;
-      background: #1a1a1a;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-    }
-
-    .phone-landscape img {
-      width: 100%;
-      border-radius: 28px;
-      display: block;
-      background: #000;
-    }
-
-    .screenshot-flat {
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-    }
-
-    .screenshot-flat img {
-      width: 100%;
-      display: block;
-    }
-
-    .features {
-      max-width: 1120px;
+    /* Screenshot showcase */
+    .showcase {
+      position: relative;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 100px 24px;
+      padding: 0 24px 120px;
     }
 
-    .features-grid {
+    .showcase-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 24px;
+      align-items: end;
     }
 
-    .feature-card {
-      min-height: 280px;
-      padding: 34px;
-      border-radius: 28px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
+    .screenshot {
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+      background: #000;
+      line-height: 0;
     }
 
-    .feature-card.wide {
-      grid-column: span 2;
+    .screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .screenshot-portrait {
+      aspect-ratio: 1320 / 2868;
+    }
+
+    .screenshot-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .screenshot-landscape {
+      aspect-ratio: 2868 / 1320;
+      grid-column: 1 / -1;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .screenshot-landscape img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .screenshot-caption {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.5px;
+    }
+
+    /* Editorial sections */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 120px 24px;
+    }
+
+    .section-header {
+      max-width: 640px;
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 80px;
       align-items: center;
-      gap: 40px;
-      background: linear-gradient(135deg, rgba(255,45,85,0.12), rgba(255,45,85,0.03));
     }
 
-    .feature-number {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 28px;
-      border-radius: 14px;
-      color: #fff;
-      background: var(--accent);
-      font-weight: 900;
+    .split.reverse {
+      direction: rtl;
     }
 
-    .feature-card h2 {
-      font-size: clamp(26px, 4vw, 36px);
-      font-weight: 900;
-      letter-spacing: -0.05em;
-      line-height: 1.05;
-      margin-bottom: 14px;
+    .split.reverse > * {
+      direction: ltr;
     }
 
-    .feature-card p {
+    .split-text {
+      max-width: 440px;
+    }
+
+    .split-text h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .split-text p {
       color: var(--muted);
       font-size: 16px;
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
-    .app-section {
-      text-align: center;
-      padding: 100px 24px 80px;
+    .feature-list {
+      list-style: none;
+      margin-top: 32px;
     }
 
-    .app-icon {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 36px;
-      border-radius: 28px;
-      object-fit: cover;
-      box-shadow: 0 24px 70px rgba(255,45,85,0.22);
-    }
-
-    .app-section h2 {
-      max-width: 760px;
-      margin: 0 auto 18px;
-      font-size: clamp(36px, 7vw, 66px);
-      font-weight: 900;
-      font-style: italic;
-      letter-spacing: -0.06em;
-      line-height: 0.98;
-    }
-
-    .app-section p {
+    .feature-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 14px;
+      font-size: 15px;
       color: var(--muted);
-      font-size: 18px;
     }
 
-    .tech-stack {
-      padding: 60px 24px;
+    .feature-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Closing */
+    .closing {
+      position: relative;
+      padding: 140px 24px;
       text-align: center;
       border-top: 1px solid var(--line);
+      overflow: hidden;
     }
 
-    .tech-stack h3 {
+    .closing-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255,45,85,0.12) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .closing-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .closing-icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      margin: 0 auto 32px;
+      object-fit: cover;
+      box-shadow: 0 24px 60px rgba(255,45,85,0.18);
+    }
+
+    .closing h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .closing p {
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1.6px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 36px;
     }
 
-    .tech-badges {
+    .tech-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
     }
 
-    .tech-badge {
-      padding: 10px 18px;
+    .tech-pill {
+      padding: 8px 16px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 13px;
+      color: var(--muted);
     }
 
     .footer {
       text-align: center;
       padding: 40px 24px 60px;
-      color: var(--muted);
+      color: var(--dim);
       font-size: 14px;
+      border-top: 1px solid var(--line);
     }
 
     .footer a:hover {
-      color: var(--accent);
+      color: var(--text);
     }
 
     @media (max-width: 900px) {
-      .features-grid {
+      .showcase-grid {
         grid-template-columns: 1fr;
       }
 
-      .feature-card.wide {
-        grid-column: span 1;
+      .screenshot-landscape {
+        grid-column: 1;
+      }
+
+      .split {
         grid-template-columns: 1fr;
+        gap: 48px;
       }
 
-      .phone {
-        width: 260px;
-      }
-
-      .phone-landscape {
-        width: 100%;
-        max-width: 92vw;
+      .split.reverse {
+        direction: ltr;
       }
     }
 
     @media (max-width: 620px) {
       .hero {
-        padding-top: 120px;
+        padding-top: 130px;
       }
 
-      .feature-card {
-        padding: 28px;
+      .section {
+        padding: 80px 24px;
+      }
+
+      .screenshot {
+        border-radius: 24px;
       }
     }
   </style>
@@ -364,81 +454,131 @@
 
   <main>
     <section class="hero">
-      <div class="eyebrow">iOS App</div>
-      <h1>Lyrics that keep up.</h1>
-      <p class="hero-copy">Live Lyric listens through the mic, identifies whatever is playing with ShazamKit, and fetches time-synced lyrics so the current line is always highlighted. Rotate to landscape for a room-filling hero typography view.</p>
-      <div class="hero-actions">
-        <a class="cta-button" href="#features">See how it works</a>
-        <a class="ghost-button" href="index.html#work">Back to portfolio</a>
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="eyebrow">iOS App</div>
+        <h1>Lyrics that keep up.</h1>
+        <p class="hero-copy">Hold your phone up while a song plays. Live Lyric identifies it through the mic and shows time-synced lyrics — portrait for reading, landscape for singing along across the room.</p>
+        <div class="hero-actions">
+          <a class="cta-button" href="#how-it-works">See how it works</a>
+          <a class="ghost-button" href="index.html#work">Back to portfolio</a>
+        </div>
       </div>
+    </section>
 
-      <div class="phone-stage">
-        <div class="phone">
-          <img src="images/lyric/listening.png" alt="Live Lyric listening screen with waveform visualizer">
+    <section class="showcase">
+      <div class="showcase-grid">
+        <div>
+          <div class="screenshot screenshot-portrait">
+            <img src="images/lyric/listening.png" alt="Live Lyric listening screen with waveform visualizer">
+          </div>
+          <div class="screenshot-caption">Listening</div>
         </div>
-        <div class="phone">
-          <img src="images/lyric/portrait-lyrics.png" alt="Live Lyric portrait lyrics view highlighting the current line">
+        <div>
+          <div class="screenshot screenshot-portrait">
+            <img src="images/lyric/portrait-lyrics.png" alt="Live Lyric portrait lyrics view highlighting the current line">
+          </div>
+          <div class="screenshot-caption">Synced lyrics</div>
         </div>
-        <div class="phone-landscape">
+        <div class="screenshot screenshot-landscape">
           <img src="images/lyric/landscape-hero.png" alt="Live Lyric landscape hero typography view">
         </div>
       </div>
     </section>
 
-    <section id="features" class="features">
-      <div class="features-grid">
-        <article class="feature-card">
-          <div class="feature-number">01</div>
-          <h2>ShazamKit song ID</h2>
-          <p>Tap Listen and the app matches the ambient audio in seconds. It works on speakers, radio, a car stereo, or a friend's phone — no Apple Music subscription required.</p>
-        </article>
+    <section id="how-it-works" class="section">
+      <div class="section-header">
+        <span class="section-label">How it works</span>
+        <h2>From audio to lyrics in about a second.</h2>
+        <p>ShazamKit identifies the song, LRCLib supplies synced lyrics, and a playback clock keeps the current line highlighted. No accounts, no subscriptions, no third-party SDKs.</p>
+      </div>
 
-        <article class="feature-card">
-          <div class="feature-number">02</div>
-          <h2>Synced + plain lyrics</h2>
-          <p>Time-synced LRC lyrics come from LRCLib first. If a track has no synced version, the app falls back to Genius plain text. Everything is cached on disk for 30 days.</p>
-        </article>
-
-        <article class="feature-card wide">
-          <div>
-            <div class="feature-number">03</div>
-            <h2>Portrait scroll, landscape hero</h2>
-            <p>Hold the phone vertically to read the full song with the active line highlighted. Rotate horizontally and the same lyrics become a single oversized line designed for across-the-room sing-alongs.</p>
-          </div>
-          <div class="phone-landscape" style="max-width: 420px; margin: 0 auto;">
-            <img src="images/lyric/landscape-hero.png" alt="Landscape hero view">
-          </div>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-number">04</div>
-          <h2>Word-by-word karaoke</h2>
-          <p>For songs with enhanced LRC timing, individual words light up as they are sung instead of highlighting the whole line at once.</p>
-        </article>
-
-        <article class="feature-card">
-          <div class="feature-number">05</div>
-          <h2>History & replay</h2>
-          <p>The last 20 matched songs are stored locally. Tap any previous match to jump straight back into its lyrics without re-identifying.</p>
-        </article>
+      <div class="split">
+        <div class="split-text">
+          <h3>Tap and listen.</h3>
+          <p>The app starts ShazamKit and shows a live waveform as it listens. It works on any audio source: a speaker, the radio, a car stereo, or someone else's phone.</p>
+          <ul class="feature-list">
+            <li>Works without an Apple Music subscription</li>
+            <li>Re-identifies every ~10 seconds to correct drift</li>
+            <li>Rejects wild backward jumps from repeated choruses</li>
+          </ul>
+        </div>
+        <div class="screenshot screenshot-portrait">
+          <img src="images/lyric/listening.png" alt="Live Lyric listening screen">
+        </div>
       </div>
     </section>
 
-    <section class="app-section">
-      <img src="images/lyric/icon.png" alt="Live Lyric app icon" class="app-icon">
-      <h2>Identify, sync, sing along.</h2>
-      <p>A personal iOS app for live lyrics — built with SwiftUI, ShazamKit, and zero third-party SDKs.</p>
+    <section class="section">
+      <div class="split reverse">
+        <div class="split-text">
+          <h3>Read along.</h3>
+          <p>In portrait, the full lyric scroll sits behind a bold highlight on the active line. Tap any line to jump to that moment. When LRCLib serves enhanced timing, individual words light up as they're sung.</p>
+          <ul class="feature-list">
+            <li>Time-synced LRC from LRCLib</li>
+            <li>Plain-text fallback via Genius</li>
+            <li>30-day on-disk cache</li>
+          </ul>
+        </div>
+        <div class="screenshot screenshot-portrait">
+          <img src="images/lyric/portrait-lyrics.png" alt="Live Lyric portrait lyrics view">
+        </div>
+      </div>
     </section>
 
-    <section class="tech-stack">
-      <h3>Built with</h3>
-      <div class="tech-badges">
-        <span class="tech-badge">Swift</span>
-        <span class="tech-badge">SwiftUI</span>
-        <span class="tech-badge">ShazamKit</span>
-        <span class="tech-badge">LRCLib</span>
-        <span class="tech-badge">Combine</span>
-        <span class="tech-badge">XCTest</span>
+    <section class="section">
+      <div class="split">
+        <div class="split-text">
+          <h3>Sing along.</h3>
+          <p>Rotate the phone and the same lyrics become one oversized line. The upcoming line sits quietly below. It's built for propping the phone on a table and singing with a group.</p>
+          <ul class="feature-list">
+            <li>Automatic orientation switching</li>
+            <li>Large, readable serif typography</li>
+            <li>Subtle album-art background tint</li>
+          </ul>
+        </div>
+        <div class="screenshot screenshot-landscape">
+          <img src="images/lyric/landscape-hero.png" alt="Live Lyric landscape hero typography view">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Details</span>
+        <h2>Built like a native app should be.</h2>
+      </div>
+
+      <div class="split reverse">
+        <div class="split-text">
+          <h3>History, replay, privacy.</h3>
+          <p>The last 20 matched songs are stored locally. Tap one to reopen its lyrics instantly. A privacy manifest declares every sensitive API, and the cache is excluded from iCloud backups.</p>
+          <ul class="feature-list">
+            <li>48 XCTest cases covering sync, parsing, and network layers</li>
+            <li>Five-layer architecture with no shared mutable state</li>
+            <li>Dynamic Type and VoiceOver support throughout</li>
+          </ul>
+        </div>
+        <div class="screenshot screenshot-portrait">
+          <img src="images/lyric/history.png" alt="Live Lyric history screen">
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="closing-glow"></div>
+      <div class="closing-inner">
+        <img src="images/lyric/icon.png" alt="Live Lyric app icon" class="closing-icon">
+        <h2>Identify, sync, sing.</h2>
+        <p>A personal iOS app for live lyrics — SwiftUI, ShazamKit, Combine, and zero third-party SDKs.</p>
+        <div class="tech-row">
+          <span class="tech-pill">Swift</span>
+          <span class="tech-pill">SwiftUI</span>
+          <span class="tech-pill">ShazamKit</span>
+          <span class="tech-pill">LRCLib</span>
+          <span class="tech-pill">Combine</span>
+          <span class="tech-pill">XCTest</span>
+        </div>
       </div>
     </section>
   </main>

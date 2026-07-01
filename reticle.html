@@ -173,6 +173,13 @@
       backdrop-filter: blur(16px);
     }
 
+    .screen-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .capture-card {
       inset: 20px 46px auto 24px;
       height: 320px;
@@ -421,40 +428,32 @@
       line-height: 1.65;
     }
 
+    .feature-image {
+      margin-top: 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.24);
+    }
+
+    .feature-image img {
+      width: 100%;
+      display: block;
+    }
+
     .chain-visual {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
       min-height: 180px;
     }
 
-    .mini-shot {
-      width: 128px;
-      height: 150px;
+    .chain-visual img {
+      width: 100%;
+      max-width: 420px;
       border-radius: 20px;
-      background: linear-gradient(135deg, #27272a, #111827);
       border: 1px solid var(--line);
       box-shadow: 0 18px 45px rgba(0,0,0,0.24);
-      position: relative;
-    }
-
-    .mini-shot:nth-child(2) { transform: translateY(-18px); }
-    .mini-shot:nth-child(3) { transform: translateY(18px); }
-
-    .mini-shot::after {
-      content: '✓';
-      position: absolute;
-      right: 12px;
-      bottom: 12px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--accent-2);
-      color: var(--ink);
-      font-weight: 900;
     }
 
     .app-section {
@@ -595,7 +594,7 @@
 <body>
   <nav class="nav">
     <a href="index.html" class="nav-brand">
-      <span class="nav-icon">⌖</span>
+      <img src="images/reticle/icon.png" alt="Reticle app icon" class="nav-icon" style="width: 30px; height: 30px; border-radius: 8px; object-fit: cover;">
       Reticle
     </a>
   </nav>
@@ -603,7 +602,7 @@
   <main>
     <section class="hero">
       <div>
-        <div class="eyebrow">macOS capture tool</div>
+        <div class="eyebrow">Free macOS capture tool</div>
         <h1>Screenshot faster.</h1>
         <p class="hero-copy">Reticle replaces the default macOS screenshot flow with instant clipboard capture, fast markup, screenshot chaining, and smart OCR filenames.</p>
         <div class="hero-actions">
@@ -612,41 +611,17 @@
         </div>
       </div>
 
-      <div class="mock-wrap" aria-label="Reticle interface mockups">
+      <div class="mock-wrap" aria-label="Reticle interface screenshots">
         <div class="screen-card capture-card">
-          <div class="window-bar">
-            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <span>Area Capture</span>
-          </div>
-          <div class="capture-canvas">
-            <div class="reticle-box"></div>
-          </div>
+          <img src="images/reticle/capture.png" alt="Reticle area capture with crosshair and size label">
         </div>
 
         <div class="screen-card editor-card">
-          <div class="window-bar">
-            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <span>Annotation Editor</span>
-          </div>
-          <div class="tool-row">
-            <span class="tool-pill">Arrow</span>
-            <span class="tool-pill">Blur</span>
-            <span class="tool-pill">Text</span>
-            <span class="tool-pill">Counter</span>
-            <span class="tool-pill">Crop</span>
-          </div>
-          <div class="annotation-stage">
-            <div class="arrow-line"></div>
-            <div class="blur-block"></div>
-            <div class="counter">1</div>
-          </div>
+          <img src="images/reticle/editor-with-content.png" alt="Reticle annotation editor with arrow, text, blur, and counter tools">
         </div>
 
         <div class="screen-card naming-card">
-          <div class="file-chip">
-            <strong>Smart name</strong>
-            <div class="file-name">release-notes-sign-off-2026-05-17.png</div>
-          </div>
+          <img src="images/reticle/naming.png" alt="Reticle smart filename suggestions from OCR">
         </div>
       </div>
     </section>
@@ -671,10 +646,8 @@
             <h2>Chain screenshots together</h2>
             <p>Capture multiple steps in a row, queue them automatically, cycle through edits, and paste the full set at once when the context matters.</p>
           </div>
-          <div class="chain-visual" aria-hidden="true">
-            <div class="mini-shot"></div>
-            <div class="mini-shot"></div>
-            <div class="mini-shot"></div>
+          <div class="chain-visual">
+            <img src="images/reticle/chain.png" alt="Reticle screenshot chaining with queued captures">
           </div>
         </article>
 
@@ -688,14 +661,17 @@
           <div class="feature-number">05</div>
           <h2>Tune the workflow</h2>
           <p>Preferences cover keyboard shortcuts, default tools, colors, stroke width, font size, auto-save folders, chaining, and queue timeouts.</p>
+          <div class="feature-image">
+            <img src="images/reticle/preferences-actual.png" alt="Reticle preferences window with keyboard shortcuts">
+          </div>
         </article>
       </div>
     </section>
 
     <section class="app-section">
-      <div class="app-icon">⌖</div>
+      <img src="images/reticle/icon.png" alt="Reticle app icon" class="app-icon" style="width: 118px; height: 118px; border-radius: 28px; margin: 0 auto 36px; object-fit: cover; box-shadow: 0 24px 70px rgba(0,0,0,0.25);">
       <h2>Built for the screenshots you actually send.</h2>
-      <p>A private macOS utility designed around speed, clarity, and fewer tiny workflow papercuts.</p>
+      <p>A free, private macOS utility designed around speed, clarity, and fewer tiny workflow papercuts.</p>
     </section>
 
     <section class="tech-stack">

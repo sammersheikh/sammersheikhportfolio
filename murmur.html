@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Murmur — Dictate Anywhere on Mac</title>
+  <meta name="description" content="Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Local speech-to-text with a searchable history dashboard.">
+  <link rel="icon" href="./images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #f5f5f5;
+      text-decoration: none;
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .nav-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 9vw, 68px);
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: clamp(17px, 2.5vw, 20px);
+      color: #a0a0a0;
+      max-width: 560px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* CTA */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f5f5f5;
+      color: #0a0a0a;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,255,255,0.12);
+      color: #0a0a0a;
+    }
+
+    .cta-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Mac Window Mockup */
+    .mac-window {
+      margin-top: 60px;
+      width: 100%;
+      max-width: 760px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+
+    .mac-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      background: #161616;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .traffic-light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .traffic-light.red { background: #ff5f57; }
+    .traffic-light.yellow { background: #febc2e; }
+    .traffic-light.green { background: #28c840; }
+
+    .mac-window video {
+      width: 100%;
+      display: block;
+      background: #111;
+    }
+
+    /* Feature Cards Section */
+    .features {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: #141414;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: 40px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .feature-card h2 {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 16px;
+      color: #999;
+      line-height: 1.6;
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      font-size: 26px;
+    }
+
+    /* Wide card */
+    .feature-card.wide {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 48px;
+      min-height: auto;
+      padding: 48px;
+    }
+
+    .feature-card.wide .card-content {
+      flex: 1;
+    }
+
+    .feature-card.wide .card-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Visual pills */
+    .visual-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .visual-pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #28c840;
+    }
+
+    /* App Section */
+    .app-section {
+      text-align: center;
+      padding: 100px 24px 80px;
+    }
+
+    .app-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      margin: 0 auto 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .app-section h2 {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .app-section p {
+      font-size: 18px;
+      color: #999;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+      padding: 60px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .tech-stack h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #e5e5e5;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer a {
+      color: #999;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #f5f5f5;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card.wide {
+        grid-column: span 1;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .feature-card.wide .card-visual {
+        margin-top: 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 120px;
+      }
+
+      .feature-card {
+        padding: 32px;
+        min-height: 280px;
+      }
+
+      .feature-card h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/murmur/icon.png" alt="Murmur app icon">
+      </div>
+      Murmur
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Dictate anywhere.</h1>
+    <p>Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Speech-to-text runs locally on your Mac — audio never leaves your devices.</p>
+    
+    <span class="cta-button">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      Available for Mac
+    </span>
+
+    <!-- Mac Window Demo -->
+    <div class="mac-window">
+      <div class="mac-titlebar">
+        <span class="traffic-light red"></span>
+        <span class="traffic-light yellow"></span>
+        <span class="traffic-light green"></span>
+      </div>
+      <video src="images/murmur/hotkey-demo.mp4" alt="Murmur hotkey dictation demo" autoplay muted loop playsinline></video>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="features">
+    <div class="features-grid">
+      
+      <!-- Feature 1: Watch dictation -->
+      <div class="feature-card">
+        <div>
+          <div class="feature-icon">⌚</div>
+          <h2>From your wrist</h2>
+          <p>Hold a pill on the Apple Watch, speak or whisper, release, and the text appears on your Mac. Raise-to-record lets you start hands-free.</p>
+        </div>
+      </div>
+
+      <!-- Feature 2: Mac hotkey -->
+      <div class="feature-card">
+        <div>
+          <div class="feature-icon">⌨️</div>
+          <h2>From your keyboard</h2>
+          <p>Press the global hotkey on your Mac, dictate, and release to type the transcript into whatever app is frontmost. No clicking, no context switching.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Local transcription -->
+      <div class="feature-card">
+        <div>
+          <div class="feature-icon">🔒</div>
+          <h2>Private by default</h2>
+          <p>Parakeet TDT runs locally on the Mac Neural Engine. Your audio and transcripts stay on your own devices, not a cloud service.</p>
+        </div>
+      </div>
+
+      <!-- Feature 4: History & stats -->
+      <div class="feature-card">
+        <div>
+          <div class="feature-icon">📊</div>
+          <h2>History & stats</h2>
+          <p>A searchable dashboard shows every dictation, total words, average WPM, dictation count, and time saved vs typing it out.</p>
+        </div>
+      </div>
+
+      <!-- Feature 5: Auto-discovery (Wide) -->
+      <div class="feature-card wide">
+        <div class="card-content">
+          <h2>Auto-discovery</h2>
+          <p>The iPhone and Watch find your Mac automatically over Bonjour on the same Wi-Fi network. No manual host address, no pairing codes, no copy-paste.</p>
+        </div>
+        <div class="card-visual">
+          <div class="visual-pill">
+            <span class="dot"></span>
+            Mac discovered on office-lan
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 6: iOS keyboard (Wide) -->
+      <div class="feature-card wide">
+        <div class="card-content">
+          <h2>iOS keyboard</h2>
+          <p>A custom iOS keyboard brings Murmur's swipe-to-text and one-tap dictation to any app on your iPhone. Corrections you make are remembered for next time.</p>
+        </div>
+        <div class="card-visual">
+          <div class="visual-pill">
+            <span class="dot"></span>
+            In TestFlight
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- App Section -->
+  <section class="app-section">
+    <div class="app-icon">
+      <img src="images/murmur/icon.png" alt="Murmur app icon">
+    </div>
+    <h2>Speak it,<br>type it.</h2>
+    <p>Native Mac, iPhone, and Watch apps with on-device transcription and CloudKit sync.</p>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="tech-stack">
+    <h3>Built with</h3>
+    <div class="tech-badges">
+      <span class="tech-badge">Swift</span>
+      <span class="tech-badge">SwiftUI</span>
+      <span class="tech-badge">TCA</span>
+      <span class="tech-badge">Parakeet</span>
+      <span class="tech-badge">WatchConnectivity</span>
+      <span class="tech-badge">Bonjour</span>
+      <span class="tech-badge">CloudKit</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
+  </footer>
+</body>
+</html>

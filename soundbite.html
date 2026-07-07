@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soundbite — Listen to Any Article</title>
+  <meta name="description" content="An iOS app that turns articles into narrated audio. Save from anywhere, read along with karaoke-style captions, and catch up with daily briefs.">
+  <link rel="icon" href="./images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F2ECDC;
+      color: #171310;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(242, 236, 220, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(23, 19, 16, 0.08);
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #171310;
+      text-decoration: none;
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .nav-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 140px 24px 60px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 9vw, 68px);
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: clamp(17px, 2.5vw, 20px);
+      color: #5c5145;
+      max-width: 520px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* CTA */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #171310;
+      color: #F2ECDC;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(23, 19, 16, 0.18);
+      color: #F2ECDC;
+    }
+
+    .cta-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Hero Phones */
+    .hero-phones {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .phone {
+      width: 260px;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(23, 19, 16, 0.22);
+      background: #1a1a1a;
+      padding: 10px;
+      flex-shrink: 0;
+    }
+
+    .phone video {
+      width: 100%;
+      border-radius: 26px;
+      display: block;
+      aspect-ratio: 9/19.5;
+      object-fit: cover;
+    }
+
+    .phone:first-child {
+      transform: translateX(40px) rotate(-6deg);
+      z-index: 1;
+    }
+
+    .phone:last-child {
+      transform: translateX(-40px) rotate(6deg);
+      z-index: 2;
+    }
+
+    /* Feature Cards Section */
+    .features {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card h2 {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 16px;
+      color: #5c5145;
+      line-height: 1.6;
+    }
+
+    .feature-card .card-image {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .feature-card .card-phone {
+      width: 180px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(23, 19, 16, 0.18);
+      background: #1a1a1a;
+      padding: 8px;
+    }
+
+    .feature-card .card-phone video {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      aspect-ratio: 9/19.5;
+      object-fit: cover;
+    }
+
+    /* Wide card */
+    .feature-card.wide {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 48px;
+      min-height: auto;
+      padding: 48px;
+    }
+
+    .feature-card.wide .card-content {
+      flex: 1;
+    }
+
+    .feature-card.wide .card-image {
+      flex: 1;
+      margin-top: 0;
+    }
+
+    .feature-card.wide .card-phone {
+      width: 200px;
+    }
+
+    /* App Icon Section */
+    .app-section {
+      text-align: center;
+      padding: 100px 24px 80px;
+    }
+
+    .app-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      margin: 0 auto 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(23, 19, 16, 0.15);
+      overflow: hidden;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .app-section h2 {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .app-section p {
+      font-size: 18px;
+      color: #5c5145;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+      padding: 60px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(23, 19, 16, 0.1);
+    }
+
+    .tech-stack h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8a7d6d;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      background: #fff;
+      border: 1px solid rgba(23, 19, 16, 0.1);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #171310;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: #8a7d6d;
+    }
+
+    .footer a {
+      color: #5c5145;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #171310;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card.wide {
+        grid-column: span 1;
+        flex-direction: column;
+      }
+
+      .feature-card.wide .card-image {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-phones {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .phone {
+        width: 220px;
+      }
+
+      .phone:first-child,
+      .phone:last-child {
+        transform: none;
+      }
+
+      .phone:first-child {
+        z-index: 2;
+      }
+
+      .feature-card {
+        padding: 32px;
+        min-height: 480px;
+      }
+
+      .feature-card h2 {
+        font-size: 24px;
+      }
+
+      .feature-card .card-phone {
+        width: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/soundbite/icon.png" alt="Soundbite app icon">
+      </div>
+      Soundbite
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Listen to any article.</h1>
+    <p>An iOS app that turns long reads into narrated audio. Save from anywhere, read along with time-synced captions, and catch up with personalized briefs.</p>
+    
+    <span class="cta-button">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+      Coming to the App Store
+    </span>
+
+    <!-- Phone Mockups -->
+    <div class="hero-phones">
+      <div class="phone">
+        <video src="images/soundbite/library-scroll.mp4" alt="Soundbite library" autoplay muted loop playsinline></video>
+      </div>
+      <div class="phone">
+        <video src="images/soundbite/player-karaoke.mp4" alt="Soundbite read-along player" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="features">
+    <div class="features-grid">
+      
+      <!-- Feature 1: Save from anywhere -->
+      <div class="feature-card">
+        <h2>Save from anywhere</h2>
+        <p>Tap the share button in Safari and send any article straight to your Soundbite library. No copy-paste, no leaving the page.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/share-extension.mp4" alt="Save article from Safari" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2: Read along -->
+      <div class="feature-card">
+        <h2>Read along</h2>
+        <p>The player highlights each word as it is spoken, so you can follow along or skim ahead. Tap any sentence to jump to that moment.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/player-karaoke.mp4" alt="Karaoke-style read-along" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 3: Daily briefs -->
+      <div class="feature-card">
+        <h2>Catch up with briefs</h2>
+        <p>Get a curated daily rundown of the topics you care about. Each brief is summarized and narrated so you can listen on the go.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/daily-brief.mp4" alt="Daily brief" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4: Library -->
+      <div class="feature-card">
+        <h2>Your listening queue</h2>
+        <p>Swipe through saved articles, queue up what is next, and keep track of what you have finished. Everything stays organized and searchable.</p>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/library-scroll.mp4" alt="Article library" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 5: Submit URL (Wide) -->
+      <div class="feature-card wide">
+        <div class="card-content">
+          <h2>Paste a link, start listening</h2>
+          <p>Drop any URL into Soundbite and the article is processed in the background. By the time you are ready, the narration is waiting in your library.</p>
+        </div>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/submit-url.mp4" alt="Submit URL to listen" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 6: Voice picker (Wide) -->
+      <div class="feature-card wide">
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/voice-picker.mp4" alt="Voice picker" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+        <div class="card-content">
+          <h2>Pick your narrator</h2>
+          <p>Choose from a range of natural-sounding voices to find the one that is easiest to listen to. Switch anytime without re-processing.</p>
+        </div>
+      </div>
+
+      <!-- Feature 7: Dark mode (Wide) -->
+      <div class="feature-card wide">
+        <div class="card-content">
+          <h2>Easy on the eyes</h2>
+          <p>Toggle dark mode for late-night listening. The whole app adapts, from the library to the player, while keeping the warm editorial feel.</p>
+        </div>
+        <div class="card-image">
+          <div class="card-phone">
+            <video src="images/soundbite/dark-mode.mp4" alt="Dark mode" autoplay muted loop playsinline></video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- App Section -->
+  <section class="app-section">
+    <div class="app-icon">
+      <img src="images/soundbite/icon.png" alt="Soundbite app icon">
+    </div>
+    <h2>Read less,<br>listen more.</h2>
+    <p>Native iOS app for article narration, daily briefs, and synced read-along.</p>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="tech-stack">
+    <h3>Built with</h3>
+    <div class="tech-badges">
+      <span class="tech-badge">Swift</span>
+      <span class="tech-badge">SwiftUI</span>
+      <span class="tech-badge">Unreal Speech</span>
+      <span class="tech-badge">Exa AI</span>
+      <span class="tech-badge">SwiftData</span>
+      <span class="tech-badge">CloudKit</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
+  </footer>
+</body>
+</html>

@@ -44,15 +44,14 @@
       color: var(--accent);
     }
 
-    /* Hero - Full viewport centered */
+    /* Hero */
     .hero {
-      min-height: 100vh;
+      min-height: auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px 40px;
     }
 
     .hero h1 {
@@ -60,14 +59,14 @@
       font-weight: 800;
       letter-spacing: -3px;
       line-height: 1;
-      margin-bottom: 16px;
+      margin-bottom: 40px;
     }
 
     .hero h2 {
       font-size: clamp(18px, 3vw, 24px);
       font-weight: 600;
       color: var(--muted);
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
 
     .hero-links {
@@ -87,13 +86,36 @@
     }
 
     .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: bounce 2s infinite;
+      display: none;
+    }
+
+    /* Hero projects */
+    .hero-projects {
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 40px;
+    }
+
+    .hero-projects .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .hero-projects .project-card {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    .hero-projects .project-info h3 {
+      font-size: 16px;
+    }
+
+    .hero-projects .project-info p {
+      display: none;
+    }
+
+    .hero-projects .project-status {
+      margin-top: 8px;
+      font-size: 11px;
+      padding: 4px 8px;
     }
 
     @keyframes bounce {
@@ -619,9 +641,81 @@
   <!-- Hero -->
   <section class="hero">
     <h1>Sammer Sheikh</h1>
+
+    <div class="hero-projects">
+      <div class="projects-grid">
+
+        <a href="soundbite.html" class="project-card">
+          <div class="project-preview phone-preview">
+            <img src="./images/soundbite/icon.png" alt="Soundbite app icon">
+          </div>
+          <div class="project-info">
+            <h3>Soundbite</h3>
+            <div class="project-tech">Swift · SwiftUI · Unreal Speech · Exa AI</div>
+            <span class="project-status">Coming soon</span>
+          </div>
+        </a>
+
+        <a href="murmur.html" class="project-card">
+          <div class="project-preview mac-preview">
+            <img src="./images/murmur/murmur-home.png" alt="Murmur Mac app">
+          </div>
+          <div class="project-info">
+            <h3>Murmur</h3>
+            <div class="project-tech">Swift · SwiftUI · TCA · Parakeet</div>
+            <span class="project-status">Available for Mac</span>
+          </div>
+        </a>
+
+        <a href="dumbell.html" class="project-card">
+          <div class="project-preview phone-preview">
+            <video src="./images/dumbell/begin.mp4" alt="Dumbell app preview" autoplay muted loop playsinline></video>
+          </div>
+          <div class="project-info">
+            <h3>Dumbell</h3>
+            <div class="project-tech">SwiftUI · SwiftData · CloudKit · StoreKit</div>
+            <span class="project-status">Coming soon</span>
+          </div>
+        </a>
+
+        <a href="reticle.html" class="project-card">
+          <div class="project-preview" style="background: #0a0a0a; display: grid; place-items: center;">
+            <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(250,204,21,0.15); display: grid; place-items: center; font-size: 28px;">⌖</div>
+          </div>
+          <div class="project-info">
+            <h3>Reticle</h3>
+            <div class="project-tech">Electron · Fabric.js · macOS Vision OCR</div>
+            <span class="project-status">Free macOS app</span>
+          </div>
+        </a>
+
+        <a href="scrappy.html" class="project-card">
+          <div class="project-preview" style="padding: 0;">
+            <img src="./images/scrappy/icon.png" alt="Scrappy app icon" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div class="project-info">
+            <h3>Scrappy</h3>
+            <div class="project-tech">Python · rumps · adb · scrcpy</div>
+            <span class="project-status">Free macOS app</span>
+          </div>
+        </a>
+
+        <a href="lyric.html" class="project-card">
+          <div class="project-preview phone-preview">
+            <img src="./images/lyric/icon.png" alt="Live Lyric app icon">
+          </div>
+          <div class="project-info">
+            <h3>Live Lyric</h3>
+            <div class="project-tech">Swift · SwiftUI · ShazamKit</div>
+            <span class="project-status">iOS app</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
     <h2>Senior Technical Product Specialist</h2>
     <div class="hero-links">
-      <a href="#projects">Projects</a>
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#setup">AI Setup</a>
@@ -637,90 +731,6 @@
     <p class="about-text">
       I'm a <strong>Senior Technical Product Specialist</strong> at RadiusXR, building XR and low vision medical devices that transform patient care. With 5+ years bridging engineering, product, and operations, I specialize in <strong>release management</strong>, <strong>regulatory compliance</strong>, and <strong>automation systems</strong> that scale.
     </p>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="projects-section">
-    <div class="projects-header">
-      <h2>Projects</h2>
-      <p>Apps and tools I've designed, built, and shipped.</p>
-    </div>
-
-    <div class="projects-grid">
-
-      <a href="soundbite.html" class="project-card">
-        <div class="project-preview phone-preview">
-          <img src="./images/soundbite/icon.png" alt="Soundbite app icon">
-        </div>
-        <div class="project-info">
-          <h3>Soundbite</h3>
-          <div class="project-tech">Swift · SwiftUI · Unreal Speech · Exa AI</div>
-          <p>Turns articles into narrated audio with karaoke-style captions and daily briefs.</p>
-          <span class="project-status">Coming soon</span>
-        </div>
-      </a>
-
-      <a href="murmur.html" class="project-card">
-        <div class="project-preview mac-preview">
-          <img src="./images/murmur/murmur-home.png" alt="Murmur Mac app">
-        </div>
-        <div class="project-info">
-          <h3>Murmur</h3>
-          <div class="project-tech">Swift · SwiftUI · TCA · Parakeet</div>
-          <p>Dictate from Apple Watch or iPhone and it types on your Mac, offline.</p>
-          <span class="project-status">Available for Mac</span>
-        </div>
-      </a>
-
-      <a href="dumbell.html" class="project-card">
-        <div class="project-preview phone-preview">
-          <video src="./images/dumbell/begin.mp4" alt="Dumbell app preview" autoplay muted loop playsinline></video>
-        </div>
-        <div class="project-info">
-          <h3>Dumbell</h3>
-          <div class="project-tech">SwiftUI · SwiftData · CloudKit · StoreKit</div>
-          <p>iOS workout tracker with custom builders, AI analysis, and Apple Health sync.</p>
-          <span class="project-status">Coming soon</span>
-        </div>
-      </a>
-
-      <a href="reticle.html" class="project-card">
-        <div class="project-preview" style="background: #0a0a0a; display: grid; place-items: center;">
-          <div style="width: 64px; height: 64px; border-radius: 16px; background: rgba(250,204,21,0.15); display: grid; place-items: center; font-size: 32px;">⌖</div>
-        </div>
-        <div class="project-info">
-          <h3>Reticle</h3>
-          <div class="project-tech">Electron · Fabric.js · macOS Vision OCR</div>
-          <p>Free macOS screenshot tool with annotation, chaining, and OCR filenames.</p>
-          <span class="project-status">Free macOS app</span>
-        </div>
-      </a>
-
-      <a href="scrappy.html" class="project-card">
-        <div class="project-preview" style="padding: 0;">
-          <img src="./images/scrappy/icon.png" alt="Scrappy app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div class="project-info">
-          <h3>Scrappy</h3>
-          <div class="project-tech">Python · rumps · adb · scrcpy</div>
-          <p>macOS menu-bar app for one-click Android mirroring and ADB recovery.</p>
-          <span class="project-status">Free macOS app</span>
-        </div>
-      </a>
-
-      <a href="lyric.html" class="project-card">
-        <div class="project-preview phone-preview">
-          <img src="./images/lyric/icon.png" alt="Live Lyric app icon">
-        </div>
-        <div class="project-info">
-          <h3>Live Lyric</h3>
-          <div class="project-tech">Swift · SwiftUI · ShazamKit</div>
-          <p>Identifies playing songs and shows time-synced lyrics.</p>
-          <span class="project-status">iOS app</span>
-        </div>
-      </a>
-
-    </div>
   </section>
 
   <!-- Work / Projects -->

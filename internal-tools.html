@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Tools — Sammer Sheikh</title>
+  <meta name="description" content="A portfolio of internal tools built for RadiusXR operations, logistics, quality, and product support.">
+  <link rel="icon" href="./images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f5f5;
+      --text: #0a0a0a;
+      --muted: #666;
+      --accent: #0066ff;
+      --card: #fff;
+      --border: #e5e5e5;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    .back {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      z-index: 10;
+    }
+
+    .back:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 120px 24px 40px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 60px 24px 120px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    }
+
+    .tool-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .tool-meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .tool-card p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .note {
+      margin-top: 48px;
+      padding: 20px 24px;
+      background: rgba(0,102,255,0.06);
+      border: 1px solid rgba(0,102,255,0.12);
+      border-radius: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 24px 80px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 100px;
+      }
+      .tool-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back">← Back</a>
+
+  <header class="hero">
+    <h1>Internal Tools</h1>
+    <p>Web apps, automations, and support utilities built to streamline operations, logistics, quality, and product support.</p>
+  </header>
+
+  <section>
+    <div class="tools-list">
+
+      <div class="tool-card">
+        <h2>Production System</h2>
+        <div class="tool-meta">Google Apps Script · Google Sheets</div>
+        <p>End-to-end production tracking and inventory management system used to coordinate manufacturing workflows, component traceability, and device build records.</p>
+      </div>
+
+      <div class="tool-card">
+        <h2>Operations Dashboard</h2>
+        <div class="tool-meta">Google Apps Script · Mixpanel</div>
+        <p>Analytics dashboard that aggregates product usage metrics into a single view for leadership and customer-success teams.</p>
+      </div>
+
+      <div class="tool-card">
+        <h2>Returns Tracker</h2>
+        <div class="tool-meta">Google Apps Script · Salesforce · FedEx</div>
+        <p>Return merchandise authorization tracker that coordinates shipments, customer records, and return status across support and logistics teams.</p>
+      </div>
+
+      <div class="tool-card">
+        <h2>Shipment Tracker</h2>
+        <div class="tool-meta">Node.js · Puppeteer · Google Sheets API</div>
+        <p>Automated shipment-tracking pipeline that collects carrier status updates and writes them into shared operational spreadsheets.</p>
+      </div>
+
+      <div class="tool-card">
+        <h2>UAT Tracker</h2>
+        <div class="tool-meta">Google Apps Script · Gemini · Jira</div>
+        <p>User acceptance testing coordination tool for logging test results, drafting issues, and tracking validation progress during release cycles.</p>
+      </div>
+
+      <div class="tool-card">
+        <h2>ISP2.0 Scripts</h2>
+        <div class="tool-meta">Google Apps Script bound script</div>
+        <p>Legacy support script suite used for device programming, data migration, and field-service workflows.</p>
+      </div>
+
+    </div>
+
+    <div class="note">
+      These tools were built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Contact me for a private walkthrough.
+    </div>
+  </section>
+
+  <footer>
+    Built by Sammer Sheikh · 2026
+  </footer>
+
+</body>
+</html>

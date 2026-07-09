@@ -279,6 +279,152 @@
       letter-spacing: 1px;
     }
 
+    /* Projects showcase */
+    .projects-section {
+      padding: 100px 24px 80px;
+    }
+
+    .projects-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .projects-header h2 {
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+    }
+
+    .projects-header p {
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    }
+
+    .project-preview {
+      aspect-ratio: 4/3;
+      background: #f5f5f5;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-preview img,
+    .project-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .project-preview.phone-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f5f5 0%, #eaeaea 100%);
+    }
+
+    .project-preview.phone-preview img {
+      width: auto;
+      height: 92%;
+      object-fit: contain;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .project-preview.watch-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f5f5 0%, #eaeaea 100%);
+    }
+
+    .project-preview.watch-preview img {
+      width: auto;
+      height: 80%;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .project-preview.mac-preview {
+      background: #f2f0ec;
+    }
+
+    .project-preview.mac-preview img {
+      object-fit: cover;
+      object-position: top left;
+    }
+
+    .project-info {
+      padding: 22px;
+    }
+
+    .project-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .project-info .project-tech {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .project-info p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .project-status {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 100px;
+      background: #f0f0f0;
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Experience */
     .exp-grid {
       display: flex;
@@ -475,6 +621,7 @@
     <h1>Sammer Sheikh</h1>
     <h2>Senior Technical Product Specialist</h2>
     <div class="hero-links">
+      <a href="#projects">Projects</a>
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#setup">AI Setup</a>
@@ -492,52 +639,128 @@
     </p>
   </section>
 
+  <!-- Projects -->
+  <section id="projects" class="projects-section">
+    <div class="projects-header">
+      <h2>Projects</h2>
+      <p>Apps and tools I've designed, built, and shipped.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <a href="soundbite.html" class="project-card">
+        <div class="project-preview phone-preview">
+          <img src="./images/soundbite/icon.png" alt="Soundbite app icon">
+        </div>
+        <div class="project-info">
+          <h3>Soundbite</h3>
+          <div class="project-tech">Swift · SwiftUI · Unreal Speech · Exa AI</div>
+          <p>Turns articles into narrated audio with karaoke-style captions and daily briefs.</p>
+          <span class="project-status">Coming soon</span>
+        </div>
+      </a>
+
+      <a href="murmur.html" class="project-card">
+        <div class="project-preview mac-preview">
+          <img src="./images/murmur/murmur-home.png" alt="Murmur Mac app">
+        </div>
+        <div class="project-info">
+          <h3>Murmur</h3>
+          <div class="project-tech">Swift · SwiftUI · TCA · Parakeet</div>
+          <p>Dictate from Apple Watch or iPhone and it types on your Mac, offline.</p>
+          <span class="project-status">Available for Mac</span>
+        </div>
+      </a>
+
+      <a href="dumbell.html" class="project-card">
+        <div class="project-preview phone-preview">
+          <video src="./images/dumbell/begin.mp4" alt="Dumbell app preview" autoplay muted loop playsinline></video>
+        </div>
+        <div class="project-info">
+          <h3>Dumbell</h3>
+          <div class="project-tech">SwiftUI · SwiftData · CloudKit · StoreKit</div>
+          <p>iOS workout tracker with custom builders, AI analysis, and Apple Health sync.</p>
+          <span class="project-status">Coming soon</span>
+        </div>
+      </a>
+
+      <a href="reticle.html" class="project-card">
+        <div class="project-preview" style="background: #0a0a0a; display: grid; place-items: center;">
+          <div style="width: 64px; height: 64px; border-radius: 16px; background: rgba(250,204,21,0.15); display: grid; place-items: center; font-size: 32px;">⌖</div>
+        </div>
+        <div class="project-info">
+          <h3>Reticle</h3>
+          <div class="project-tech">Electron · Fabric.js · macOS Vision OCR</div>
+          <p>Free macOS screenshot tool with annotation, chaining, and OCR filenames.</p>
+          <span class="project-status">Free macOS app</span>
+        </div>
+      </a>
+
+      <a href="scrappy.html" class="project-card">
+        <div class="project-preview" style="padding: 0;">
+          <img src="./images/scrappy/icon.png" alt="Scrappy app icon" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="project-info">
+          <h3>Scrappy</h3>
+          <div class="project-tech">Python · rumps · adb · scrcpy</div>
+          <p>macOS menu-bar app for one-click Android mirroring and ADB recovery.</p>
+          <span class="project-status">Free macOS app</span>
+        </div>
+      </a>
+
+      <a href="lyric.html" class="project-card">
+        <div class="project-preview phone-preview">
+          <img src="./images/lyric/icon.png" alt="Live Lyric app icon">
+        </div>
+        <div class="project-info">
+          <h3>Live Lyric</h3>
+          <div class="project-tech">Swift · SwiftUI · ShazamKit</div>
+          <p>Identifies playing songs and shows time-synced lyrics.</p>
+          <span class="project-status">iOS app</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
   <!-- Work / Projects -->
   <section id="work">
     <div class="section-title">Featured Work</div>
     <div class="work-grid">
 
-      <div class="work-item">
+      <a href="soundbite.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
+        <div class="work-preview" style="padding: 0; overflow: hidden;">
+          <img src="./images/soundbite/icon.png" alt="Soundbite app icon" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <div>
-          <div class="work-title">Automated Onboarding System</div>
-          <div class="work-tech">Salesforce API • Parameterized URLs • Customer Journey</div>
-          <p class="work-desc">End-to-end automated registration flow integrating with Salesforce. Streamlined customer onboarding from first contact to device activation.</p>
+          <div class="work-title">Soundbite</div>
+          <div class="work-tech">Swift • SwiftUI • Unreal Speech • Exa AI</div>
+          <p class="work-desc">An iOS app that turns articles into narrated audio. Save from Safari, read along with karaoke-style captions, and catch up with daily briefs.</p>
         </div>
         <div class="work-metrics">
           <div>
-            <div class="metric-value">80%</div>
-            <div class="metric-label">Fewer Support Calls</div>
+            <div class="metric-value">Soon</div>
+            <div class="metric-label">App Store</div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="work-item">
+      <a href="murmur.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
+        <div class="work-preview" style="padding: 0; overflow: hidden;">
+          <img src="./images/murmur/icon.png" alt="Murmur app icon" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <div>
-          <div class="work-title">Inventory & QMS Tracking</div>
-          <div class="work-tech">Google Apps Script • Class 1A Medical Device • Bulk Logistics</div>
-          <p class="work-desc">Comprehensive tracking system for medical device inventory. Automated bulk shipment logistics from packing slip to pickup scheduling.</p>
+          <div class="work-title">Murmur</div>
+          <div class="work-tech">Swift • SwiftUI • TCA • Parakeet</div>
+          <p class="work-desc">Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Local speech-to-text with a searchable history dashboard.</p>
         </div>
         <div class="work-metrics">
           <div>
-            <div class="metric-value">$150k</div>
-            <div class="metric-label">Weekly Revenue Boost</div>
+            <div class="metric-value">Mac</div>
+            <div class="metric-label">Available</div>
           </div>
         </div>
-      </div>
-
-      <div class="work-item">
-        <div>
-          <div class="work-title">Knox MDM Release System</div>
-          <div class="work-tech">Samsung Knox APIs • Android MDM • Phased Rollouts</div>
-          <p class="work-desc">Device release management for 4,000+ Android devices. Automated release application with phased protocols and rollback plans.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">90%</div>
-            <div class="metric-label">Time Reduction</div>
-          </div>
-        </div>
-      </div>
+      </a>
 
       <a href="dumbell.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
         <div class="work-preview">
@@ -613,39 +836,47 @@
         </div>
       </a>
 
-      <a href="soundbite.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/soundbite/icon.png" alt="Soundbite app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
+      <div class="work-item">
         <div>
-          <div class="work-title">Soundbite</div>
-          <div class="work-tech">Swift • SwiftUI • Unreal Speech • Exa AI</div>
-          <p class="work-desc">An iOS app that turns articles into narrated audio. Save from Safari, read along with karaoke-style captions, and catch up with daily briefs.</p>
+          <div class="work-title">Automated Onboarding System</div>
+          <div class="work-tech">Salesforce API • Parameterized URLs • Customer Journey</div>
+          <p class="work-desc">End-to-end automated registration flow integrating with Salesforce. Streamlined customer onboarding from first contact to device activation.</p>
         </div>
         <div class="work-metrics">
           <div>
-            <div class="metric-value">Soon</div>
-            <div class="metric-label">App Store</div>
+            <div class="metric-value">80%</div>
+            <div class="metric-label">Fewer Support Calls</div>
           </div>
         </div>
-      </a>
+      </div>
 
-      <a href="murmur.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/murmur/icon.png" alt="Murmur app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
+      <div class="work-item">
         <div>
-          <div class="work-title">Murmur</div>
-          <div class="work-tech">Swift • SwiftUI • TCA • Parakeet</div>
-          <p class="work-desc">Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Local speech-to-text with a searchable history dashboard.</p>
+          <div class="work-title">Inventory & QMS Tracking</div>
+          <div class="work-tech">Google Apps Script • Class 1A Medical Device • Bulk Logistics</div>
+          <p class="work-desc">Comprehensive tracking system for medical device inventory. Automated bulk shipment logistics from packing slip to pickup scheduling.</p>
         </div>
         <div class="work-metrics">
           <div>
-            <div class="metric-value">Mac</div>
-            <div class="metric-label">Available</div>
+            <div class="metric-value">$150k</div>
+            <div class="metric-label">Weekly Revenue Boost</div>
           </div>
         </div>
-      </a>
+      </div>
+
+      <div class="work-item">
+        <div>
+          <div class="work-title">Knox MDM Release System</div>
+          <div class="work-tech">Samsung Knox APIs • Android MDM • Phased Rollouts</div>
+          <p class="work-desc">Device release management for 4,000+ Android devices. Automated release application with phased protocols and rollback plans.</p>
+        </div>
+        <div class="work-metrics">
+          <div>
+            <div class="metric-value">90%</div>
+            <div class="metric-label">Time Reduction</div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </section>

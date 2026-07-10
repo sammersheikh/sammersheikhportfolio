@@ -4,1058 +4,624 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sammer Sheikh</title>
-  <meta name="description" content="Senior Technical Product Specialist — Building XR solutions for vision care">
+  <meta name="description" content="Senior Technical Product Specialist building XR medical devices by day and native Apple apps by night.">
   <link rel="icon" href="./images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     :root {
-      --bg: #f5f5f5;
-      --text: #0a0a0a;
-      --muted: #666;
-      --accent: #0066ff;
-      --card: #fff;
-      --border: #e5e5e5;
+      --bg: #F7F3EB;
+      --bg-alt: #EFE9DC;
+      --ink: #1c1a16;
+      --muted: #6f6a5f;
+      --faint: #a39c8d;
+      --accent: #B0623A;
+      --line: rgba(28, 26, 22, 0.1);
+      --line-soft: rgba(28, 26, 22, 0.08);
     }
 
-    html {
-      scroll-behavior: smooth;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
     }
 
-    a {
-      color: var(--text);
-      text-decoration: none;
-    }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    ::selection { background: rgba(176, 98, 58, 0.2); }
 
-    a:hover {
-      color: var(--accent);
+    /* ---------- Nav ---------- */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 40px;
+      background: rgba(247, 243, 235, 0.85);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(28, 26, 22, 0.06);
     }
+    .nav-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 18px; }
+    .nav-links { display: flex; gap: 28px; align-items: center; font-size: 14px; font-weight: 500; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--accent); }
 
-    /* Hero */
-    .hero {
-      min-height: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 60px 20px 40px;
+    .pill {
+      white-space: nowrap; padding: 8px 18px;
+      border: 1.5px solid var(--ink); border-radius: 999px;
+      font-weight: 600; color: var(--ink);
+      transition: background 0.2s, color 0.2s;
     }
+    .pill:hover { background: var(--ink); color: var(--bg); }
+    .nav-links a.pill { color: var(--ink); }
+    .nav-links a.pill:hover { color: var(--bg); }
 
+    .cta {
+      display: inline-block; padding: 12px 26px;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; font-size: 15px; font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cta:hover { background: var(--accent); color: #fff; }
+
+    /* ---------- Hero ---------- */
+    .hero { max-width: 1060px; margin: 0 auto; padding: 180px 40px 90px; text-align: left; }
     .hero h1 {
-      font-size: clamp(48px, 10vw, 96px);
-      font-weight: 800;
-      letter-spacing: -3px;
-      line-height: 1;
-      margin-bottom: 40px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(44px, 7vw, 84px); line-height: 1.08; letter-spacing: -1.5px;
+      text-wrap: balance;
+    }
+    .hero p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 560px; margin-top: 28px; }
+    .hero .cta { margin-top: 32px; }
+
+    /* ---------- Section labels ---------- */
+    .eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--faint);
+    }
+    .projects-label { max-width: 1060px; margin: 0 auto; padding: 0 40px 8px; }
+    .projects-label .eyebrow { border-top: 1px solid var(--line); padding-top: 16px; display: block; }
+
+    /* ---------- Pinned project scenes ---------- */
+    .scene { height: 220vh; position: relative; }
+    .scene-pin {
+      position: sticky; top: 0; height: 100vh; width: 100%;
+      display: flex; align-items: center; overflow: hidden;
+      background: var(--bg);
+      box-shadow: 0 -24px 70px rgba(28, 26, 22, 0.14);
+    }
+    .scene-pin.alt { background: var(--bg-alt); }
+    .scene-inner {
+      max-width: 1500px; margin: 0 auto; padding: 0 5vw; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      will-change: transform, opacity;
+    }
+    .scene-inner.wide-media { grid-template-columns: 1.2fr 1fr; }
+    .scene-text { will-change: transform, opacity; min-width: 0; }
+    .scene-media { display: flex; justify-content: center; will-change: transform, opacity; min-width: 0; }
+
+    .scene-kicker {
+      font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .scene-title {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(44px, 5.5vw, 76px); letter-spacing: -1.5px; line-height: 1.05;
+      margin-top: 16px;
+    }
+    .scene-blurb { font-size: 19px; color: var(--muted); line-height: 1.7; max-width: 500px; margin-top: 20px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .tag {
+      font-size: 12px; font-weight: 500; padding: 5px 14px;
+      border: 1px solid rgba(28, 26, 22, 0.18); border-radius: 999px; color: var(--muted);
+    }
+    .scene-links { display: flex; align-items: center; gap: 18px; margin-top: 24px; }
+    .scene-links .pill { font-size: 14px; padding: 9px 20px; }
+    .soon { font-size: 14px; font-weight: 600; color: var(--accent); }
+
+    .shot-phone {
+      height: 84vh; max-height: 84vh; width: auto; max-width: 100%;
+      object-fit: contain; border-radius: 32px;
+      box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
+    }
+    .shot-desktop {
+      width: 100%; height: auto; border-radius: 16px;
+      box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
     }
 
-    .hero h2 {
-      font-size: clamp(18px, 3vw, 24px);
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 24px;
+    /* ---------- Also shipped ---------- */
+    .also-label { max-width: 1060px; margin: 0 auto; padding: 40px 40px 0; }
+    .also {
+      display: grid; grid-template-columns: 380px 1fr; gap: 60px; align-items: center;
+      padding: 36px 40px 80px; max-width: 1500px; margin: 0 auto;
     }
-
-    .hero-links {
-      display: flex;
-      gap: 32px;
-      font-size: 14px;
-      font-weight: 500;
+    .also-rows { display: flex; flex-direction: column; }
+    .also-row {
+      display: block; padding: 22px 24px; border-radius: 16px; cursor: pointer;
+      transition: background 0.25s; color: inherit;
     }
-
-    .hero-links a {
-      color: var(--muted);
-      transition: color 0.2s;
+    .also-row:hover { background: rgba(28, 26, 22, 0.04); color: inherit; }
+    .also-title {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 30px;
+      transition: color 0.25s; color: var(--ink);
     }
-
-    .hero-links a:hover {
-      color: var(--text);
+    .also-row.active .also-title { color: var(--accent); }
+    .also-row p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+    .also-badge { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--accent); }
+    .also-panel {
+      position: relative; height: 560px; border-radius: 28px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.16); min-width: 0;
     }
+    .also-slide { position: absolute; inset: 0; transition: opacity 0.6s ease; opacity: 0; }
+    .also-slide.on { opacity: 1; }
+    .also-slide.cover img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+    .also-slide.center { display: grid; place-items: center; }
 
-    .scroll-hint {
-      display: none;
+    /* ---------- Internal tools ---------- */
+    .tools-intro { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 34px; }
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
+    .tool { padding: 26px 0; border-top: 1px solid var(--line-soft); }
+    .tool-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 26px; letter-spacing: -0.5px; }
+    .tool-meta {
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px; margin-top: 6px;
     }
+    .tool p { font-size: 14px; color: var(--muted); line-height: 1.65; margin-top: 10px; }
+    .tools-note { margin-top: 38px; font-size: 13px; color: var(--faint); line-height: 1.6; }
 
-    /* Hero projects */
-    .hero-projects {
-      width: 100%;
-      max-width: 1200px;
-      margin-bottom: 40px;
+    /* ---------- Impact / Experience / Setup ---------- */
+    .band { max-width: 1060px; margin: 0 auto; padding: 90px 40px; border-top: 1px solid var(--line); }
+    .band-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 44px; gap: 16px; flex-wrap: wrap; }
+    .band-link { font-size: 14px; font-weight: 600; color: var(--accent); }
+
+    .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .impact-num {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: 56px; letter-spacing: -1px;
     }
+    .impact-title { font-size: 14px; font-weight: 600; margin-top: 6px; }
+    .impact-grid p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: 8px; }
 
-    .hero-projects .projects-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .xp-row {
+      display: grid; grid-template-columns: 160px 1fr; gap: 40px;
+      padding: 22px 0; border-bottom: 1px solid var(--line-soft);
     }
+    .xp-row:last-child { border-bottom: none; }
+    .xp-when { font-size: 13px; color: var(--faint); font-weight: 500; }
+    .xp-role { font-size: 17px; font-weight: 600; }
+    .xp-role span { color: var(--muted); font-weight: 400; }
+    .xp-row p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: 6px; max-width: 620px; }
 
-    .hero-projects .project-card {
-      min-width: 0;
+    .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .setup-grid > p { font-size: 16px; color: var(--muted); line-height: 1.8; }
+    .setup-grid strong { color: var(--ink); font-weight: 600; }
+    .setup-rows { display: flex; flex-direction: column; }
+    .setup-row {
+      display: flex; justify-content: space-between; gap: 16px; padding: 13px 0;
+      border-bottom: 1px solid var(--line-soft);
     }
+    .setup-row:first-child { border-top: 1px solid var(--line-soft); }
+    .setup-row:last-child { border-bottom: none; }
+    .setup-key { font-size: 12px; color: var(--faint); text-transform: uppercase; letter-spacing: 1px; }
+    .setup-val { font-size: 14px; font-weight: 600; text-align: right; }
 
-    .hero-projects .project-card {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    /* ---------- Footer ---------- */
+    .footer { border-top: 1px solid var(--line); padding: 100px 40px 60px; text-align: center; }
+    .footer h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(36px, 5vw, 60px); letter-spacing: -1px;
     }
-
-    .hero-projects .project-info h3 {
-      font-size: 16px;
+    .footer .cta { margin-top: 28px; padding: 14px 30px; }
+    .footer-links {
+      display: flex; justify-content: center; gap: 28px; margin-top: 32px;
+      font-size: 14px; font-weight: 500; color: var(--muted); flex-wrap: wrap;
     }
+    .footer-links a { color: var(--muted); }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { margin-top: 60px; font-size: 13px; color: var(--faint); }
 
-    .hero-projects .project-info p {
-      display: none;
+    /* ---------- Next arrow ---------- */
+    .next-arrow {
+      position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 60;
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 1.5px solid rgba(28, 26, 22, 0.25);
+      background: rgba(255, 253, 248, 0.9);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(28, 26, 22, 0.12);
+      transition: opacity 0.3s, background 0.2s, color 0.2s;
+      display: grid; place-items: center;
     }
+    .next-arrow:hover { background: var(--ink); color: var(--bg); }
 
-    .hero-projects .project-status {
-      margin-top: 8px;
-      font-size: 11px;
-      padding: 4px 8px;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-
-    /* Sections */
-    section {
-      padding: 120px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 40px;
-    }
-
-    /* About */
-    .about-text {
-      font-size: 24px;
-      font-weight: 500;
-      line-height: 1.6;
-      max-width: 700px;
-    }
-
-    .about-text strong {
-      font-weight: 700;
-    }
-
-    /* Work / Projects */
-    .work-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .work-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      padding: 32px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: start;
-    }
-
-    .work-item.with-preview {
-      grid-template-columns: 120px 1fr auto;
-    }
-
-    .work-preview {
-      width: 120px;
-      height: 240px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .work-preview img,
-    .work-preview video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-    }
-
-    .work-preview.mock-preview {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 14px;
-      background: #0a0a0a;
-      color: #fff;
-    }
-
-    .mock-preview.reticle-preview {
-      background: radial-gradient(circle at 35% 20%, rgba(250, 204, 21, 0.45), transparent 34%), #0a0a0a;
-    }
-
-    .mock-preview.scrappy-preview {
-      background: radial-gradient(circle at 70% 16%, rgba(6, 182, 212, 0.45), transparent 34%), #0f172a;
-    }
-
-    .mock-preview-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.14);
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .mock-preview-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .mock-preview-lines span {
-      display: block;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.32);
-    }
-
-    .mock-preview-lines span:nth-child(2) {
-      width: 72%;
-    }
-
-    .mock-preview-lines span:nth-child(3) {
-      width: 46%;
-    }
-
-    .mock-preview-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.72);
-    }
-
-    .work-item:first-child {
-      border-top: 1px solid var(--border);
-    }
-
-    a.work-item {
-      transition: background 0.2s, transform 0.2s;
-      border-radius: 12px;
-      margin: 0 -16px;
-      padding: 32px 16px;
-    }
-
-    a.work-item:hover {
-      background: var(--card);
-      transform: translateX(4px);
-    }
-
-    .work-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .work-tech {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .work-desc {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 500px;
-    }
-
-    .work-metrics {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      text-align: right;
-    }
-
-    .metric-value {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .metric-label {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Projects showcase */
-    .projects-section {
-      padding: 100px 24px 80px;
-    }
-
-    .projects-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .projects-header h2 {
-      font-size: clamp(32px, 6vw, 48px);
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin-bottom: 12px;
-    }
-
-    .projects-header p {
-      font-size: 18px;
-      color: var(--muted);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .project-card {
-      display: block;
-      min-width: 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-
-    .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
-    }
-
-    .project-preview {
-      aspect-ratio: 3/4;
-      background: #f5f5f5;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .project-preview img,
-    .project-preview video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-    }
-
-    .project-preview.phone-preview {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #f5f5f5 0%, #eaeaea 100%);
-    }
-
-    .project-preview.phone-preview img,
-    .project-preview.phone-preview video {
-      width: auto;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-
-    .project-preview.watch-preview {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #f5f5f5 0%, #eaeaea 100%);
-    }
-
-    .project-preview.watch-preview img {
-      width: auto;
-      height: 80%;
-      object-fit: contain;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-
-    .project-preview.mac-preview {
-      background: #f2f0ec;
-    }
-
-    .project-preview.mac-preview img {
-      object-fit: cover;
-      object-position: top left;
-    }
-
-    .project-info {
-      padding: 22px;
-    }
-
-    .project-info h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .project-info .project-tech {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .project-info p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .project-status {
-      display: inline-block;
-      margin-top: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 100px;
-      background: #f0f0f0;
-      color: var(--text);
-    }
-
+    /* ---------- Small screens: unpin scenes, stack everything ---------- */
     @media (max-width: 900px) {
-      .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a:not(.pill) { display: none; }
+
+      .hero { padding: 130px 24px 60px; }
+      .projects-label, .also-label { padding-left: 24px; padding-right: 24px; }
+
+      .scene { height: auto; }
+      .scene-pin { position: static; height: auto; padding: 64px 0; overflow: visible; }
+      .scene-inner, .scene-inner.wide-media { grid-template-columns: 1fr; gap: 36px; padding: 0 24px; }
+      .scene-text { order: 1; }
+      .scene-media { order: 2; }
+      .shot-phone { height: auto; max-height: 68vh; }
+
+      .also { grid-template-columns: 1fr; gap: 28px; padding: 28px 24px 64px; }
+      .also-row { padding: 18px 16px; }
+      .also-panel { height: 420px; }
+
+      .tools-grid { grid-template-columns: 1fr; }
+
+      .band { padding: 64px 24px; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .xp-row { grid-template-columns: 1fr; gap: 6px; }
+      .setup-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      .footer { padding: 80px 24px 50px; }
+      .next-arrow { display: none; }
     }
 
-    @media (max-width: 600px) {
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Experience */
-    .exp-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 48px;
-    }
-
-    .exp-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 40px;
-    }
-
-    .exp-date {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .exp-content h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .exp-content .company {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .exp-content p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* Skills */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
-    }
-
-    .skill-category h4 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .skill-category ul {
-      list-style: none;
-    }
-
-    .skill-category li {
-      font-size: 17px;
-      color: var(--muted);
-      padding: 6px 0;
-    }
-
-    /* AI Setup */
-    .setup-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-    }
-
-    .setup-text {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .setup-text strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .setup-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .setup-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .setup-item:first-child {
-      border-top: 1px solid var(--border);
-    }
-
-    .setup-label {
-      font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .setup-value {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    /* Contact */
-    .contact-grid {
-      display: flex;
-      gap: 60px;
-    }
-
-    .contact-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .contact-label {
-      font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .contact-value {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .contact-value a:hover {
-      text-decoration: underline;
-    }
-
-    /* Footer */
-    footer {
-      padding: 60px 20px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .work-item {
-        grid-template-columns: 1fr;
-      }
-
-      .work-item.with-preview {
-        grid-template-columns: 1fr;
-      }
-
-      .work-preview {
-        width: 100%;
-        max-width: 200px;
-        height: 400px;
-        margin-bottom: 16px;
-      }
-
-      .work-metrics {
-        flex-direction: row;
-        text-align: left;
-        gap: 24px;
-        margin-top: 16px;
-      }
-
-      .exp-item {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .setup-content {
-        grid-template-columns: 1fr;
-      }
-
-      .contact-grid {
-        flex-direction: column;
-        gap: 32px;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .also-slide { transition: none; }
+      .also-row, .also-title, .pill, .cta, .next-arrow { transition: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Sammer Sheikh</h1>
+<nav class="nav">
+  <a href="#top" class="nav-name">Sammer Sheikh</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#impact">Impact</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+    <a href="./images/SammerSheikh_Resume_2026.pdf" download class="pill">Resume &darr;</a>
+  </div>
+</nav>
 
-    <div class="hero-projects">
-      <div class="projects-grid">
+<header id="top" class="hero" data-stop>
+  <h1>I build products where<br>hardware meets care.</h1>
+  <p>Senior Technical Product Specialist at RadiusXR: shipping XR medical devices by day, native Apple apps by night.</p>
+  <a href="#projects" class="cta">See the work &darr;</a>
+</header>
 
-        <a href="soundbite.html" class="project-card">
-          <div class="project-preview phone-preview">
-            <img src="./images/soundbite/icon.png" alt="Soundbite app icon">
-          </div>
-          <div class="project-info">
-            <h3>Soundbite</h3>
-            <div class="project-tech">Swift · SwiftUI · Unreal Speech · Exa AI</div>
-            <span class="project-status">Coming soon</span>
-          </div>
-        </a>
+<div id="projects" class="projects-label">
+  <span class="eyebrow">Featured projects</span>
+</div>
 
-        <a href="murmur.html" class="project-card">
-          <div class="project-preview mac-preview">
-            <img src="./images/murmur/murmur-home.png" alt="Murmur Mac app">
-          </div>
-          <div class="project-info">
-            <h3>Murmur</h3>
-            <div class="project-tech">Swift · SwiftUI · TCA · Parakeet</div>
-            <span class="project-status">Available for Mac</span>
-          </div>
-        </a>
-
-        <a href="dumbell.html" class="project-card">
-          <div class="project-preview phone-preview">
-            <video src="./images/dumbell/begin.mp4" alt="Dumbell app preview" autoplay muted loop playsinline></video>
-          </div>
-          <div class="project-info">
-            <h3>Dumbell</h3>
-            <div class="project-tech">SwiftUI · SwiftData · CloudKit · StoreKit</div>
-            <span class="project-status">Coming soon</span>
-          </div>
-        </a>
-
-        <a href="reticle.html" class="project-card">
-          <div class="project-preview" style="background: #0a0a0a; display: grid; place-items: center;">
-            <div style="width: 56px; height: 56px; border-radius: 14px; background: rgba(250,204,21,0.15); display: grid; place-items: center; font-size: 28px;">⌖</div>
-          </div>
-          <div class="project-info">
-            <h3>Reticle</h3>
-            <div class="project-tech">Electron · Fabric.js · macOS Vision OCR</div>
-            <span class="project-status">Free macOS app</span>
-          </div>
-        </a>
-
-        <a href="scrappy.html" class="project-card">
-          <div class="project-preview" style="padding: 0;">
-            <img src="./images/scrappy/icon.png" alt="Scrappy app icon" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div class="project-info">
-            <h3>Scrappy</h3>
-            <div class="project-tech">Python · rumps · adb · scrcpy</div>
-            <span class="project-status">Free macOS app</span>
-          </div>
-        </a>
-
-        <a href="lyric.html" class="project-card">
-          <div class="project-preview phone-preview">
-            <img src="./images/lyric/icon.png" alt="Live Lyric app icon">
-          </div>
-          <div class="project-info">
-            <h3>Live Lyric</h3>
-            <div class="project-tech">Swift · SwiftUI · ShazamKit</div>
-            <span class="project-status">iOS app</span>
-          </div>
-        </a>
-
+<div class="scene" data-scene data-stop>
+  <div class="scene-pin">
+    <div class="scene-inner" data-scene-inner>
+      <div class="scene-text" data-scene-text>
+        <div class="scene-kicker">01 &middot; iOS</div>
+        <h2 class="scene-title">Soundbite</h2>
+        <p class="scene-blurb">Turns articles into narrated audio. Save from Safari, read along with karaoke-style captions, and catch up with daily briefs.</p>
+        <div class="tags">
+          <span class="tag">Swift</span>
+          <span class="tag">SwiftUI</span>
+          <span class="tag">Unreal Speech</span>
+          <span class="tag">Exa AI</span>
+        </div>
+        <div class="scene-links">
+          <a href="soundbite.html" class="pill">Explore Soundbite &rarr;</a>
+          <span class="soon">Coming soon</span>
+        </div>
+      </div>
+      <div class="scene-media" data-scene-img>
+        <img src="./images/soundbite/home-dark.png" alt="Soundbite home screen" class="shot-phone">
       </div>
     </div>
+  </div>
+</div>
 
-    <h2>Senior Technical Product Specialist</h2>
-    <div class="hero-links">
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#setup">AI Setup</a>
-      <a href="#contact">Contact</a>
-      <a href="./images/SammerSheikh_Resume_2026.pdf" download>Resume ↓</a>
-    </div>
-    <div class="scroll-hint">Scroll</div>
-  </section>
-
-  <!-- About -->
-  <section id="about">
-    <div class="section-title">About</div>
-    <p class="about-text">
-      I'm a <strong>Senior Technical Product Specialist</strong> at RadiusXR, building XR and low vision medical devices that transform patient care. With 5+ years bridging engineering, product, and operations, I specialize in <strong>release management</strong>, <strong>regulatory compliance</strong>, and <strong>automation systems</strong> that scale.
-    </p>
-  </section>
-
-  <!-- Work / Projects -->
-  <section id="work">
-    <div class="section-title">Featured Work</div>
-    <div class="work-grid">
-
-      <a href="soundbite.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/soundbite/icon.png" alt="Soundbite app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div>
-          <div class="work-title">Soundbite</div>
-          <div class="work-tech">Swift • SwiftUI • Unreal Speech • Exa AI</div>
-          <p class="work-desc">An iOS app that turns articles into narrated audio. Save from Safari, read along with karaoke-style captions, and catch up with daily briefs.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">Soon</div>
-            <div class="metric-label">App Store</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="murmur.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/murmur/icon.png" alt="Murmur app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div>
-          <div class="work-title">Murmur</div>
-          <div class="work-tech">Swift • SwiftUI • TCA • Parakeet</div>
-          <p class="work-desc">Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Local speech-to-text with a searchable history dashboard.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">Mac</div>
-            <div class="metric-label">Available</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="dumbell.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview">
-          <video src="./images/dumbell/begin.mp4" alt="Dumbell App" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <div class="work-title">Dumbell</div>
-          <div class="work-tech">SwiftUI • SwiftData • CloudKit • StoreKit</div>
-          <p class="work-desc">iOS-native workout tracker with custom workout builder, AI-powered analysis, progress charts, and Apple Health sync.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">iOS</div>
-            <div class="metric-label">Native App</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="reticle.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview mock-preview reticle-preview" aria-hidden="true">
-          <div class="mock-preview-icon">⌖</div>
-          <div class="mock-preview-lines">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="mock-preview-label">Capture → Markup</div>
-        </div>
-        <div>
-          <div class="work-title">Reticle</div>
-          <div class="work-tech">Electron • Fabric.js • macOS Vision OCR</div>
-          <p class="work-desc">A free menu-bar screenshot tool with instant clipboard capture, a full annotation editor, screenshot chaining, and OCR-powered smart filenames.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">Free</div>
-            <div class="metric-label">macOS App</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="scrappy.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/scrappy/icon.png" alt="Scrappy app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div>
-          <div class="work-title">Scrappy</div>
-          <div class="work-tech">Python • rumps • adb • scrcpy</div>
-          <p class="work-desc">A free macOS menu-bar app that turns adb and scrcpy into one-click Android mirroring, wireless debugging pairing, and ADB recovery.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">Free</div>
-            <div class="metric-label">macOS App</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="lyric.html" class="work-item with-preview" style="text-decoration: none; color: inherit;">
-        <div class="work-preview" style="padding: 0; overflow: hidden;">
-          <img src="./images/lyric/icon.png" alt="Live Lyric app icon" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div>
-          <div class="work-title">Live Lyric</div>
-          <div class="work-tech">Swift • SwiftUI • ShazamKit</div>
-          <p class="work-desc">An iOS app that identifies playing songs and shows time-synced lyrics with portrait scrolling and a landscape hero typography view.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">iOS</div>
-            <div class="metric-label">Native App</div>
-          </div>
-        </div>
-      </a>
-
-      <div class="work-item">
-        <div>
-          <div class="work-title">Automated Onboarding System</div>
-          <div class="work-tech">Salesforce API • Parameterized URLs • Customer Journey</div>
-          <p class="work-desc">End-to-end automated registration flow integrating with Salesforce. Streamlined customer onboarding from first contact to device activation.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">80%</div>
-            <div class="metric-label">Fewer Support Calls</div>
-          </div>
-        </div>
+<div class="scene" data-scene data-stop>
+  <div class="scene-pin alt">
+    <div class="scene-inner wide-media" data-scene-inner>
+      <div class="scene-media" data-scene-img>
+        <img src="./images/murmur/murmur-home.png" alt="Murmur Mac dashboard" class="shot-desktop" loading="lazy">
       </div>
-
-      <div class="work-item">
-        <div>
-          <div class="work-title">Inventory & QMS Tracking</div>
-          <div class="work-tech">Google Apps Script • Class 1A Medical Device • Bulk Logistics</div>
-          <p class="work-desc">Comprehensive tracking system for medical device inventory. Automated bulk shipment logistics from packing slip to pickup scheduling.</p>
+      <div class="scene-text" data-scene-text>
+        <div class="scene-kicker">02 &middot; Mac &middot; iOS &middot; Watch</div>
+        <h2 class="scene-title">Murmur</h2>
+        <p class="scene-blurb">Hold a button on your Apple Watch, whisper, and the transcript types into the frontmost Mac app. Local speech-to-text with a searchable history dashboard.</p>
+        <div class="tags">
+          <span class="tag">Swift</span>
+          <span class="tag">TCA</span>
+          <span class="tag">Parakeet</span>
         </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">$150k</div>
-            <div class="metric-label">Weekly Revenue Boost</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-item">
-        <div>
-          <div class="work-title">Knox MDM Release System</div>
-          <div class="work-tech">Samsung Knox APIs • Android MDM • Phased Rollouts</div>
-          <p class="work-desc">Device release management for 4,000+ Android devices. Automated release application with phased protocols and rollback plans.</p>
-        </div>
-        <div class="work-metrics">
-          <div>
-            <div class="metric-value">90%</div>
-            <div class="metric-label">Time Reduction</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Experience -->
-  <section id="experience">
-    <div class="section-title">Experience</div>
-    <div class="exp-grid">
-
-      <div class="exp-item">
-        <div class="exp-date">2025 — Present</div>
-        <div class="exp-content">
-          <h3>Senior Technical Product Specialist</h3>
-          <div class="company">RadiusXR • Pleasanton, CA</div>
-          <p>Lead cross-functional product initiatives across engineering, clinical, QMS, and external advisors. Own release management end-to-end and spearhead MDSAP audit readiness.</p>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-date">2024 — 2025</div>
-        <div class="exp-content">
-          <h3>Technical Product Specialist</h3>
-          <div class="company">RadiusXR • Pleasanton, CA</div>
-          <p>Spearheaded automated onboarding flows, engineered inventory tracking systems, and owned device release management for 4,000+ Android devices.</p>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-date">2022 — 2023</div>
-        <div class="exp-content">
-          <h3>Software Support Engineer</h3>
-          <div class="company">Vagaro • Dublin, CA</div>
-          <p>Resolved complex software issues, developed Python automation scripts increasing resolution capacity by 30%, optimized SQL queries reducing execution time by 40%.</p>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-date">2019 — 2021</div>
-        <div class="exp-content">
-          <h3>Software Engineer</h3>
-          <div class="company">Workday • Pleasanton, CA</div>
-          <p>Developed automated supplier invoice approval workflows, created comprehensive test automation suites, collaborated on database schema design.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills">
-    <div class="section-title">Skills</div>
-    <div class="skills-grid">
-
-      <div class="skill-category">
-        <h4>Product</h4>
-        <ul>
-          <li>Release Management</li>
-          <li>Business Requirements</li>
-          <li>User Acceptance Testing</li>
-          <li>Cross-Functional Leadership</li>
-          <li>Product Analytics</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <h4>Technical</h4>
-        <ul>
-          <li>JavaScript / TypeScript</li>
-          <li>Python / SQL</li>
-          <li>React / Node.js</li>
-          <li>Google Apps Script</li>
-          <li>Salesforce / Knox MDM</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <h4>Medical Device</h4>
-        <ul>
-          <li>QMS (GreenLight Guru)</li>
-          <li>MDSAP Compliance</li>
-          <li>CAPA/NCR Management</li>
-          <li>FDA Regulated Envs</li>
-          <li>Class 1A Devices</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <h4>AI & Tools</h4>
-        <ul>
-          <li>Claude Code</li>
-          <li>OpenAI Codex CLI</li>
-          <li>Obsidian (PKM)</li>
-          <li>Prompt Engineering</li>
-          <li>MCP Integrations</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- AI Setup -->
-  <section id="setup">
-    <div class="section-title">AI-Focused Setup</div>
-    <div class="setup-content">
-      <div class="setup-text">
-        <p>I run an <strong>AI-augmented personal infrastructure</strong> designed for maximum productivity. At the core is <strong>Jarvis</strong> — my 24/7 AI assistant powered by OpenClaw.</p>
-        <br>
-        <p>Daily operations include automated briefings via TTS, cron-scheduled tasks, receipt processing into organized vaults, and a comprehensive second-brain in Obsidian that syncs across all devices.</p>
-        <br>
-        <p>For development, I use <strong>Claude Code</strong> and <strong>Codex CLI</strong> for AI-assisted prototyping, with MCP integrations connecting to Exa AI search and various APIs.</p>
-      </div>
-      <div class="setup-list">
-        <div class="setup-item">
-          <span class="setup-label">AI Assistant</span>
-          <span class="setup-value">Jarvis (OpenClaw)</span>
-        </div>
-        <div class="setup-item">
-          <span class="setup-label">Code Tools</span>
-          <span class="setup-value">Claude Code, Codex CLI</span>
-        </div>
-        <div class="setup-item">
-          <span class="setup-label">Knowledge Base</span>
-          <span class="setup-value">Obsidian + Syncthing</span>
-        </div>
-        <div class="setup-item">
-          <span class="setup-label">Search</span>
-          <span class="setup-value">Exa AI via MCP</span>
-        </div>
-        <div class="setup-item">
-          <span class="setup-label">Voice</span>
-          <span class="setup-value">Unreal Speech TTS</span>
+        <div class="scene-links">
+          <a href="murmur.html" class="pill">Explore Murmur &rarr;</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- Contact -->
-  <section id="contact">
-    <div class="section-title">Contact</div>
-    <div class="contact-grid">
-      <div class="contact-item">
-        <span class="contact-label">Email</span>
-        <span class="contact-value"><a href="mailto:sammerahmadsheikh@outlook.com">sammerahmadsheikh@outlook.com</a></span>
+<div class="scene" data-scene data-stop>
+  <div class="scene-pin">
+    <div class="scene-inner" data-scene-inner>
+      <div class="scene-text" data-scene-text>
+        <div class="scene-kicker">03 &middot; iOS</div>
+        <h2 class="scene-title">Dumbell</h2>
+        <p class="scene-blurb">Native workout tracker with a custom workout builder, AI-powered analysis, progress charts, and Apple Health sync.</p>
+        <div class="tags">
+          <span class="tag">SwiftUI</span>
+          <span class="tag">SwiftData</span>
+          <span class="tag">CloudKit</span>
+          <span class="tag">StoreKit</span>
+        </div>
+        <div class="scene-links">
+          <a href="dumbell.html" class="pill">Explore Dumbell &rarr;</a>
+          <span class="soon">Coming soon</span>
+        </div>
       </div>
-      <div class="contact-item">
-        <span class="contact-label">LinkedIn</span>
-        <span class="contact-value"><a href="https://www.linkedin.com/in/sammersheikh/" target="_blank">linkedin.com/in/sammersheikh</a></span>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">GitHub</span>
-        <span class="contact-value"><a href="https://github.com/sammersheikh" target="_blank">github.com/sammersheikh</a></span>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">Location</span>
-        <span class="contact-value">Pleasanton, CA</span>
+      <div class="scene-media" data-scene-img>
+        <video src="./images/dumbell/begin.mp4" autoplay muted loop playsinline class="shot-phone"></video>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- Footer -->
-  <footer>
-    © 2026 Sammer Sheikh
-  </footer>
+<div class="also-label" data-stop>
+  <span class="eyebrow">Also shipped</span>
+</div>
+<div class="also">
+  <div class="also-rows">
+    <a href="reticle.html" class="also-row active" data-also="0">
+      <div class="also-title">Reticle</div>
+      <p>Menu-bar screenshot tool with annotation editor, chaining, and OCR smart filenames.</p>
+      <div class="also-badge">Free macOS app</div>
+    </a>
+    <a href="scrappy.html" class="also-row" data-also="1">
+      <div class="also-title">Scrappy</div>
+      <p>Turns adb and scrcpy into one-click Android mirroring and wireless debugging.</p>
+      <div class="also-badge">Free macOS app</div>
+    </a>
+    <a href="lyric.html" class="also-row" data-also="2">
+      <div class="also-title">Live Lyric</div>
+      <p>Identifies playing songs and shows time-synced lyrics with a hero typography view.</p>
+      <div class="also-badge">iOS app</div>
+    </a>
+  </div>
+  <div class="also-panel">
+    <div class="also-slide cover on" style="background:#111">
+      <img src="./images/reticle/editor-with-content.png" alt="Reticle annotation editor" loading="lazy">
+    </div>
+    <div class="also-slide center" style="background:#0f172a">
+      <img src="./images/scrappy/icon.png" alt="Scrappy icon" style="width:180px;height:180px;border-radius:28px;box-shadow:0 14px 40px rgba(0,0,0,0.4)" loading="lazy">
+    </div>
+    <div class="also-slide center" style="background:#1a1a1a">
+      <img src="./images/lyric/portrait-lyrics.png" alt="Live Lyric portrait lyrics" style="height:88%;width:auto;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,0.4)" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<section id="tools" class="band" data-stop>
+  <div class="band-head">
+    <span class="eyebrow">Internal tools &middot; RadiusXR</span>
+    <a href="internal-tools.html" class="band-link">Full write-up &rarr;</a>
+  </div>
+  <p class="tools-intro">The day job runs on software I built: a suite of internal web apps covering manufacturing, logistics, quality, and support operations at RadiusXR.</p>
+  <div class="tools-grid">
+    <div class="tool">
+      <div class="tool-name">Production System</div>
+      <div class="tool-meta">Google Apps Script &middot; Sheets &middot; Drive</div>
+      <p>Web app that runs the manufacturing floor: barcode-scan stations for build, test, and pack, full component traceability, and auto-generated device history records for every unit, plus an activity log with undo for operator mistakes.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">Operations Dashboard</div>
+      <div class="tool-meta">Google Apps Script &middot; Mixpanel</div>
+      <p>Aggregates product telemetry into trial, onboarding, and device-utilization KPIs for leadership and customer success, with AI-drafted reports on demand.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">Returns Tracker</div>
+      <div class="tool-meta">Google Apps Script &middot; Salesforce &middot; FedEx</div>
+      <p>Tracks every return from RMA creation to receipt: syncs return records from Salesforce, coordinates inbound shipping, and routes refurbished units back into sellable inventory.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">Shipment Tracker</div>
+      <div class="tool-meta">Node.js &middot; Puppeteer &middot; Sheets API</div>
+      <p>Headless pipeline that collects carrier tracking statuses for open shipments and writes delivery updates into shared operations spreadsheets, so nobody checks tracking numbers by hand.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">UAT Tracker</div>
+      <div class="tool-meta">Google Apps Script &middot; Gemini &middot; Jira</div>
+      <p>Coordinates user acceptance testing for each release: testers log results in one place, failures become AI-drafted Jira tickets, and release readiness is visible at a glance.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">ISP2.0 Scripts</div>
+      <div class="tool-meta">Google Apps Script (bound)</div>
+      <p>The legacy automation suite the newer tools grew out of: device programming, phone-based floor scanning, data migration, and field-service workflows bound directly to the operations spreadsheet.</p>
+    </div>
+  </div>
+  <div class="tools-note">Built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Ask me for a private walkthrough.</div>
+</section>
+
+<section id="impact" class="band" data-stop>
+  <div class="band-head">
+    <span class="eyebrow">Impact at RadiusXR</span>
+  </div>
+  <div class="impact-grid">
+    <div>
+      <div class="impact-num">80%</div>
+      <div class="impact-title">Fewer support calls</div>
+      <p>Automated onboarding integrating Salesforce, from first contact to device activation.</p>
+    </div>
+    <div>
+      <div class="impact-num">$150k</div>
+      <div class="impact-title">Weekly revenue boost</div>
+      <p>Inventory &amp; QMS tracking with automated bulk shipment logistics for Class 1A devices.</p>
+    </div>
+    <div>
+      <div class="impact-num">4,000+</div>
+      <div class="impact-title">Devices managed</div>
+      <p>Knox MDM release system with phased rollouts and rollback plans: 90% time reduction.</p>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="band" data-stop>
+  <div class="eyebrow" style="margin-bottom:44px">Experience</div>
+  <div>
+    <div class="xp-row">
+      <div class="xp-when">2025 - Present</div>
+      <div>
+        <div class="xp-role">Senior Technical Product Specialist <span>&middot; RadiusXR</span></div>
+        <p>Lead cross-functional product initiatives across engineering, clinical, QMS, and external advisors. Own release management end-to-end and spearhead MDSAP audit readiness.</p>
+      </div>
+    </div>
+    <div class="xp-row">
+      <div class="xp-when">2024 - 2025</div>
+      <div>
+        <div class="xp-role">Technical Product Specialist <span>&middot; RadiusXR</span></div>
+        <p>Spearheaded automated onboarding flows, engineered inventory tracking systems, and owned device release management for 4,000+ Android devices.</p>
+      </div>
+    </div>
+    <div class="xp-row">
+      <div class="xp-when">2022 - 2023</div>
+      <div>
+        <div class="xp-role">Software Support Engineer <span>&middot; Vagaro</span></div>
+        <p>Resolved complex software issues, built Python automation increasing resolution capacity by 30%, optimized SQL queries reducing execution time by 40%.</p>
+      </div>
+    </div>
+    <div class="xp-row">
+      <div class="xp-when">2019 - 2021</div>
+      <div>
+        <div class="xp-role">Software Engineer <span>&middot; Workday</span></div>
+        <p>Developed automated supplier invoice approval workflows and comprehensive test automation suites.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" data-stop>
+  <div class="eyebrow" style="margin-bottom:44px">AI-focused setup</div>
+  <div class="setup-grid">
+    <p>I run an <strong>AI-augmented personal infrastructure</strong>. At the core is <strong>Jarvis</strong>, a 24/7 assistant powered by OpenClaw: automated TTS briefings, cron-scheduled tasks, receipt processing, and an Obsidian second brain synced across devices. For development: <strong>Claude Code</strong> and <strong>Codex CLI</strong> with MCP integrations.</p>
+    <div class="setup-rows">
+      <div class="setup-row"><span class="setup-key">AI assistant</span><span class="setup-val">Jarvis (OpenClaw)</span></div>
+      <div class="setup-row"><span class="setup-key">Code tools</span><span class="setup-val">Claude Code, Codex CLI</span></div>
+      <div class="setup-row"><span class="setup-key">Knowledge base</span><span class="setup-val">Obsidian + Syncthing</span></div>
+      <div class="setup-row"><span class="setup-key">Search</span><span class="setup-val">Exa AI via MCP</span></div>
+      <div class="setup-row"><span class="setup-key">Voice</span><span class="setup-val">Unreal Speech TTS</span></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="footer" data-stop>
+  <h2>Say hello.</h2>
+  <a href="mailto:sammerahmadsheikh@outlook.com" class="cta">sammerahmadsheikh@outlook.com</a>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/sammersheikh/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/sammersheikh" target="_blank" rel="noopener">GitHub</a>
+    <span>Pleasanton, CA</span>
+  </div>
+  <div class="footer-copy">&copy; 2026 Sammer Sheikh</div>
+</footer>
+
+<button class="next-arrow" aria-label="Scroll to next section">&darr;</button>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var smallScreen = window.matchMedia('(max-width: 900px)');
+
+  document.querySelectorAll('video').forEach(function (v) {
+    v.muted = true;
+    v.volume = 0;
+    v.setAttribute('muted', '');
+  });
+
+  /* Also-shipped rotator: auto-advances, pauses while hovered, row hover selects */
+  var also = 0;
+  var paused = false;
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.also-slide'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.also-row'));
+  function setAlso(i) {
+    also = i;
+    slides.forEach(function (s, idx) { s.classList.toggle('on', idx === i); });
+    rows.forEach(function (r, idx) { r.classList.toggle('active', idx === i); });
+  }
+  rows.forEach(function (r, i) {
+    r.addEventListener('mouseenter', function () { setAlso(i); });
+    r.addEventListener('focus', function () { setAlso(i); });
+  });
+  var alsoWrap = document.querySelector('.also');
+  alsoWrap.addEventListener('mouseenter', function () { paused = true; });
+  alsoWrap.addEventListener('mouseleave', function () { paused = false; });
+  setInterval(function () {
+    if (!paused && !reduceMotion.matches) setAlso((also + 1) % slides.length);
+  }, 4000);
+
+  /* Pinned scene scroll animation */
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('[data-scene]'));
+  var arrow = document.querySelector('.next-arrow');
+  var footer = document.getElementById('contact');
+
+  function resetScene(scene, img, txt) {
+    img.style.opacity = txt.style.opacity = 1;
+    img.style.transform = txt.style.transform = 'none';
+    var inner = scene.querySelector('[data-scene-inner]');
+    if (inner) { inner.style.transform = 'none'; inner.style.opacity = 1; }
+  }
+
+  function update() {
+    var vh = window.innerHeight;
+    var still = reduceMotion.matches || smallScreen.matches;
+    scenes.forEach(function (scene) {
+      var img = scene.querySelector('[data-scene-img]');
+      var txt = scene.querySelector('[data-scene-text]');
+      if (!img || !txt) return;
+      if (still) { resetScene(scene, img, txt); return; }
+      var r = scene.getBoundingClientRect();
+      /* entrance: 0 when scene top hits viewport bottom, 1 when pinned */
+      var pIn = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.85)));
+      var ease = pIn * pIn * (3 - 2 * pIn);
+      img.style.opacity = ease;
+      img.style.transform = 'scale(' + (0.88 + 0.12 * ease) + ') translateY(' + (40 * (1 - ease)) + 'px)';
+      txt.style.opacity = Math.min(1, ease * 1.2);
+      txt.style.transform = 'translateY(' + (30 * (1 - ease)) + 'px)';
+      /* exit: as the next scene slides over, recede and dim the pinned content */
+      var total = scene.offsetHeight - vh;
+      var p = Math.min(1, Math.max(0, -r.top / total));
+      var inner = scene.querySelector('[data-scene-inner]');
+      if (inner) {
+        var eOut = Math.min(1, Math.max(0, (p - 0.72) / 0.28));
+        inner.style.transform = 'scale(' + (1 - 0.06 * eOut) + ') translateY(' + (-24 * eOut) + 'px)';
+        inner.style.opacity = 1 - 0.5 * eOut;
+      }
+    });
+    if (arrow && footer) {
+      var atEnd = footer.getBoundingClientRect().top < vh * 0.5;
+      arrow.style.opacity = atEnd ? '0' : '1';
+      arrow.style.pointerEvents = atEnd ? 'none' : 'auto';
+    }
+  }
+
+  window.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+  window.addEventListener('resize', function () { requestAnimationFrame(update); });
+  update();
+
+  arrow.addEventListener('click', function () {
+    var stops = Array.prototype.slice.call(document.querySelectorAll('[data-stop]'));
+    var y = window.scrollY;
+    var next = stops.find(function (s) { return s.getBoundingClientRect().top + y > y + 60; });
+    if (next) window.scrollTo({ top: next.getBoundingClientRect().top + y, behavior: 'smooth' });
+  });
+})();
+</script>
 
 </body>
 </html>

@@ -118,7 +118,7 @@
     <p>With your permission, Dumbell reads your bodyweight from Apple Health to estimate calories burned during workouts. With your permission, Dumbell writes completed workouts to Apple Health so they appear in the Fitness app and count toward your Exercise ring.</p>
 
     <h3>AI analysis data (optional)</h3>
-    <p>If you choose to use the AI Analysis or AI Workout Builder features, a de-identified summary of your training data (or a workout-building prompt) is sent to DeepSeek (an AI provider) via a Cloudflare Worker proxy. This summary may include exercises performed, weights and reps, and workout dates.</p>
+    <p>If you choose to use the AI Analysis or AI Workout Builder features, a de-identified summary of your training data (or a workout-building prompt) is sent to a third-party AI service via our secure proxy so the model can generate insights or a custom workout. This summary may include exercises performed, weights and reps, and workout dates.</p>
     <p>It explicitly does <strong>not</strong> include your name, email, Apple ID, contact information, location data, or HealthKit data beyond what is in the training summary.</p>
     <p>You must provide explicit consent before AI Analysis is enabled. You can decline and use the rest of the app fully without this feature.</p>
 
@@ -136,7 +136,7 @@
     <p>We do not sell your data. Data is shared only in the following circumstances:</p>
     <ul>
       <li><strong>Apple CloudKit:</strong> used for cross-device sync. Data is stored in your private iCloud database under Apple's privacy policy.</li>
-      <li><strong>DeepSeek (AI features only):</strong> with your explicit consent, a de-identified training summary or prompt is sent for analysis or workout generation. DeepSeek operates under its own privacy policy.</li>
+      <li><strong>Third-party AI provider (AI features only):</strong> with your explicit consent, a de-identified training summary or prompt is sent so the AI can generate analysis or workouts. That provider processes the request under its own terms.</li>
       <li><strong>Apple Health:</strong> only with your explicit permission through iOS HealthKit authorization.</li>
       <li><strong>Apple In-App Purchases:</strong> subscription billing is handled by Apple.</li>
     </ul>

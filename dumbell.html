@@ -3,525 +3,329 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dumbell — iOS Workout Tracker</title>
+  <title>Dumbell · iOS Workout Tracker</title>
   <meta name="description" content="A native iOS workout tracker built with SwiftUI. Log any routine, from pre-built splits to custom workouts, with AI analysis and Apple Health sync.">
   <link rel="icon" href="./images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #F7F3EB;
+      --card: #FFFDF8;
+      --ink: #1c1a16;
+      --muted: #6f6a5f;
+      --faint: #a39c8d;
+      --accent: #B0623A;
+      --line: rgba(28, 26, 22, 0.1);
+      --line-soft: rgba(28, 26, 22, 0.08);
     }
 
-    html {
-      scroll-behavior: smooth;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fafafa;
-      color: #0a0a0a;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
 
-    /* Nav */
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    ::selection { background: rgba(176, 98, 58, 0.2); }
+
+    /* ---------- Nav ---------- */
     .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px 24px;
-      background: rgba(250, 250, 250, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 40px;
+      background: rgba(247, 243, 235, 0.85);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(28, 26, 22, 0.06);
     }
-
+    .nav-back { font-size: 14px; font-weight: 600; color: var(--muted); }
     .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 16px;
-      color: #0a0a0a;
-      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 18px;
+    }
+    .nav-brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .pill {
+      white-space: nowrap; padding: 8px 18px;
+      border: 1.5px solid var(--ink); border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--ink);
     }
 
-    .nav-icon {
-      width: 28px;
-      height: 28px;
-      background: #0a0a0a;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* ---------- Hero ---------- */
+    .hero { max-width: 1100px; margin: 0 auto; padding: 170px 40px 40px; text-align: center; }
+    .kicker {
+      font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent);
     }
-
-    .nav-icon svg {
-      width: 16px;
-      height: 16px;
-      color: #fff;
-    }
-
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 140px 24px 60px;
-      position: relative;
-    }
-
     .hero h1 {
-      font-size: clamp(48px, 10vw, 72px);
-      font-weight: 800;
-      font-style: italic;
-      letter-spacing: -2px;
-      line-height: 1.05;
-      margin-bottom: 20px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(48px, 7vw, 88px); letter-spacing: -2px; line-height: 1.05;
+      margin: 16px 0 0;
+    }
+    .hero > p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 540px; margin: 24px auto 0; }
+    .hero-phones { display: flex; justify-content: center; gap: 0; margin-top: 56px; }
+    .phone-frame {
+      width: 270px; background: #1a1a1a; padding: 10px; border-radius: 36px;
+      box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
+    }
+    .phone-frame img {
+      width: 100%; border-radius: 26px; display: block;
+      aspect-ratio: 9 / 19.5; object-fit: cover;
+    }
+    .phone-frame.tilt-left { transform: translateX(36px) rotate(-6deg); z-index: 1; }
+    .phone-frame.tilt-right { transform: translateX(-36px) rotate(6deg); z-index: 2; }
+
+    /* ---------- Feature rows ---------- */
+    .features { max-width: 1100px; margin: 0 auto; padding: 90px 40px 0; }
+    .feature-rows { display: flex; flex-direction: column; gap: 110px; }
+    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .feature-row h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(30px, 3.5vw, 44px); letter-spacing: -1px; line-height: 1.15;
+    }
+    .feature-row p { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 440px; margin-top: 16px; }
+    .feature-media { display: flex; justify-content: center; }
+    .feature-media .device {
+      width: 230px; background: #1a1a1a; padding: 8px; border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.18);
+    }
+    .feature-media .device img {
+      width: 100%; border-radius: 22px; display: block;
+      aspect-ratio: 9 / 19.5; object-fit: cover;
     }
 
-    .hero p {
-      font-size: clamp(17px, 2.5vw, 20px);
-      color: #555;
-      max-width: 480px;
-      line-height: 1.5;
-      margin-bottom: 32px;
+    /* ---------- Card grid ---------- */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 110px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line-soft); border-radius: 24px;
+      padding: 32px; box-shadow: 0 8px 30px rgba(28, 26, 22, 0.06);
+    }
+    .card-shot { display: flex; justify-content: center; margin-bottom: 24px; }
+    .card-shot .device { width: 170px; background: #1a1a1a; padding: 7px; border-radius: 26px; }
+    .card-shot .device img {
+      width: 100%; border-radius: 20px; display: block;
+      aspect-ratio: 9 / 19.5; object-fit: cover;
+    }
+    .card h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 24px; }
+    .card p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 10px; }
+
+    /* ---------- Closer ---------- */
+    .closer { text-align: center; padding: 130px 40px 90px; }
+    .closer-icon {
+      width: 110px; height: 110px; border-radius: 26px;
+      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.15);
+    }
+    .closer h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(38px, 5vw, 64px); letter-spacing: -1.5px; line-height: 1.1;
+      margin: 32px 0 0;
+    }
+    .closer p { font-size: 18px; color: var(--muted); margin: 18px 0 0; }
+    .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
+    .tag {
+      font-size: 13px; font-weight: 500; padding: 8px 18px;
+      border: 1px solid rgba(28, 26, 22, 0.18); border-radius: 999px;
+      color: var(--muted); background: var(--card);
     }
 
-    /* CTA */
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #0a0a0a;
-      color: #fff;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-      color: #fff;
-    }
-
-    .cta-button svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* Hero Phones */
-    .hero-phones {
-      margin-top: 60px;
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      width: 100%;
-      max-width: 700px;
-    }
-
-    .phone {
-      width: 260px;
-      border-radius: 36px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-      background: #1a1a1a;
-      padding: 10px;
-      flex-shrink: 0;
-    }
-
-    .phone img {
-      width: 100%;
-      border-radius: 26px;
-      display: block;
-    }
-
-    .phone:first-child {
-      transform: translateX(40px) rotate(-6deg);
-      z-index: 1;
-    }
-
-    .phone:last-child {
-      transform: translateX(-40px) rotate(6deg);
-      z-index: 2;
-    }
-
-    /* Feature Cards Section */
-    .features {
-      padding: 100px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .feature-card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 40px;
-      min-height: 520px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .feature-card h2 {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-
-    .feature-card p {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .feature-card .card-image {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 24px;
-    }
-
-    .feature-card .card-phone {
-      width: 180px;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      background: #1a1a1a;
-      padding: 8px;
-    }
-
-    .feature-card .card-phone img {
-      width: 100%;
-      border-radius: 20px;
-      display: block;
-    }
-
-    /* Wide card */
-    .feature-card.wide {
-      grid-column: span 2;
-      flex-direction: row;
-      align-items: center;
-      gap: 48px;
-      min-height: auto;
-      padding: 48px;
-    }
-
-    .feature-card.wide .card-content {
-      flex: 1;
-    }
-
-    .feature-card.wide .card-image {
-      flex: 1;
-      margin-top: 0;
-    }
-
-    .feature-card.wide .card-phone {
-      width: 200px;
-    }
-
-    /* App Icon Section */
-    .app-section {
-      text-align: center;
-      padding: 100px 24px 80px;
-    }
-
-    .app-icon {
-      width: 120px;
-      height: 120px;
-      background: #0a0a0a;
-      border-radius: 28px;
-      margin: 0 auto 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
-
-    .app-icon svg {
-      width: 60px;
-      height: 60px;
-      color: #fff;
-    }
-
-    .app-section h2 {
-      font-size: clamp(36px, 7vw, 56px);
-      font-weight: 800;
-      font-style: italic;
-      letter-spacing: -2px;
-      line-height: 1.1;
-      max-width: 600px;
-      margin: 0 auto 24px;
-    }
-
-    .app-section p {
-      font-size: 18px;
-      color: #666;
-    }
-
-    /* Tech Stack */
-    .tech-stack {
-      padding: 60px 24px;
-      text-align: center;
-      border-top: 1px solid #eee;
-    }
-
-    .tech-stack h3 {
-      font-size: 13px;
-      font-weight: 600;
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 20px;
-    }
-
-    .tech-badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .tech-badge {
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      padding: 10px 20px;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #333;
-    }
-
-    /* Footer */
+    /* ---------- Footer ---------- */
     .footer {
-      text-align: center;
-      padding: 40px 24px;
+      border-top: 1px solid var(--line); padding: 40px;
+      text-align: center; font-size: 14px; color: var(--faint);
+    }
+    .footer a { color: var(--muted); font-weight: 600; }
+    .footer a:hover { color: var(--accent); }
+
+    /* ---------- Scroll reveal ---------- */
+    html.js .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    html.js .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html.js .reveal { opacity: 1; transform: none; transition: none; }
     }
 
-    .footer p {
-      font-size: 14px;
-      color: #999;
-    }
-
-    .footer a {
-      color: #666;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      color: #0a0a0a;
-    }
-
-    /* Responsive */
+    /* ---------- Small screens ---------- */
     @media (max-width: 900px) {
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
+      .nav { padding: 14px 20px; }
 
-      .feature-card.wide {
-        grid-column: span 1;
-        flex-direction: column;
-      }
+      .hero { padding: 140px 24px 24px; }
+      .features { padding: 64px 24px 0; }
+      .feature-rows { gap: 72px; }
+      .feature-row { grid-template-columns: 1fr; gap: 32px; }
+      .feature-row .feature-text { order: 1; }
+      .feature-row .feature-media { order: 2; }
 
-      .feature-card.wide .card-image {
-        order: 2;
-      }
+      .card-grid { grid-template-columns: 1fr; gap: 20px; margin-top: 72px; }
+      .closer { padding: 90px 24px 64px; }
     }
 
-    @media (max-width: 600px) {
-      .hero {
-        padding-top: 120px;
-      }
+    @media (max-width: 640px) {
+      .phone-frame { width: min(42vw, 200px); }
+      .phone-frame.tilt-left { transform: translateX(18px) rotate(-6deg); }
+      .phone-frame.tilt-right { transform: translateX(-18px) rotate(6deg); }
+    }
 
-      .hero-phones {
-        flex-direction: column;
-        align-items: center;
-        gap: 24px;
-      }
-
-      .phone {
-        width: 220px;
-      }
-
-      .phone:first-child,
-      .phone:last-child {
-        transform: none;
-      }
-
-      .phone:first-child {
-        z-index: 2;
-      }
-
-      .feature-card {
-        padding: 32px;
-        min-height: 450px;
-      }
-
-      .feature-card h2 {
-        font-size: 24px;
-      }
-
-      .feature-card .card-phone {
-        width: 160px;
-      }
+    @media (max-width: 520px) {
+      .nav { padding: 12px 16px; }
+      .nav-back { font-size: 13px; }
+      .nav-brand { font-size: 16px; gap: 8px; }
+      .nav-brand img { width: 24px; height: 24px; border-radius: 6px; }
+      .pill { font-size: 12px; padding: 6px 12px; }
     }
   </style>
 </head>
 <body>
-  <!-- Nav -->
-  <nav class="nav">
-    <a href="index.html" class="nav-brand">
-      <div class="nav-icon">
-        <img src="images/dumbell/icon.png" alt="Dumbell app icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">
-      </div>
-      Dumbell
-    </a>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Lift smarter.</h1>
-    <p>A native iOS workout tracker for any lifting routine. Log sets, reps, and weight with AI analysis and Apple Health sync.</p>
-    
-    <span class="cta-button">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-      </svg>
-      Coming to the App Store
-    </span>
+<nav class="nav">
+  <a href="index.html" class="nav-back">&larr; Sammer Sheikh</a>
+  <div class="nav-brand">
+    <img src="./images/dumbell/icon.png" alt="Dumbell icon">
+    Dumbell
+  </div>
+  <span class="pill">Coming soon</span>
+</nav>
 
-    <!-- Phone Mockups -->
-    <div class="hero-phones">
-      <div class="phone">
-        <img src="images/dumbell/home.png" alt="Dumbell home screen">
-      </div>
-      <div class="phone">
-        <img src="images/dumbell/exercise.png" alt="Dumbell exercise tracking screen">
-      </div>
+<header class="hero">
+  <div class="kicker">iOS &middot; Fitness</div>
+  <h1>Lift smarter.</h1>
+  <p>A native iOS workout tracker for any lifting routine. Log sets, reps, and weight with AI analysis and Apple Health sync.</p>
+  <div class="hero-phones">
+    <div class="phone-frame tilt-left">
+      <img src="./images/dumbell/home.png" alt="Dumbell home screen">
     </div>
-  </section>
+    <div class="phone-frame tilt-right">
+      <img src="./images/dumbell/exercise.png" alt="Dumbell exercise tracking">
+    </div>
+  </div>
+</header>
 
-  <!-- Feature Cards -->
+<main>
   <section class="features">
-    <div class="features-grid">
-      
-      <!-- Feature 1: Workout Selection -->
-      <div class="feature-card">
-        <h2>Pick your workout</h2>
-        <p>Start fast with pre-built splits like Push, Pull, and Legs — or pick from a full exercise library organized by muscle group. Every workout shows exactly what you'll train.</p>
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/home.png" alt="Workout selection">
+    <div class="feature-rows">
+
+      <div class="feature-row reveal">
+        <div class="feature-text">
+          <h2>Pick your workout</h2>
+          <p>Start fast with pre-built splits like Push, Pull, and Legs - or pick from a full exercise library organized by muscle group. Every workout shows exactly what you'll train.</p>
+        </div>
+        <div class="feature-media">
+          <div class="device">
+            <img src="./images/dumbell/home.png" alt="Workout selection" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
 
-      <!-- Feature 2: Exercise Tracking -->
-      <div class="feature-card">
-        <h2>Track every set</h2>
-        <p>Log weight and reps for each set with scroll pickers. Exercise demos show proper form. See your previous lifts right on screen so you know what to beat.</p>
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/exercise.png" alt="Exercise tracking">
+      <div class="feature-row reveal">
+        <div class="feature-media">
+          <div class="device">
+            <img src="./images/dumbell/exercise.png" alt="Exercise tracking" loading="lazy" decoding="async">
           </div>
+        </div>
+        <div class="feature-text">
+          <h2>Track every set</h2>
+          <p>Log weight and reps for each set with scroll pickers. Exercise demos show proper form. See your previous lifts right on screen so you know what to beat.</p>
         </div>
       </div>
 
-      <!-- Feature 3: History -->
-      <div class="feature-card">
-        <h2>Review your history</h2>
-        <p>See monthly stats at a glance — total workouts, sets completed, pounds lifted, and time spent training. Compare your performance vs last month with automatic trend indicators.</p>
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/history.png" alt="Workout history">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 4: Progress -->
-      <div class="feature-card">
-        <h2>Track your gains</h2>
-        <p>Muscle group breakdown shows which areas you're hitting most. Exercise progress cards highlight your improvements with +lbs badges. See your total weight increases over time.</p>
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/progress.png" alt="Progress tracking">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 5: Custom Workouts (Wide) -->
-      <div class="feature-card wide">
-        <div class="card-content">
-          <h2>Build custom workouts</h2>
-          <p>Build any routine you want. Filter exercises by muscle group — Back, Chest, Shoulders, Core, and more. Select the exercises you want and start your custom workout. Or let the AI workout builder generate one for you.</p>
-        </div>
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/custom.png" alt="Custom workout builder">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 6: AI Features (Wide) -->
-      <div class="feature-card wide">
-        <div class="card-image">
-          <div class="card-phone">
-            <img src="images/dumbell/ai-builder.gif" alt="AI workout builder in action">
-          </div>
-        </div>
-        <div class="card-content">
+      <div class="feature-row reveal">
+        <div class="feature-text">
           <h2>AI-powered coaching</h2>
-          <p>Generate custom routines with the AI workout builder, then analyze your training with AI insights. Get muscle-group breakdowns, progress charts, and actionable feedback based on your real workout history.</p>
+          <p>Generate custom routines with the AI workout builder, then analyze your training with AI insights: muscle-group breakdowns, progress charts, and actionable feedback based on your real history.</p>
+        </div>
+        <div class="feature-media">
+          <div class="device">
+            <img src="./images/dumbell/ai-builder.gif" alt="AI workout builder" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
 
+    </div>
+
+    <div class="card-grid">
+      <div class="card reveal">
+        <div class="card-shot">
+          <div class="device">
+            <img src="./images/dumbell/history.png" alt="Workout history" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <h3>Review your history</h3>
+        <p>Monthly stats at a glance: workouts, sets, pounds lifted, and time trained, with automatic trend indicators.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-shot">
+          <div class="device">
+            <img src="./images/dumbell/progress.png" alt="Progress tracking" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <h3>Track your gains</h3>
+        <p>Muscle group breakdowns and progress cards highlight improvements with +lbs badges over time.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-shot">
+          <div class="device">
+            <img src="./images/dumbell/custom.png" alt="Custom workout builder" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <h3>Build custom workouts</h3>
+        <p>Filter exercises by muscle group, select what you want, and start - or let the AI builder generate one for you.</p>
+      </div>
     </div>
   </section>
 
-  <!-- App Section -->
-  <section class="app-section">
-    <div class="app-icon" style="padding: 0; overflow: hidden;">
-      <img src="images/dumbell/icon.png" alt="Dumbell app icon" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
+  <section class="closer reveal">
+    <img src="./images/dumbell/icon.png" alt="Dumbell app icon" class="closer-icon" loading="lazy" decoding="async">
     <h2>Build strength,<br>track progress.</h2>
     <p>Native iOS app with SwiftData, CloudKit sync, and Apple Health integration.</p>
-  </section>
-
-  <!-- Tech Stack -->
-  <section class="tech-stack">
-    <h3>Built with</h3>
-    <div class="tech-badges">
-      <span class="tech-badge">SwiftUI</span>
-      <span class="tech-badge">SwiftData</span>
-      <span class="tech-badge">CloudKit</span>
-      <span class="tech-badge">StoreKit</span>
-      <span class="tech-badge">HealthKit</span>
-      <span class="tech-badge">Swift Charts</span>
+    <div class="tags">
+      <span class="tag">SwiftUI</span>
+      <span class="tag">SwiftData</span>
+      <span class="tag">CloudKit</span>
+      <span class="tag">StoreKit</span>
+      <span class="tag">HealthKit</span>
+      <span class="tag">Swift Charts</span>
     </div>
   </section>
+</main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
-  </footer>
+<footer class="footer">
+  Built by <a href="index.html">Sammer Sheikh</a> &middot; 2026
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+
+  var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
 </body>
 </html>

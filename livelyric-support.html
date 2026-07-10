@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Support · Live Lyric</title>
+<link rel="icon" href="./images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0E0E;
+    --ink: #F6F6F7;
+    --sub: #B5B5B8;
+    --fade: #7A7A7E;
+    --accent: #E8E8EA;
+    --line: #2A2A2A;
+    --nav-bg: rgba(14, 14, 14, 0.85);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-icon { width: 28px; height: 28px; border-radius: 7px; overflow: hidden; background: #000; }
+  .nav-icon img { width: 100%; height: 100%; display: block; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 120px 22px 96px; }
+  .eyebrow {
+    color: var(--fade);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 24px;
+  }
+  h2 { font-size: 20px; font-weight: 700; margin: 36px 0 12px; }
+  p, li { font-size: 16px; }
+  p { margin: 0 0 16px; color: var(--sub); }
+  ul { margin: 0 0 16px; padding-left: 22px; color: var(--sub); }
+  li { margin: 0 0 8px; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .foot {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--fade);
+    font-size: 13px;
+  }
+  .foot a { color: var(--fade); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="lyric.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/lyric/icon.png" alt="Live Lyric app icon">
+      </div>
+      Live Lyric
+    </a>
+  </nav>
+
+  <div class="wrap">
+    <p class="eyebrow">Live Lyric</p>
+    <h1>Support</h1>
+
+    <p>Live Lyric identifies the song playing around you and shows lyrics in
+    real time. Tap Listen, grant microphone access, and play music from any
+    speaker, radio, or nearby phone.</p>
+
+    <h2>Common questions</h2>
+    <ul>
+      <li><strong>No match?</strong> Move closer to the speaker, lower room noise,
+      and try again. Coverage depends on Shazam's catalog.</li>
+      <li><strong>Plain lyrics only?</strong> Some songs lack time-synced LRC data.
+      On iOS 26+, Live Lyric can still track the current line from vocals when
+      possible.</li>
+      <li><strong>Captions button missing?</strong> Live captions require iOS 26 or
+      later.</li>
+      <li><strong>Permissions.</strong> Microphone (and speech recognition on newer
+      iOS) are required for listening, captions, and vocal line tracking.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Email
+    <a href="mailto:sammerahmadsheikh@outlook.com">sammerahmadsheikh@outlook.com</a>
+    with your device model, iOS version, and a short description of the issue.</p>
+
+    <p>Also see the
+    <a href="livelyric-privacy.html">Privacy Policy</a>.</p>
+
+    <div class="foot">
+      <p><a href="lyric.html">Live Lyric</a> ·
+      <a href="livelyric-privacy.html">Privacy</a> ·
+      <a href="index.html">Sammer Sheikh</a></p>
+    </div>
+  </div>
+</body>
+</html>

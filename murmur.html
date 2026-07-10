@@ -3,752 +3,389 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Murmur — Speak on your watch. It types on your Mac.</title>
-  <meta name="description" content="Dictate from your Apple Watch or iPhone and the transcript types into the frontmost Mac app. Everything runs locally on your Mac.">
+  <title>Murmur · Speak on your watch. It types on your Mac.</title>
+  <meta name="description" content="Dictate from your Apple Watch or iPhone and the transcript types into the frontmost Mac app. Transcription happens locally: no cloud, no subscriptions.">
   <link rel="icon" href="./images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     :root {
-      --bg: #f2f0ec;
-      --surface: #ffffff;
-      --text: #1a1a1a;
-      --muted: #6b6b6b;
-      --subtle: #9a9a9a;
-      --border: rgba(0,0,0,0.08);
-      --accent: #5a7a5a;
-      --accent-soft: rgba(90,122,90,0.12);
-      --shadow: 0 20px 60px rgba(0,0,0,0.08);
-      --shadow-lg: 0 30px 90px rgba(0,0,0,0.12);
+      --bg: #F7F3EB;
+      --bg-alt: #EFE9DC;
+      --surface: #FFFDF8;
+      --ink: #1c1a16;
+      --muted: #6f6a5f;
+      --faint: #a39c8d;
+      --accent: #B0623A;
+      --line: rgba(28, 26, 22, 0.1);
+      --line-soft: rgba(28, 26, 22, 0.08);
     }
 
-    html {
-      scroll-behavior: smooth;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    .serif {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-weight: 400;
-    }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    ::selection { background: rgba(176, 98, 58, 0.2); }
 
-    /* Nav */
+    img, video { max-width: 100%; }
+
+    /* ---------- Nav ---------- */
     .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px 24px;
-      background: rgba(242, 240, 236, 0.82);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      padding: 16px 40px;
+      background: rgba(247, 243, 235, 0.85);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(28, 26, 22, 0.06);
     }
-
+    .nav-back {
+      justify-self: start;
+      font-size: 14px; font-weight: 600; color: var(--muted);
+      white-space: nowrap;
+    }
+    .nav-back:hover { color: var(--accent); }
     .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--text);
-      text-decoration: none;
+      justify-self: center;
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 18px;
     }
-
-    .nav-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .nav-brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-download {
+      justify-self: end;
+      font-size: 13px; font-weight: 600; padding: 8px 18px;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; white-space: nowrap;
+      transition: background 0.2s;
     }
+    .nav-download:hover { background: var(--accent); color: #fff; }
 
-    .nav-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    /* ---------- Hero ---------- */
+    .hero { max-width: 1200px; margin: 0 auto; padding: 170px 40px 40px; text-align: center; }
+    .hero-eyebrow {
+      font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent);
     }
-
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 140px 24px 80px;
-      position: relative;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-soft);
-      padding: 8px 14px;
-      border-radius: 100px;
-      margin-bottom: 28px;
-    }
-
     .hero h1 {
-      font-size: clamp(42px, 8vw, 72px);
-      line-height: 1.05;
-      letter-spacing: -1px;
-      margin-bottom: 22px;
-      max-width: 760px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(44px, 6vw, 80px); letter-spacing: -2px; line-height: 1.08;
+      margin-top: 16px; text-wrap: balance;
     }
-
-    .hero p {
-      font-size: clamp(17px, 2.4vw, 20px);
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.55;
-      margin-bottom: 36px;
+    .hero-sub {
+      font-size: 20px; color: var(--muted); line-height: 1.6;
+      max-width: 600px; margin: 24px auto 0;
     }
-
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--text);
-      color: var(--surface);
-      padding: 16px 32px;
-      border-radius: 100px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
+    .hero-cta {
+      display: inline-block; margin-top: 32px; padding: 14px 30px;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; font-size: 15px; font-weight: 600;
+      transition: background 0.2s, color 0.2s;
     }
+    .hero-cta:hover { background: var(--accent); color: #fff; }
 
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-      color: var(--surface);
+    .hero-devices {
+      display: flex; justify-content: center; align-items: flex-end;
+      gap: 28px; margin-top: 56px;
     }
-
-    .cta-button svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    /* Device cluster */
-    .device-cluster {
-      margin-top: 64px;
-      position: relative;
-      width: 100%;
-      max-width: 1080px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 24px;
-      padding: 0 24px;
-    }
-
-    .device-mac {
-      width: 100%;
-      max-width: 720px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--surface);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
-    }
-
-    .device-mac img {
-      width: 100%;
-      display: block;
-    }
-
-    .device-side {
-      position: absolute;
-      bottom: -20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .device-side.left {
-      left: 0;
-    }
-
-    .device-side.right {
-      right: 0;
-    }
-
-    .device-phone,
-    .device-watch {
-      overflow: hidden;
-      background: transparent;
-      box-shadow: var(--shadow-lg);
-      line-height: 0;
-    }
-
-    .device-phone {
-      width: 200px;
-      border-radius: 36px;
-    }
-
-    .device-watch {
-      width: 150px;
-      border-radius: 42px;
-    }
-
-    .device-phone img,
-    .device-watch img {
-      width: 100%;
-      display: block;
-    }
-
+    .device-side { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .device-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--subtle);
-      letter-spacing: 0.5px;
+      font-size: 12px; font-weight: 600; color: var(--faint);
+      text-transform: uppercase; letter-spacing: 1px;
     }
+    .device-phone { width: 180px; border-radius: 26px; box-shadow: 0 20px 60px rgba(28, 26, 22, 0.2); }
+    .device-mac { width: min(620px, 50vw); border-radius: 14px; box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22); }
+    .device-watch { width: 140px; border-radius: 28px; box-shadow: 0 20px 60px rgba(28, 26, 22, 0.2); }
 
-    /* Sections */
-    .section {
-      padding: 120px 24px;
-      max-width: 1160px;
-      margin: 0 auto;
+    /* ---------- Features section ---------- */
+    .features { max-width: 1100px; margin: 0 auto; padding: 90px 40px 0; }
+
+    .privacy-banner {
+      display: flex; align-items: center; gap: 24px;
+      background: var(--bg-alt); border: 1px solid var(--line-soft);
+      border-radius: 20px; padding: 28px 34px;
     }
-
-    .section-header {
-      text-align: center;
-      max-width: 620px;
-      margin: 0 auto 72px;
+    .privacy-icon {
+      flex: none; width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(176, 98, 58, 0.12); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
     }
+    .privacy-icon svg { width: 24px; height: 24px; }
+    .privacy-title { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 20px; }
+    .privacy-banner p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
 
-    .section-header h2 {
-      font-size: clamp(34px, 6vw, 52px);
-      line-height: 1.1;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
+    .feature-rows { display: flex; flex-direction: column; gap: 110px; margin-top: 110px; }
+    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .feature-row h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(30px, 3.5vw, 44px); letter-spacing: -1px; line-height: 1.15;
     }
+    .feature-row p { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 440px; margin-top: 16px; }
+    .feature-media { display: flex; justify-content: center; }
+    .feature-watch { width: 230px; border-radius: 36px; box-shadow: 0 20px 60px rgba(28, 26, 22, 0.2); }
+    .feature-phone { width: 250px; border-radius: 32px; box-shadow: 0 20px 60px rgba(28, 26, 22, 0.2); }
 
-    .section-header p {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.55;
+    /* ---------- Video cards ---------- */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 110px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line-soft);
+      border-radius: 24px; padding: 28px;
+      box-shadow: 0 8px 30px rgba(28, 26, 22, 0.06);
     }
+    .card h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 24px; }
+    .card p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 10px; }
 
-    /* Offline banner */
-    .offline-banner {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 72px;
-      box-shadow: var(--shadow);
+    .mac-window { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 22px; }
+    .mac-titlebar { display: flex; gap: 6px; padding: 9px 12px; background: var(--bg-alt); }
+    .mac-titlebar span { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #f26057; }
+    .dot-yellow { background: #f5bd4f; }
+    .dot-green { background: #57c454; }
+    .mac-window video { width: 100%; display: block; }
+
+    /* ---------- Closer ---------- */
+    .closer { text-align: center; padding: 130px 40px 90px; }
+    .closer-icon { width: 110px; height: 110px; border-radius: 26px; box-shadow: 0 20px 60px rgba(28, 26, 22, 0.15); }
+    .closer h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(38px, 5vw, 64px); letter-spacing: -1.5px; line-height: 1.1;
+      margin-top: 32px;
     }
-
-    .offline-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--accent-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-
-    .offline-banner h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .offline-banner p {
-      font-size: 15px;
-      color: var(--muted);
-    }
-
-    /* Feature grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .feature-card img {
-      width: 100%;
-      border-radius: 14px;
-      display: block;
-      border: 1px solid var(--border);
-    }
-
-    .feature-card h3 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .feature-card p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    /* Mac window video */
-    .mac-window {
-      border-radius: 14px;
-      overflow: hidden;
-      background: #f8f8f8;
-      border: 1px solid var(--border);
-    }
-
-    .mac-titlebar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 14px;
-      background: #f0f0f0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .traffic-light {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .traffic-light.red { background: #ff5f57; }
-    .traffic-light.yellow { background: #febc2e; }
-    .traffic-light.green { background: #28c840; }
-
-    .mac-window video {
-      width: 100%;
-      display: block;
-      background: #fff;
-    }
-
-    /* Wide card */
-    .feature-card.wide {
-      grid-column: span 2;
-      flex-direction: row;
-      align-items: center;
-      gap: 40px;
-      padding: 36px;
-    }
-
-    .feature-card.wide .card-content {
-      flex: 1;
-    }
-
-    .feature-card.wide .card-visual {
-      flex: 1;
-      max-width: 480px;
-    }
-
-    /* App section */
-    .app-section {
-      text-align: center;
-      padding: 120px 24px;
-      background: linear-gradient(180deg, transparent 0%, rgba(90,122,90,0.04) 100%);
-    }
-
-    .app-icon-large {
-      width: 110px;
-      height: 110px;
-      border-radius: 26px;
-      margin: 0 auto 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-    }
-
-    .app-icon-large img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .app-section h2 {
-      font-size: clamp(36px, 7vw, 56px);
-      line-height: 1.1;
-      letter-spacing: -1px;
-      max-width: 600px;
-      margin: 0 auto 20px;
-    }
-
-    .app-section p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    /* Tech stack */
-    .tech-stack {
-      padding: 80px 24px;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-
-    .tech-stack h3 {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--subtle);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 20px;
-    }
-
-    .tech-badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
+    .closer p { font-size: 18px; color: var(--muted); max-width: 520px; margin: 18px auto 0; }
+    .tech-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
     .tech-badge {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 10px 20px;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
+      font-size: 13px; font-weight: 500; padding: 8px 18px;
+      border: 1px solid rgba(28, 26, 22, 0.18); border-radius: 999px;
+      color: var(--muted); background: var(--surface);
     }
 
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 40px 24px;
-    }
+    /* ---------- Footer ---------- */
+    .footer { border-top: 1px solid var(--line); padding: 40px; text-align: center; font-size: 14px; color: var(--faint); }
+    .footer a { color: var(--muted); font-weight: 600; }
+    .footer a:hover { color: var(--accent); }
 
-    .footer p {
-      font-size: 14px;
-      color: var(--subtle);
-    }
+    /* ---------- Reveal on scroll ---------- */
+    .will-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .will-reveal.revealed { opacity: 1; transform: none; }
 
-    .footer a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    /* Responsive */
+    /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
-      .device-cluster {
-        flex-direction: column;
-        align-items: center;
-      }
+      .nav { padding: 14px 20px; }
 
-      .device-side {
-        position: static;
-        flex-direction: row;
-        gap: 20px;
-      }
+      .hero { padding: 140px 24px 24px; }
+      .hero-devices { flex-wrap: wrap; gap: 24px; margin-top: 44px; }
+      .device-mac { order: -1; width: 100%; max-width: 620px; }
+      .device-phone { width: 150px; }
+      .device-watch { width: 120px; }
 
-      .device-mac {
-        max-width: 100%;
-      }
+      .features { padding: 70px 24px 0; }
+      .feature-rows { gap: 70px; margin-top: 70px; }
+      .feature-row { grid-template-columns: 1fr; gap: 32px; }
+      .feature-row .feature-media { order: 2; }
 
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
+      .cards { grid-template-columns: 1fr; margin-top: 70px; }
 
-      .feature-card.wide {
-        grid-column: span 1;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .feature-card.wide .card-visual {
-        max-width: 100%;
-        width: 100%;
-      }
+      .closer { padding: 100px 24px 70px; }
+      .footer { padding: 40px 24px; }
     }
 
     @media (max-width: 600px) {
-      .hero {
-        padding-top: 120px;
-      }
+      .nav { grid-template-columns: auto 1fr; padding: 12px 16px; }
+      .nav-brand { display: none; }
+      .nav-back { font-size: 13px; }
+      .nav-download { font-size: 12px; padding: 7px 14px; }
 
-      .device-phone {
-        width: 130px;
-      }
+      .privacy-banner { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; }
+      .card { padding: 22px; }
+    }
 
-      .device-watch {
-        width: 110px;
-      }
-
-      .offline-banner {
-        flex-direction: column;
-        text-align: center;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .will-reveal { opacity: 1; transform: none; transition: none; }
+      .nav-download, .hero-cta, .footer a { transition: none; }
     }
   </style>
 </head>
 <body>
-  <!-- Nav -->
-  <nav class="nav">
-    <a href="index.html" class="nav-brand">
-      <div class="nav-icon">
-        <img src="images/murmur/icon.png" alt="Murmur app icon">
-      </div>
-      Murmur
-    </a>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="eyebrow">
-      <span>Local</span>
-      <span>·</span>
-      <span>Offline-first</span>
+<nav class="nav">
+  <a href="index.html" class="nav-back">&larr; Sammer Sheikh</a>
+  <div class="nav-brand">
+    <img src="./images/murmur/icon.png" alt="Murmur icon">
+    Murmur
+  </div>
+  <a href="https://github.com/sammersheikh/murmur-releases/releases" target="_blank" rel="noopener" class="nav-download">Download for Mac</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">Mac &middot; iPhone &middot; Apple Watch &middot; Local &amp; offline-first</div>
+  <h1>Speak on your watch.<br>It types on your Mac.</h1>
+  <p class="hero-sub">Dictate from your Apple Watch or iPhone and the transcript appears in whatever app is frontmost on your Mac. Transcription happens locally: no cloud, no subscriptions.</p>
+  <a href="https://github.com/sammersheikh/murmur-releases/releases" target="_blank" rel="noopener" class="hero-cta">Download for Mac &darr;</a>
+
+  <div class="hero-devices">
+    <div class="device-side">
+      <img src="./images/murmur/iphone-dictate.png" alt="Murmur iPhone dictate screen" class="device-phone">
+      <span class="device-label">iPhone</span>
     </div>
+    <img src="./images/murmur/murmur-home.png" alt="Murmur Mac home" class="device-mac">
+    <div class="device-side">
+      <img src="./images/murmur/watch-idle.png" alt="Murmur Apple Watch app" class="device-watch">
+      <span class="device-label">Apple Watch</span>
+    </div>
+  </div>
+</header>
 
-    <h1 class="serif">Speak on your watch.<br>It types on your Mac.</h1>
-    <p>Dictate from your Apple Watch or iPhone and the transcript appears in whatever app is frontmost on your Mac. Transcription happens locally — no cloud, no subscriptions.</p>
-
-    <a class="cta-button" href="https://github.com/sammersheikh/murmur-releases/releases" target="_blank" rel="noopener">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+<section class="features">
+  <div class="privacy-banner" data-reveal>
+    <div class="privacy-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="10.5" width="16" height="9.5" rx="2.5"></rect>
+        <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path>
+        <circle cx="12" cy="15.2" r="1.4" fill="currentColor" stroke="none"></circle>
       </svg>
-      Available for Mac
-    </a>
-
-    <!-- Device cluster -->
-    <div class="device-cluster">
-      <div class="device-side left">
-        <div class="device-phone">
-          <img src="images/murmur/iphone-dictate.png" alt="Murmur iPhone dictate screen">
-        </div>
-        <span class="device-label">iPhone</span>
-      </div>
-
-      <div class="device-mac">
-        <img src="images/murmur/murmur-home.png" alt="Murmur Mac home screen">
-      </div>
-
-      <div class="device-side right">
-        <div class="device-watch">
-          <img src="images/murmur/watch-idle.png" alt="Murmur Apple Watch app">
-        </div>
-        <span class="device-label">Apple Watch</span>
-      </div>
     </div>
-  </section>
-
-  <!-- Features -->
-  <section class="section">
-    <div class="section-header">
-      <h2 class="serif">One voice, every screen.</h2>
-      <p>Capture thoughts from your wrist or pocket, then refine, search, and reuse them on your Mac — all without sending audio to a server.</p>
+    <div>
+      <div class="privacy-title">Everything stays on your devices</div>
+      <p>Parakeet TDT runs locally on the Mac Neural Engine. Your audio, transcripts, and history never leave your local network.</p>
     </div>
+  </div>
 
-    <div class="offline-banner">
-      <div class="offline-icon">🔒</div>
+  <div class="feature-rows">
+    <div class="feature-row" data-reveal>
       <div>
-        <h3>Everything stays on your devices</h3>
-        <p>Parakeet TDT runs locally on the Mac Neural Engine. Your audio, transcripts, and history never leave your local network.</p>
+        <h2>Apple Watch dictation</h2>
+        <p>Hold a pill on your Watch, whisper, release, and the text types on your Mac. Raise-to-record starts hands-free when you lift your wrist. The iPhone relays the audio when the Watch can't reach the Mac directly.</p>
+      </div>
+      <div class="feature-media">
+        <img src="./images/murmur/watch-echo.png" alt="Murmur Apple Watch recording a dictation" class="feature-watch" loading="lazy">
       </div>
     </div>
 
-    <div class="features-grid">
-
-      <!-- Watch dictation -->
-      <div class="feature-card wide">
-        <div class="card-content">
-          <h3 class="serif">Apple Watch dictation</h3>
-          <p>Hold a pill on your Watch, whisper, release, and the text types on your Mac. Raise-to-record starts hands-free when you lift your wrist. The iPhone relays the audio when the Watch can't reach the Mac directly.</p>
-        </div>
-        <div class="card-visual">
-          <img src="images/murmur/watch-idle.png" alt="Murmur Apple Watch app">
-        </div>
+    <div class="feature-row" data-reveal>
+      <div class="feature-media">
+        <img src="./images/murmur/iphone-dictate.png" alt="Murmur iPhone dictation screen" class="feature-phone" loading="lazy">
       </div>
-
-      <!-- iPhone dictation -->
-      <div class="feature-card wide">
-        <div class="card-visual">
-          <img src="images/murmur/iphone-canvas.png" alt="Murmur iPhone canvas screen">
-        </div>
-        <div class="card-content">
-          <h3 class="serif">iPhone dictation & keyboard</h3>
-          <p>Dictate from the Murmur iPhone app or use the custom iOS keyboard to swipe-to-text and one-tap dictate into any app. Corrections you make are remembered for next time.</p>
-        </div>
+      <div>
+        <h2>iPhone dictation &amp; keyboard</h2>
+        <p>Dictate from the Murmur iPhone app or use the custom iOS keyboard to swipe-to-text and one-tap dictate into any app. Corrections you make are remembered for next time.</p>
       </div>
-
-      <!-- Mac hotkey -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-hotkey-demo.mp4" alt="Murmur hotkey dictation" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">Global Mac hotkey</h3>
-          <p>Press the hotkey from any app, speak, and release to type the transcript wherever your cursor is.</p>
-        </div>
-      </div>
-
-      <!-- History -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-history-demo.mp4" alt="Murmur dictation history" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">Searchable history</h3>
-          <p>Every dictation is saved with the source app, timestamp, and duration. Search past transcripts and re-type anything with one click.</p>
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-stats-demo.mp4" alt="Murmur stats dashboard" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">Productivity stats</h3>
-          <p>See total words, average WPM, dictation count, and time saved vs typing. Track your streak and view weekly summaries.</p>
-        </div>
-      </div>
-
-      <!-- Canvas -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-canvas-demo.mp4" alt="Murmur Canvas inbox" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">Canvas inbox</h3>
-          <p>Save ideas and snippets to a categorized inbox instead of typing them. Canvas auto-sorts captures by tag so voice memos become organized notes.</p>
-        </div>
-      </div>
-
-      <!-- Transforms -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-transforms-demo.mp4" alt="Murmur AI transforms" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">AI transforms</h3>
-          <p>Turn a rough dictation into polished text with per-transform hotkeys. Polish, prompt-engineer, or define your own rewrite and replace it in place.</p>
-        </div>
-      </div>
-
-      <!-- Word rules -->
-      <div class="feature-card">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="traffic-light red"></span>
-            <span class="traffic-light yellow"></span>
-            <span class="traffic-light green"></span>
-          </div>
-          <video src="images/murmur/onboarding-wordrules-demo.mp4" alt="Murmur custom word rules" autoplay muted loop playsinline></video>
-        </div>
-        <div>
-          <h3 class="serif">Custom word rules</h3>
-          <p>Teach Murmur your jargon, acronyms, and corrections. Define replacements and removals so transcripts come out formatted the way you write.</p>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
 
-  <!-- App Section -->
-  <section class="app-section">
-    <div class="app-icon-large">
-      <img src="images/murmur/icon.png" alt="Murmur app icon">
+  <div class="cards">
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-hotkey-demo.mp4" autoplay muted loop playsinline aria-label="Murmur hotkey dictation demo"></video>
+      </div>
+      <h3>Global Mac hotkey</h3>
+      <p>Press the hotkey from any app, speak, and release to type the transcript wherever your cursor is.</p>
     </div>
-    <h2 class="serif">Your voice, your Mac.</h2>
-    <p>Native Mac, iPhone, and Watch apps with on-device transcription and iCloud sync for settings and history.</p>
-  </section>
 
-  <!-- Tech Stack -->
-  <section class="tech-stack">
-    <h3>Built with</h3>
-    <div class="tech-badges">
-      <span class="tech-badge">Swift</span>
-      <span class="tech-badge">SwiftUI</span>
-      <span class="tech-badge">TCA</span>
-      <span class="tech-badge">Parakeet</span>
-      <span class="tech-badge">WatchConnectivity</span>
-      <span class="tech-badge">Bonjour</span>
-      <span class="tech-badge">CloudKit</span>
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-history-demo.mp4" autoplay muted loop playsinline aria-label="Murmur searchable history demo"></video>
+      </div>
+      <h3>Searchable history</h3>
+      <p>Every dictation is saved with the source app, timestamp, and duration. Search past transcripts and re-type anything with one click.</p>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Built by <a href="index.html">Sammer Sheikh</a> · 2026</p>
-  </footer>
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-stats-demo.mp4" autoplay muted loop playsinline aria-label="Murmur productivity stats demo"></video>
+      </div>
+      <h3>Productivity stats</h3>
+      <p>Total words, average WPM, dictation count, and time saved vs typing. Track your streak and view weekly summaries.</p>
+    </div>
+
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-canvas-demo.mp4" autoplay muted loop playsinline aria-label="Murmur Canvas inbox demo"></video>
+      </div>
+      <h3>Canvas inbox</h3>
+      <p>Save ideas and snippets to a categorized inbox. Canvas auto-sorts captures by tag so voice memos become organized notes.</p>
+    </div>
+
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-transforms-demo.mp4" autoplay muted loop playsinline aria-label="Murmur AI transforms demo"></video>
+      </div>
+      <h3>AI transforms</h3>
+      <p>Turn a rough dictation into polished text with per-transform hotkeys. Polish, prompt-engineer, or define your own rewrite.</p>
+    </div>
+
+    <div class="card" data-reveal>
+      <div class="mac-window">
+        <div class="mac-titlebar"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <video src="./images/murmur/onboarding-wordrules-demo.mp4" autoplay muted loop playsinline aria-label="Murmur custom word rules demo"></video>
+      </div>
+      <h3>Custom word rules</h3>
+      <p>Teach Murmur your jargon, acronyms, and corrections so transcripts come out formatted the way you write.</p>
+    </div>
+  </div>
+</section>
+
+<section class="closer" data-reveal>
+  <img src="./images/murmur/icon.png" alt="Murmur app icon" class="closer-icon" loading="lazy">
+  <h2>Your voice, your Mac.</h2>
+  <p>Native Mac, iPhone, and Watch apps with on-device transcription and iCloud sync for settings and history.</p>
+  <div class="tech-badges">
+    <span class="tech-badge">Swift</span>
+    <span class="tech-badge">SwiftUI</span>
+    <span class="tech-badge">TCA</span>
+    <span class="tech-badge">Parakeet</span>
+    <span class="tech-badge">WatchConnectivity</span>
+    <span class="tech-badge">Bonjour</span>
+    <span class="tech-badge">CloudKit</span>
+  </div>
+</section>
+
+<footer class="footer">
+  Built by <a href="index.html">Sammer Sheikh</a> &middot; 2026
+</footer>
+
+<script>
+(function () {
+  /* Keep every demo video silent */
+  document.querySelectorAll('video').forEach(function (v) {
+    v.muted = true;
+    v.volume = 0;
+    v.setAttribute('muted', '');
+  });
+
+  /* Reveal-on-scroll: skipped entirely when the user prefers reduced motion */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  if (reduceMotion.matches || !('IntersectionObserver' in window)) return;
+
+  els.forEach(function (el) { el.classList.add('will-reveal'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
 </body>
 </html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Support · Dumbell</title>
+<link rel="icon" href="./images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F3EB;
+    --ink: #1c1a16;
+    --sub: #6f6a5f;
+    --fade: #a39c8d;
+    --accent: #B0623A;
+    --line: rgba(28, 26, 22, 0.1);
+    --nav-bg: rgba(247, 243, 235, 0.85);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(28, 26, 22, 0.06);
+    z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-icon { width: 28px; height: 28px; border-radius: 7px; overflow: hidden; }
+  .nav-icon img { width: 100%; height: 100%; display: block; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 120px 22px 96px; }
+  .eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 24px;
+  }
+  h2 { font-size: 20px; font-weight: 700; margin: 36px 0 12px; }
+  p, li { font-size: 16px; }
+  p { margin: 0 0 16px; color: var(--sub); }
+  ul { margin: 0 0 16px; padding-left: 22px; color: var(--sub); }
+  li { margin: 0 0 8px; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  strong { color: var(--ink); font-weight: 700; }
+  .foot {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--fade);
+    font-size: 13px;
+  }
+  .foot a { color: var(--fade); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="dumbell.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/dumbell/icon.png" alt="Dumbell app icon">
+      </div>
+      Dumbell
+    </a>
+  </nav>
+
+  <div class="wrap">
+    <p class="eyebrow">Dumbell</p>
+    <h1>Support</h1>
+
+    <p>Dumbell is a focused iOS workout tracker for strength training. Log sets with scroll pickers, follow Push / Pull / Legs or custom routines, track progress, and optionally use AI analysis and an AI workout builder.</p>
+
+    <h2>Common questions</h2>
+    <ul>
+      <li><strong>Where is my data stored?</strong> Locally on your device, with optional private iCloud (CloudKit) sync across your Apple devices. We cannot see your workouts.</li>
+      <li><strong>Apple Health.</strong> With permission, Dumbell can read bodyweight for calorie estimates and write completed workouts so they count toward your Exercise ring. Change this anytime in iOS Settings &gt; Health &gt; Data Access.</li>
+      <li><strong>AI Analysis / AI Builder.</strong> Optional. Requires in-app consent. Uses a limited free allowance, then Dumbell Pro. A de-identified training summary is sent only when you use these features.</li>
+      <li><strong>Subscription.</strong> Dumbell Pro is $0.99/month (or local equivalent) via Apple. Manage or cancel in Settings &gt; Apple ID &gt; Subscriptions.</li>
+      <li><strong>Rest timer notifications.</strong> iOS may ask for notification permission the first time a rest timer is scheduled so you can leave the app during rest.</li>
+      <li><strong>Apple Watch / Live Activity.</strong> Optional companions for set completion and lock-screen rest timing. Open the watch app once after install if the companion does not connect.</li>
+      <li><strong>Requirements.</strong> iPhone running a recent iOS version (see the App Store listing). iPad is not supported in v1.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Email
+    <a href="mailto:sammerahmadsheikh@outlook.com">sammerahmadsheikh@outlook.com</a>
+    with your device model, iOS version, and a short description of the issue. Include screenshots if something looks wrong.</p>
+
+    <h2>Legal</h2>
+    <p>
+      <a href="dumbell-privacy.html">Privacy Policy</a> ·
+      <a href="dumbell-terms.html">Terms of Service</a>
+    </p>
+
+    <div class="foot">
+      Dumbell ·
+      <a href="dumbell-privacy.html">Privacy</a> ·
+      <a href="dumbell-terms.html">Terms</a> ·
+      <a href="dumbell-support.html">Support</a> ·
+      <a href="dumbell.html">Product</a> ·
+      Built by <a href="index.html">Sammer Sheikh</a>
+    </div>
+  </div>
+</body>
+</html>

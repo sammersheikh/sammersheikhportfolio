@@ -136,6 +136,48 @@
       box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
     }
 
+    /* ---------- Device cluster (Murmur scene) ---------- */
+    .device-cluster {
+      position: relative;
+      width: 100%;
+      max-width: 880px;
+      height: 76vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .device-cluster .mac {
+      width: 70%;
+      border-radius: 16px;
+      box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
+      z-index: 2;
+    }
+    .device-cluster .phone {
+      position: absolute;
+      left: 0;
+      bottom: 5%;
+      width: 22%;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.22);
+      z-index: 3;
+    }
+    .device-cluster .watch {
+      position: absolute;
+      right: 0;
+      bottom: 8%;
+      width: 18%;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.22);
+      z-index: 3;
+    }
+
+    @media (max-width: 900px) {
+      .device-cluster { height: auto; min-height: 420px; }
+      .device-cluster .mac { width: 78%; }
+      .device-cluster .phone { width: 26%; bottom: 2%; }
+      .device-cluster .watch { width: 22%; bottom: 4%; }
+    }
+
     /* ---------- Also shipped ---------- */
     .also-label { max-width: 1060px; margin: 0 auto; padding: 40px 40px 0; }
     .also {
@@ -330,7 +372,11 @@
   <div class="scene-pin alt">
     <div class="scene-inner wide-media" data-scene-inner>
       <div class="scene-media" data-scene-img>
-        <img src="./images/murmur/murmur-home.png" alt="Murmur Mac dashboard" class="shot-desktop" loading="lazy">
+        <div class="device-cluster">
+          <img src="./images/murmur/iphone-dictate.png" alt="Murmur iPhone dictate screen" class="phone">
+          <img src="./images/murmur/murmur-home.png" alt="Murmur Mac dashboard" class="mac">
+          <img src="./images/murmur/watch-idle.png" alt="Murmur Apple Watch app" class="watch">
+        </div>
       </div>
       <div class="scene-text" data-scene-text>
         <div class="scene-kicker">02 &middot; Mac &middot; iOS &middot; Watch</div>

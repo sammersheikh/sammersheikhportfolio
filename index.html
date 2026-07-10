@@ -195,6 +195,10 @@
       transition: color 0.25s; color: var(--ink);
     }
     .also-row.active .also-title { color: var(--accent); }
+    .also-row-main { display: block; color: inherit; }
+    .also-row-main:hover { color: inherit; }
+    .also-download { color: var(--accent); font-weight: 600; }
+    .also-download:hover { text-decoration: underline; }
     .also-row p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
     .also-badge { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--accent); }
     .also-panel {
@@ -426,11 +430,13 @@
 </div>
 <div class="also">
   <div class="also-rows">
-    <a href="reticle.html" class="also-row active" data-also="0">
-      <div class="also-title">Reticle</div>
-      <p>Menu-bar screenshot tool with annotation editor, chaining, and OCR smart filenames.</p>
-      <div class="also-badge">Free macOS app</div>
-    </a>
+    <div class="also-row active" data-also="0">
+      <a href="reticle.html" class="also-row-main">
+        <div class="also-title">Reticle</div>
+        <p>Menu-bar screenshot tool with annotation editor, chaining, and OCR smart filenames.</p>
+      </a>
+      <div class="also-badge">Free macOS app &middot; <a href="https://github.com/sammersheikh/reticle-releases/releases" target="_blank" rel="noopener" class="also-download">Download &darr;</a></div>
+    </div>
     <a href="scrappy.html" class="also-row" data-also="1">
       <div class="also-title">Scrappy</div>
       <p>Turns adb and scrcpy into one-click Android mirroring and wireless debugging.</p>

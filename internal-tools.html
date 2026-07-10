@@ -4,216 +4,196 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Internal Tools — Sammer Sheikh</title>
-  <meta name="description" content="A portfolio of internal tools built for RadiusXR operations, logistics, quality, and product support.">
+  <meta name="description" content="Internal tools built for RadiusXR operations, logistics, quality, and product support.">
   <link rel="icon" href="./images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     :root {
-      --bg: #f5f5f5;
-      --text: #0a0a0a;
-      --muted: #666;
-      --accent: #0066ff;
-      --card: #fff;
-      --border: #e5e5e5;
+      --bg: #F7F3EB;
+      --bg-alt: #EFE9DC;
+      --ink: #1c1a16;
+      --muted: #6f6a5f;
+      --faint: #a39c8d;
+      --accent: #B0623A;
+      --line: rgba(28, 26, 22, 0.1);
+      --line-soft: rgba(28, 26, 22, 0.08);
     }
 
-    html {
-      scroll-behavior: smooth;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
     }
 
-    a {
-      color: var(--text);
-      text-decoration: none;
-    }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--accent); }
 
-    a:hover {
-      color: var(--accent);
+    /* ---------- Nav ---------- */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 40px;
+      background: rgba(247, 243, 235, 0.85);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(28, 26, 22, 0.06);
     }
+    .nav-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 18px; }
+    .nav-links { display: flex; gap: 28px; align-items: center; font-size: 14px; font-weight: 500; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--accent); }
 
-    .back {
-      position: fixed;
-      top: 24px;
-      left: 24px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--muted);
-      z-index: 10;
+    .pill {
+      white-space: nowrap; padding: 8px 18px;
+      border: 1.5px solid var(--ink); border-radius: 999px;
+      font-weight: 600; color: var(--ink);
+      transition: background 0.2s, color 0.2s;
     }
+    .pill:hover { background: var(--ink); color: var(--bg); }
+    .nav-links a.pill { color: var(--ink); }
+    .nav-links a.pill:hover { color: var(--bg); }
 
-    .back:hover {
-      color: var(--text);
-    }
-
-    .hero {
-      padding: 120px 24px 40px;
-      text-align: center;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
+    /* ---------- Hero ---------- */
+    .hero { max-width: 1060px; margin: 0 auto; padding: 180px 40px 90px; text-align: left; }
     .hero h1 {
-      font-size: clamp(36px, 8vw, 64px);
-      font-weight: 800;
-      letter-spacing: -2px;
-      line-height: 1;
-      margin-bottom: 16px;
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(44px, 7vw, 84px); line-height: 1.08; letter-spacing: -1.5px;
+      text-wrap: balance;
     }
+    .hero p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 620px; margin-top: 28px; }
 
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    /* ---------- Band ---------- */
+    .band { max-width: 1060px; margin: 0 auto; padding: 0 40px 120px; }
+    .band-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 44px; gap: 16px; flex-wrap: wrap; }
+    .band-link { font-size: 14px; font-weight: 600; color: var(--accent); }
 
-    section {
-      padding: 60px 24px 120px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .tools-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .tool-card {
-      display: block;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-
-    .tool-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
-    }
-
-    .tool-card h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -0.5px;
-    }
-
+    .tools-intro { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 34px; }
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
+    .tool { padding: 26px 0; border-top: 1px solid var(--line-soft); }
+    .tool-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 26px; letter-spacing: -0.5px; }
     .tool-meta {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px; margin-top: 6px;
     }
+    .tool p { font-size: 14px; color: var(--muted); line-height: 1.65; margin-top: 10px; }
+    .tools-note { margin-top: 38px; font-size: 13px; color: var(--faint); line-height: 1.6; }
 
-    .tool-card p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.6;
+    /* ---------- Footer ---------- */
+    .footer { border-top: 1px solid var(--line); padding: 100px 40px 60px; text-align: center; }
+    .footer h2 {
+      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
+      font-size: clamp(36px, 5vw, 60px); letter-spacing: -1px;
     }
-
-    .note {
-      margin-top: 48px;
-      padding: 20px 24px;
-      background: rgba(0,102,255,0.06);
-      border: 1px solid rgba(0,102,255,0.12);
-      border-radius: 16px;
-      font-size: 14px;
-      color: var(--muted);
+    .footer .cta {
+      display: inline-block; padding: 14px 30px;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; font-size: 15px; font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+      margin-top: 28px;
     }
-
-    footer {
-      text-align: center;
-      padding: 40px 24px 80px;
-      font-size: 13px;
-      color: var(--muted);
+    .footer .cta:hover { background: var(--accent); color: #fff; }
+    .footer-links {
+      display: flex; justify-content: center; gap: 28px; margin-top: 32px;
+      font-size: 14px; font-weight: 500; color: var(--muted); flex-wrap: wrap;
     }
+    .footer-links a { color: var(--muted); }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { margin-top: 60px; font-size: 13px; color: var(--faint); }
 
-    @media (max-width: 600px) {
-      .hero {
-        padding-top: 100px;
-      }
-      .tool-card {
-        padding: 22px;
-      }
+    @media (max-width: 900px) {
+      .nav { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a:not(.pill) { display: none; }
+
+      .hero { padding: 130px 24px 60px; }
+      .band { padding: 0 24px 80px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .footer { padding: 80px 24px 50px; }
     }
   </style>
 </head>
 <body>
 
-  <a href="index.html" class="back">← Back</a>
+<nav class="nav">
+  <a href="index.html" class="nav-name">Sammer Sheikh</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#impact">Impact</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="./images/SammerSheikh_Resume_2026.pdf" download class="pill">Resume &darr;</a>
+  </div>
+</nav>
 
-  <header class="hero">
-    <h1>Internal Tools</h1>
-    <p>Web apps, automations, and support utilities built to streamline operations, logistics, quality, and product support.</p>
-  </header>
+<header id="top" class="hero">
+  <h1>Internal tools.</h1>
+  <p>Web apps, automations, and support utilities built to streamline operations, logistics, quality, and product support at RadiusXR.</p>
+</header>
 
-  <section>
-    <div class="tools-list">
+<section class="band">
+  <p class="tools-intro">These tools were built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Contact me for a private walkthrough.</p>
 
-      <div class="tool-card">
-        <h2>Production System</h2>
-        <div class="tool-meta">Google Apps Script · Google Sheets</div>
-        <p>End-to-end production tracking and inventory management system used to coordinate manufacturing workflows, component traceability, and device build records.</p>
-      </div>
+  <div class="tools-grid">
 
-      <div class="tool-card">
-        <h2>Operations Dashboard</h2>
-        <div class="tool-meta">Google Apps Script · Mixpanel</div>
-        <p>Analytics dashboard that aggregates product usage metrics into a single view for leadership and customer-success teams.</p>
-      </div>
-
-      <div class="tool-card">
-        <h2>Returns Tracker</h2>
-        <div class="tool-meta">Google Apps Script · Salesforce · FedEx</div>
-        <p>Return merchandise authorization tracker that coordinates shipments, customer records, and return status across support and logistics teams.</p>
-      </div>
-
-      <div class="tool-card">
-        <h2>Shipment Tracker</h2>
-        <div class="tool-meta">Node.js · Puppeteer · Google Sheets API</div>
-        <p>Automated shipment-tracking pipeline that collects carrier status updates and writes them into shared operational spreadsheets.</p>
-      </div>
-
-      <div class="tool-card">
-        <h2>UAT Tracker</h2>
-        <div class="tool-meta">Google Apps Script · Gemini · Jira</div>
-        <p>User acceptance testing coordination tool for logging test results, drafting issues, and tracking validation progress during release cycles.</p>
-      </div>
-
-      <div class="tool-card">
-        <h2>ISP2.0 Scripts</h2>
-        <div class="tool-meta">Google Apps Script bound script</div>
-        <p>Legacy support script suite used for device programming, data migration, and field-service workflows.</p>
-      </div>
-
+    <div class="tool">
+      <div class="tool-name">Production System</div>
+      <div class="tool-meta">Google Apps Script · Google Sheets</div>
+      <p>End-to-end production tracking and inventory management system used to coordinate manufacturing workflows, component traceability, and device build records.</p>
     </div>
 
-    <div class="note">
-      These tools were built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Contact me for a private walkthrough.
+    <div class="tool">
+      <div class="tool-name">Operations Dashboard</div>
+      <div class="tool-meta">Google Apps Script · Mixpanel</div>
+      <p>Analytics dashboard that aggregates product usage metrics into a single view for leadership and customer-success teams.</p>
     </div>
-  </section>
 
-  <footer>
-    Built by Sammer Sheikh · 2026
-  </footer>
+    <div class="tool">
+      <div class="tool-name">Returns Tracker</div>
+      <div class="tool-meta">Google Apps Script · Salesforce · FedEx</div>
+      <p>Return merchandise authorization tracker that coordinates shipments, customer records, and return status across support and logistics teams.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Shipment Tracker</div>
+      <div class="tool-meta">Node.js · Puppeteer · Google Sheets API</div>
+      <p>Automated shipment-tracking pipeline that collects carrier status updates and writes them into shared operational spreadsheets.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">UAT Tracker</div>
+      <div class="tool-meta">Google Apps Script · Gemini · Jira</div>
+      <p>User acceptance testing coordination tool for logging test results, drafting issues, and tracking validation progress during release cycles.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">ISP2.0 Scripts</div>
+      <div class="tool-meta">Google Apps Script bound script</div>
+      <p>Legacy support script suite used for device programming, data migration, and field-service workflows.</p>
+    </div>
+
+  </div>
+
+  <p class="tools-note">All descriptions are high-level and non-sensitive. Architecture, endpoints, and sheet structures are not public.</p>
+</section>
+
+<footer class="footer">
+  <h2>Want the full story?</h2>
+  <a href="mailto:sammer@radiusxr.com" class="cta">Get in touch</a>
+  <div class="footer-links">
+    <a href="index.html">Portfolio</a>
+    <a href="https://github.com/sammersheikh" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/sammersheikh" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <div class="footer-copy">Built by Sammer Sheikh · 2026</div>
+</footer>
 
 </body>
 </html>

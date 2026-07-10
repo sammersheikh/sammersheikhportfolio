@@ -59,8 +59,18 @@
     .nav-pill {
       white-space: nowrap; padding: 8px 18px;
       border: 1.5px solid var(--ink); border-radius: 999px;
-      font-size: 13px; font-weight: 600;
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      transition: background 0.2s, color 0.2s;
     }
+    a.nav-pill:hover { background: var(--ink); color: var(--bg); }
+
+    .cta {
+      display: inline-block; margin-top: 34px; padding: 13px 28px;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; font-size: 15px; font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cta:hover { background: var(--accent); color: #fff; }
 
     /* ---------- Hero ---------- */
     .hero {
@@ -199,7 +209,7 @@
     <img src="./images/reticle/icon.png" alt="" width="1024" height="1024">
     Reticle
   </div>
-  <span class="nav-pill">Free macOS app</span>
+  <a class="nav-pill" href="https://github.com/sammersheikh/reticle-releases/releases" target="_blank" rel="noopener">Download for Mac &darr;</a>
 </nav>
 
 <header class="hero">
@@ -263,6 +273,7 @@
       <span class="badge">electron-store</span>
       <span class="badge">electron-builder</span>
     </div>
+    <a class="cta" href="https://github.com/sammersheikh/reticle-releases/releases" target="_blank" rel="noopener">Download for Mac &darr;</a>
   </section>
 </main>
 

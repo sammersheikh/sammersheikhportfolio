@@ -220,6 +220,53 @@
     .also-slide.cover img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
     .also-slide.center { display: grid; place-items: center; }
 
+    /* Scrappy menu-bar mockup (same UI as scrappy.html hero) */
+    .also-scrappy {
+      background: var(--bg);
+      padding: 40px 36px;
+    }
+    .also-menu-card {
+      width: min(100%, 420px);
+      background: #FFFDF8;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 24px 70px rgba(28, 26, 22, 0.16);
+      padding: 18px 20px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .also-menu-top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+    }
+    .also-menu-status { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; }
+    .also-status-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(176, 98, 58, 0.18);
+    }
+    .also-live-pill {
+      font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+      background: rgba(176, 98, 58, 0.14); color: var(--accent);
+    }
+    .also-menu-row {
+      display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
+      padding: 12px 8px; border-radius: 10px;
+    }
+    .also-menu-row.active { background: rgba(28, 26, 22, 0.04); margin-top: 12px; }
+    .also-row-action { font-weight: 600; color: var(--muted); }
+    .also-menu-row.active .also-row-action { color: var(--accent); }
+    .also-device-name { font-weight: 600; }
+    .also-serial { color: var(--faint); font-size: 12px; }
+    .also-menu-utils {
+      border-top: 1px solid var(--line-soft);
+      margin-top: 6px; padding-top: 12px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .also-util-row { display: flex; justify-content: space-between; gap: 12px; }
+    .also-util-row strong { font-weight: 600; }
+    .also-util-key { color: var(--faint); }
+
     /* ---------- Internal tools ---------- */
     .tools-intro { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 34px; }
     .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
@@ -468,8 +515,29 @@
     <div class="also-slide cover on" style="background:#111">
       <img src="./images/reticle/capture.png" alt="Reticle area capture with crosshair" loading="lazy">
     </div>
-    <div class="also-slide center" style="background:#0f172a">
-      <img src="./images/scrappy/icon.png" alt="Scrappy icon" style="width:220px;height:220px;border-radius:48px;box-shadow:0 14px 40px rgba(0,0,0,0.4)" loading="lazy">
+    <div class="also-slide center also-scrappy">
+      <div class="also-menu-card" role="img" aria-label="Scrappy menu-bar dropdown showing two connected Android devices">
+        <div class="also-menu-top">
+          <span class="also-menu-status"><span class="also-status-dot" aria-hidden="true"></span>Mirroring 1 of 2</span>
+          <span class="also-live-pill">LIVE</span>
+        </div>
+        <div class="also-menu-row active">
+          <span class="also-row-action">&#9632; Stop</span>
+          <span class="also-device-name">Pixel 7 Pro</span>
+          <span class="also-serial">29291FDH</span>
+        </div>
+        <div class="also-menu-row">
+          <span class="also-row-action">&#9658; Mirror</span>
+          <span class="also-device-name">Galaxy Tab S9</span>
+          <span class="also-serial">R3CW501</span>
+        </div>
+        <div class="also-menu-utils">
+          <div class="also-util-row"><strong>Pair new device over Wi-Fi</strong><span class="also-util-key">&#8984;P</span></div>
+          <div class="also-util-row"><strong>Reconnect by IP</strong><span class="also-util-key">&#8984;R</span></div>
+          <div class="also-util-row"><strong>Refresh devices</strong><span class="also-util-key">5s</span></div>
+          <div class="also-util-row"><strong>Restart ADB server</strong><span class="also-util-key">safe</span></div>
+        </div>
+      </div>
     </div>
     <div class="also-slide center">
       <div class="phone-mock">

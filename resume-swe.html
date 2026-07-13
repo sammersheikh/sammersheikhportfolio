@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sammer Sheikh - Product Engineer Resume</title>
+<title>Sammer Sheikh - Software Engineer Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -310,7 +310,7 @@
 </head>
 <body>
 <nav class="nav-bar">
-  <span class="nav-brand">Sammer Sheikh - Product Engineer Resume</span>
+  <span class="nav-brand">Sammer Sheikh - Software Engineer Resume</span>
   <a href="#summary">Summary</a>
   <a href="#experience">Experience</a>
   <a href="#projects">Projects</a>
@@ -321,7 +321,7 @@
 <div class="page">
   <header class="header">
     <div class="name">SAMMER SHEIKH</div>
-    <div class="title-line">Product Engineer · Applied AI</div>
+    <div class="title-line">Software Engineer · Applied AI</div>
     <div class="contact">
       Pleasanton, CA<span class="sep">·</span>sammerahmadsheikh@outlook.com<span class="sep">·</span><a href="https://www.linkedin.com/in/sammersheikh/">LinkedIn</a><span class="sep">·</span><a href="https://sammersheikh.github.io/sammersheikhportfolio/">Portfolio</a>
     </div>
@@ -331,7 +331,7 @@
   <section class="section" id="summary">
     <div class="section-h">Summary</div>
     <p class="summary">
-      Product engineer with 5 years shipping end-to-end products in regulated environments. I own product definition, roadmap, and engineering execution, and build AI-native features across the stack: an in-house LLM gateway shared across projects, agentic internal tools, and on-device AI in consumer iOS apps. At RadiusXR I lead release-management, UAT, and analytics products for a medical-device fleet of ~4,000 devices; on the side I ship consumer apps (Murmur, Dumbell, SoundBite).
+      Software engineer with 5 years shipping production systems in regulated health tech and consumer apps. I build AI-native platforms end-to-end: an in-house LLM gateway shared across the company, MCP-based agent tooling, Node.js services, and MDM automation, plus iOS apps in SwiftUI with CloudKit, StoreKit, and on-device inference. Recent focus: release management, production kitting, and real-time analytics for a medical-device fleet of ~4,000 devices.
     </p>
   </section>
 
@@ -344,17 +344,16 @@
       </div>
       <div class="role-title">Senior Technical Product Specialist <span class="role-dates-inner">Mar 2025 - Present</span></div>
       <ul class="bullets">
-        <li>Own product and engineering for <strong>9+ internal tools</strong> (Apps Script, Node.js) used daily by 25 people across 3 teams, spanning release management, UAT, production kitting, support dashboards, and DHR automation for FDA audit readiness.</li>
-        <li>Design and maintain an <strong>in-house LLM gateway</strong> (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">claude-queue</a>) accessible to every internal app: apps submit prompts and poll for results, with model routing, streaming tool-use progress, and OAuth-scoped access, handling 50-100 prompts/day.</li>
-        <li>Ship <strong>real-time analytics dashboards</strong> integrating Mixpanel, Salesforce REST, Zendesk, and a Puppeteer-driven FedEx tracker; surface trial-conversion, support, and shipment metrics to leadership.</li>
-        <li>Design and run a <strong>release-management framework</strong> for ~4,000 Android tablets via Knox Manage APIs, cutting rollout failure rate from ~30% to under 5%: tier-based rollouts, dynamic-group fallback for legacy devices, and OAuth token rotation.</li>
-        <li>Translate clinical requirements into product specs, roadmaps, and BRDs; lead cross-functional stakeholder reviews and ship on schedule.</li>
+        <li>Designed and shipped <strong>9+ internal tools</strong> (Apps Script, Node.js) used daily by 25 people across 3 teams, spanning release management, UAT, production kitting, and support dashboards.</li>
+        <li>Designed an <strong>in-house LLM gateway</strong> (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">claude-queue</a>) accessible to every internal app: a queue-backed Node service for submitting prompts and polling results, with model routing, streaming tool-use progress, and OAuth-scoped access - replaced scattered direct API calls and now handles 50-100 prompts/day.</li>
+        <li>Shipped <strong>real-time analytics dashboards</strong> integrating Mixpanel, Salesforce REST, Zendesk, and a Puppeteer-driven FedEx tracker; surfaced trial-conversion, support, and shipment metrics to leadership.</li>
+        <li>Built a <strong>release-management framework</strong> for ~4,000 Android tablets via Knox Manage APIs, cutting rollout failure rate from ~30% to under 5%: tier-based rollouts, dynamic-group fallback for legacy devices, and OAuth token rotation.</li>
+        <li>Built <strong>DHR automation</strong> that generates device health records, inspection forms, and shipping documents in under 5 minutes, down from 30-45 minutes of manual data entry and hand-assembled PDFs - supporting MDSAP and FDA audit readiness for a Class 1A medical device.</li>
       </ul>
       <div class="role-title" style="margin-top: 3px;">Technical Product Specialist <span class="role-dates-inner">Jul 2024 - Mar 2025</span></div>
       <ul class="bullets">
         <li>Shipped an automated <strong>Onboarding Registration</strong> flow integrating Salesforce with parameterized URLs - reduced support calls 80% and secured the Topcon distribution partnership.</li>
-        <li>Built an <strong>Inventory &amp; QMS tracking product</strong> (Apps Script + multi-tab Sheets backend) for an FDA Class 1A device, enabling 1,000+ unit shipments at 10× prior throughput, with a Salesforce + FedEx workflow that auto-generates branded shipping labels.</li>
-        <li>Partnered with Product, Design, Dev, and Management to define, spec, and ship the subscription model and tablet onboarding app.</li>
+        <li>Built an <strong>Inventory &amp; QMS tracking system</strong> (Apps Script + multi-tab Sheets backend) for an FDA Class 1A device, enabling 1,000+ unit shipments at 10× prior throughput, with a Salesforce + FedEx workflow that auto-generates branded shipping labels.</li>
       </ul>
     </div>
 
@@ -383,13 +382,12 @@
   </section>
 
   <section class="section" id="projects">
-    <div class="section-h">Selected Product & AI Projects</div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/murmur.html">Murmur</a><span class="dash"> - </span><span>Offline, privacy-first AI dictation product: speech is transcribed locally on the Mac with Parakeet TDT so audio never leaves the device, and on-device Apple Foundation Models power smart formatting, Canvas categorization, and selection-based transforms.</span></div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/dumbell.html">Dumbell</a><span class="dash"> - </span><span>iOS fitness product with AI-powered training analysis and an AI workout builder, StoreKit 2 subscriptions, Apple Health sync, and a Cloudflare Worker proxy orchestrating LLM calls.</span></div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html">SoundBite</a><span class="dash"> - </span><span>iOS article-to-audio product that uses TTS and LLM summarization to generate narrated briefs with karaoke-style synced text, share extension, offline queue, and custom media player.</span></div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/internal-tools.html">Command Center</a><span class="dash"> - </span><span>Electron desktop product with an in-house Claude gateway (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">claude-queue</a>) that aggregates tasks from Gmail, Slack, Notion, Jira, and Calendar via scheduled AI routines.</span></div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/internal-tools.html">UAT Tracker</a><span class="dash"> - </span><span>Release-testing product with Jira sync and auto stakeholder sign-off; gates every Radius release shipped to ~4,000 devices.</span></div>
-    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/internal-tools.html">Production System</a><span class="dash"> - </span><span>Mobile and desktop kitting product that auto-provisions tablets via Knox MDM and generates DHRs, inspection forms, and shipping documents in under 5 minutes, down from 30-45 minutes of manual work.</span></div>
+    <div class="section-h">Selected Engineering Projects</div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/murmur.html">Murmur</a><span class="dash"> - </span><span>Offline speech-to-text system: Apple Watch captures audio, iPhone relays over Bluetooth/LAN/Multipeer/CloudKit, Mac transcribes locally with Parakeet TDT on the Neural Engine. SwiftUI, TCA, CloudKit, Sparkle.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/dumbell.html">Dumbell</a><span class="dash"> - </span><span>iOS workout tracker in SwiftUI with SwiftData, CloudKit sync, StoreKit 2 subscriptions, Apple Health integration, and an AI analysis/workout builder backed by a Cloudflare Worker proxy.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html">SoundBite</a><span class="dash"> - </span><span>iOS article-to-audio app with TTS narration, LLM summarization, karaoke-style synced text, share extension, offline queue, and custom media player.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://github.com/sammersheikh/scrappy-releases/releases">Scrappy</a><span class="dash"> - </span><span>macOS menu-bar utility for one-click Android screen mirroring via scrcpy, wireless ADB pairing, and ADB server recovery. Python, rumps, adb, scrcpy. Public release.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/internal-tools.html">Internal Tools</a><span class="dash"> - </span><span>Onboarding, Inventory, Release, UAT, Production, DHR, Trials, Support, Gateway.</span></div>
   </section>
 
   <section class="section" id="skills">
@@ -407,11 +405,11 @@
       <dt>Data / Infra</dt>
       <dd>MongoDB<span class="sep">·</span>PostgreSQL<span class="sep">·</span>CloudKit<span class="sep">·</span>StoreKit<span class="sep">·</span>HealthKit<span class="sep">·</span>Linux<span class="sep">·</span>Git<span class="sep">·</span>OAuth 2.0 / SSO</dd>
 
-      <dt>AI / LLM</dt>
-      <dd>Claude<span class="sep">·</span>GPT<span class="sep">·</span>LLM integrations<span class="sep">·</span>Prompt engineering<span class="sep">·</span>On-device AI (CoreML / Apple Foundation Models)<span class="sep">·</span>MCP servers</dd>
+      <dt>AI / Tooling</dt>
+      <dd>Claude Code<span class="sep">·</span>Claude Agent SDK<span class="sep">·</span>OpenAI Codex CLI<span class="sep">·</span>MCP servers<span class="sep">·</span>Prompt engineering<span class="sep">·</span>On-device AI (CoreML / Apple Foundation Models)</dd>
 
-      <dt>Product / Domain</dt>
-      <dd>Roadmapping<span class="sep">·</span>BRDs<span class="sep">·</span>Stakeholder management<span class="sep">·</span>Release management<span class="sep">·</span>FDA-regulated software<span class="sep">·</span>MDSAP / QMS<span class="sep">·</span>UAT</dd>
+      <dt>Domain</dt>
+      <dd>FDA-regulated medical-device software<span class="sep">·</span>MDSAP / QMS<span class="sep">·</span>CAPA / NCR<span class="sep">·</span>GreenLight Guru<span class="sep">·</span>Release management<span class="sep">·</span>UAT<span class="sep">·</span>BRDs</dd>
     </dl>
   </section>
 

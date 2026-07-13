@@ -231,6 +231,12 @@
     }
     .tool p { font-size: 14px; color: var(--muted); line-height: 1.65; margin-top: 10px; }
     .tools-note { margin-top: 38px; font-size: 13px; color: var(--faint); line-height: 1.6; }
+    .tools-note a { color: var(--faint); text-decoration: underline; text-underline-offset: 2px; }
+    .tools-note a:hover { color: var(--accent); }
+    .tool p code, .tools-intro code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92em; background: var(--bg-alt); padding: 1px 6px; border-radius: 4px;
+    }
 
     /* ---------- Impact / Experience / Setup ---------- */
     .band { max-width: 1060px; margin: 0 auto; padding: 90px 40px; border-top: 1px solid var(--line); }
@@ -472,6 +478,27 @@
     </div>
   </div>
 </div>
+
+<section id="ai-skills" class="band" data-stop>
+  <div class="band-head">
+    <span class="eyebrow">AI Skills</span>
+    <a href="https://github.com/sammersheikh/ai-skills" target="_blank" rel="noopener" class="band-link">GitHub &rarr;</a>
+  </div>
+  <p class="tools-intro">Open agent skills for Claude Code, Cursor, Grok, and similar coding agents. Point your AI at the repo and tell it which skill to use. No install required.</p>
+  <div class="tools-grid">
+    <div class="tool">
+      <div class="tool-name">snapshot</div>
+      <div class="tool-meta">Claude Code &middot; session handoff</div>
+      <p>Keeps project <code>CLAUDE.md</code> honest: updates stale sections, appends a length-capped dated current-state block, archives older entries, commits the docs, and prints a paste-ready handoff for the next session.</p>
+    </div>
+    <div class="tool">
+      <div class="tool-name">onboarding-screens</div>
+      <div class="tool-meta">iOS &middot; macOS &middot; SwiftUI</div>
+      <p>Builds first-run tours from real app screen recordings, not mockups: app-drawn touch indicators, simulator and window capture, ffmpeg cut pipeline, and gapless loop players in a paged card UI.</p>
+    </div>
+  </div>
+  <div class="tools-note">Repo: <a href="https://github.com/sammersheikh/ai-skills" target="_blank" rel="noopener">github.com/sammersheikh/ai-skills</a>. Tell your agent to read it and use a skill by name.</div>
+</section>
 
 <section id="tools" class="band" data-stop>
   <div class="band-head">

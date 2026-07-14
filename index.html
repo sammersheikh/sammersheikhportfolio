@@ -272,6 +272,8 @@
     .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
     .tool { padding: 26px 0; border-top: 1px solid var(--line-soft); }
     .tool-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 26px; letter-spacing: -0.5px; }
+    a.tool-name { color: inherit; text-decoration: none; }
+    a.tool-name:hover { color: var(--accent); }
     .tool-meta {
       font-size: 12px; font-weight: 600; color: var(--accent);
       text-transform: uppercase; letter-spacing: 1px; margin-top: 6px;
@@ -556,17 +558,17 @@
   <p class="tools-intro">Open agent skills for Claude Code, Cursor, Grok, and similar coding agents. Point your AI at the repo and tell it which skill to use. No install required.</p>
   <div class="tools-grid">
     <div class="tool">
-      <div class="tool-name">snapshot</div>
+      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/snapshot" target="_blank" rel="noopener">snapshot</a>
       <div class="tool-meta">Claude Code &middot; session handoff</div>
       <p>Keeps project <code>CLAUDE.md</code> honest: updates stale sections, appends a length-capped dated current-state block, archives older entries, commits the docs, and prints a paste-ready handoff for the next session.</p>
     </div>
     <div class="tool">
-      <div class="tool-name">onboarding-screens</div>
+      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/onboarding-screens" target="_blank" rel="noopener">onboarding-screens</a>
       <div class="tool-meta">iOS &middot; macOS &middot; SwiftUI</div>
       <p>Builds first-run tours from real app screen recordings, not mockups: app-drawn touch indicators, simulator and window capture, ffmpeg cut pipeline, and gapless loop players in a paged card UI.</p>
     </div>
     <div class="tool">
-      <div class="tool-name">frontend-pdf</div>
+      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/frontend-pdf" target="_blank" rel="noopener">frontend-pdf</a>
       <div class="tool-meta">HTML &middot; print CSS &middot; PDF export</div>
       <p>Paginated HTML documents that print cleanly to PDF. I use it to iterate resumes: agents edit HTML far more reliably than PDF, then browser print exports the final artifact.</p>
     </div>

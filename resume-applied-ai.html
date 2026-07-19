@@ -54,16 +54,17 @@
   }
 
   @media screen {
-    body { background: #d5d0cb; padding: 60px 0 40px; }
+    body { background: #d5d0cb; padding: 60px 16px 40px; }
     .page {
       box-shadow: 0 2px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
       border-radius: 2px;
+      max-width: 100%;
     }
   }
 
   @media print {
     body { background: white; padding: 0; }
-    .page { box-shadow: none; margin: 0 auto; padding: 0; min-height: auto; }
+    .page { box-shadow: none; margin: 0 auto; padding: 0; min-height: auto; width: var(--page-w); }
     .nav-bar { display: none !important; }
   }
 
@@ -74,13 +75,14 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 100;
-    padding: 10px 24px;
+    padding: 10px 16px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     font-family: 'DM Mono', monospace;
     font-size: 8pt;
     color: #aaa;
+    flex-wrap: wrap;
   }
   .nav-bar .nav-brand {
     color: white;
@@ -89,13 +91,14 @@
     text-transform: uppercase;
     font-size: 7.5pt;
     margin-right: auto;
+    min-width: 0;
   }
-  .nav-bar a { color: #888; text-decoration: none; transition: color 0.15s; letter-spacing: 0.04em; }
+  .nav-bar a { color: #888; text-decoration: none; transition: color 0.15s; letter-spacing: 0.04em; white-space: nowrap; }
   .nav-bar a:hover { color: white; }
   .nav-btn {
     background: var(--accent);
     color: white !important;
-    padding: 5px 14px;
+    padding: 5px 12px;
     border-radius: 3px;
     font-size: 7.5pt;
     letter-spacing: 0.06em;
@@ -103,6 +106,7 @@
     border: none;
     font-family: 'DM Mono', monospace;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .header { margin-bottom: 6px; }
@@ -298,6 +302,93 @@
     font-family: 'DM Mono', monospace;
     font-size: 8pt;
     color: var(--mid-gray);
+  }
+
+  /* Mobile / tablet screen layout (print stays letter) */
+  @media screen and (max-width: 720px) {
+    html { font-size: 15px; }
+    body { padding: 56px 0 24px; background: var(--paper); }
+    .page {
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      padding: 20px 18px 32px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .nav-bar {
+      padding: 10px 12px;
+      gap: 8px;
+    }
+    .nav-bar .nav-brand {
+      font-size: 7pt;
+      letter-spacing: 0.04em;
+      max-width: 52vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .nav-bar a:not(.nav-btn) { display: none; }
+    .nav-btn { margin-left: auto; }
+    .name { font-size: 1.85rem; }
+    .title-line { font-size: 0.95rem; line-height: 1.35; }
+    .contact {
+      font-size: 0.72rem;
+      line-height: 1.7;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 0;
+    }
+    .contact .sep { margin: 0 6px; }
+    .summary { font-size: 0.9rem; line-height: 1.5; }
+    ul.bullets li { font-size: 0.88rem; line-height: 1.45; margin-bottom: 4px; }
+    .role-title {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      font-size: 0.92rem;
+    }
+    .role-company { font-size: 0.95rem; }
+    .role-company .desc {
+      display: block;
+      margin-left: 0;
+      margin-top: 2px;
+      font-size: 0.8rem;
+    }
+    .project-line {
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .project-line a.proj-name { white-space: normal; }
+    .skills-grid {
+      grid-template-columns: 1fr;
+      gap: 2px 0;
+    }
+    .skills-grid dt {
+      padding-top: 10px;
+      border-top: 1px solid var(--warm-gray);
+      margin-top: 6px;
+    }
+    .skills-grid dt:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    .skills-grid dd { font-size: 0.88rem; line-height: 1.45; }
+    .edu-line {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      font-size: 0.92rem;
+    }
+    .section { margin-bottom: 16px; }
+    .section-h { margin-bottom: 8px; }
+  }
+
+  @media screen and (max-width: 380px) {
+    .page { padding: 16px 14px 28px; }
+    .name { font-size: 1.6rem; }
+    .contact .sep { display: none; }
+    .contact a, .contact { display: block; }
+    .contact a { margin-bottom: 2px; }
   }
 </style>
 </head>

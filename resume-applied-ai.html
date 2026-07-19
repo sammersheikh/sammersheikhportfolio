@@ -324,7 +324,7 @@
   <section class="section" id="summary">
     <div class="section-h">Summary</div>
     <p class="summary">
-      Applied AI engineer with 5 years shipping production software. I design and operate LLM systems companies actually run on: a shared in-house gateway (async queue, model routing, tool-use streaming, OAuth), agent skills and MCP tooling, and AI-assisted ops products (UAT ticket drafting, analytics reports). Full-stack delivery across Node.js, Python, Google Apps Script, and Swift, plus regulated medical-device software for a ~4,000-device fleet. Looking for Applied AI / AI platform roles that own agents, evals, and production reliability end to end.
+      Applied AI engineer with 5 years shipping production software. I design and operate the internal software platform for a Class 1A medical-device company: company-wide LLM gateway (50-100 jobs/day), agent tooling, manufacturing MES-lite, UAT release gates, returns/FedEx logistics, and fleet release for ~4,000 devices. Full-stack across Node.js, Python, Google Apps Script, and Swift. Looking for Applied AI / AI platform roles that own agents, evals, and production reliability end to end.
     </p>
   </section>
 
@@ -337,17 +337,18 @@
       </div>
       <div class="role-title">Senior Technical Product Specialist <span class="role-dates-inner">Mar 2025 - Present</span></div>
       <ul class="bullets">
-        <li>Designed and shipped <strong>claude-queue</strong>, a company-wide <strong>LLM gateway</strong> (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">write-up</a>): queue-backed Node worker for submit/poll, model routing, streaming tool-use progress, and OAuth-scoped sheet access - replaced ad-hoc API calls; handles <strong>50-100 prompts/day</strong> across internal apps under execution-time limits.</li>
-        <li>Embedded LLMs into ops workflows: <strong>UAT Tracker</strong> auto-drafts Jira issues from failures (Gemini + Jira API); Operations Dashboard generates on-demand leadership reports from Mixpanel/Salesforce telemetry.</li>
-        <li>Built open <strong>agent skills</strong> (snapshot handoffs, onboarding-from-recordings, print-ready HTML docs) used with Claude Code / Cursor / Grok-style agents for reliable multi-step engineering work.</li>
-        <li>Shipped <strong>9+ production internal tools</strong> (Apps Script, Node.js, Puppeteer) used daily by ~25 people: production kitting/DHR, returns (Salesforce + FedEx), shipment tracking, release management, support dashboards.</li>
-        <li>Built <strong>Knox MDM release framework</strong> for ~4,000 Android tablets: tiered rollouts, legacy-device fallback groups, OAuth token rotation - rollout failure <strong>~30% to under 5%</strong>.</li>
+        <li>Own Radius's <strong>internal software platform</strong> (9+ tools, Apps Script / Node / Puppeteer) used daily by ~25 people across manufacturing (5-8 floor), QA (~9), support, CS, and leadership: production, UAT, returns, fleet release, analytics, LLM gateway.</li>
+        <li>Designed <strong>claude-queue</strong>, a company-wide <strong>LLM gateway</strong> (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">write-up</a>): async submit/poll, model routing, streaming tool-use progress, OAuth-scoped access; <strong>50-100 prompts/day</strong> across internal apps; replaced scattered direct API calls.</li>
+        <li>Built <strong>UAT Tracker</strong> for ~178 cases across 5 product surfaces: release-scoped coverage, Gemini-drafted Jira bugs, management progress views, and AI-assisted stakeholder sign-off that gates fleet releases.</li>
+        <li>Shipped <strong>Production System</strong> for floor kitting/PTA/NCR with versioned DHR PDFs: full-system provision <strong>under 5 minutes</strong> (from 30-45 min manual assembly); multi-user row locking after concurrent-write failures.</li>
+        <li>Built <strong>Knox MDM release framework</strong> for ~4,000 tablets (tiered rollouts, legacy groups, OAuth rotation): rollout failure <strong>~30% to under 5%</strong>.</li>
+        <li>Built <strong>Returns + logistics stack</strong> (Salesforce RMAs, FedEx labels/batch ship, scheduled tracking sync, refurb-to-stock) and an <strong>Operations Dashboard</strong> (Mixpanel trials/utilization + on-demand AI leadership reports).</li>
       </ul>
       <div class="role-title" style="margin-top: 3px;">Technical Product Specialist <span class="role-dates-inner">Jul 2024 - Mar 2025</span></div>
       <ul class="bullets">
-        <li>Automated <strong>Onboarding Registration</strong> (Salesforce + parameterized URLs) - cut support calls <strong>80%</strong> and unlocked a major distribution partnership.</li>
-        <li>Built <strong>Inventory &amp; QMS tracking</strong> for FDA Class 1A devices enabling <strong>1,000+ unit</strong> shipments at ~10× prior throughput; Salesforce + FedEx label generation; concurrent multi-user floor workflows with locking after early single-sheet concurrency failures.</li>
-        <li>Delivered <strong>DHR automation</strong>: inspection forms and shipping docs in under 5 minutes (from 30-45 min manual assembly) for MDSAP/FDA audit readiness.</li>
+        <li>Automated <strong>Onboarding Registration</strong> (Salesforce + parameterized URLs): support calls down <strong>80%</strong>; unlocked a major distribution partnership.</li>
+        <li>Built <strong>Inventory &amp; QMS tracking</strong> for FDA Class 1A devices: <strong>1,000+ unit</strong> shipments at ~<strong>10×</strong> prior throughput; Salesforce + FedEx automation.</li>
+        <li>Delivered early <strong>DHR / production automation</strong> path that removed hand-assembled PDF bottlenecks and set up MDSAP/FDA-ready device history generation.</li>
       </ul>
     </div>
 

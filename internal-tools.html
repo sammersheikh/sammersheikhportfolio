@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Internal Tools — Sammer Sheikh</title>
-  <meta name="description" content="Internal tools built for RadiusXR operations, logistics, quality, and product support.">
+  <title>Internal Tools · Sammer Sheikh</title>
+  <meta name="description" content="A suite of web apps, automations, and AI tooling built for RadiusXR operations, logistics, quality, and product support.">
   <link rel="icon" href="./images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,20 +62,33 @@
     .nav-links a.pill:hover { color: var(--bg); }
 
     /* ---------- Hero ---------- */
-    .hero { max-width: 1060px; margin: 0 auto; padding: 180px 40px 90px; text-align: left; }
+    .hero { max-width: 1060px; margin: 0 auto; padding: 180px 40px 70px; text-align: left; }
     .hero h1 {
       font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
       font-size: clamp(44px, 7vw, 84px); line-height: 1.08; letter-spacing: -1.5px;
       text-wrap: balance;
     }
-    .hero p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 620px; margin-top: 28px; }
+    .hero p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 660px; margin-top: 28px; }
+
+    /* ---------- Stats ---------- */
+    .stats-band { max-width: 1060px; margin: 0 auto; padding: 0 40px 90px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 20px;
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      padding: 34px 0;
+    }
+    .stat-num {
+      display: block; font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 700; font-size: clamp(24px, 3.2vw, 36px); letter-spacing: -1px; line-height: 1.05;
+    }
+    .stat-label { display: block; margin-top: 10px; font-size: 13px; color: var(--muted); font-weight: 500; line-height: 1.45; }
 
     /* ---------- Band ---------- */
     .band { max-width: 1060px; margin: 0 auto; padding: 0 40px 120px; }
     .band-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 44px; gap: 16px; flex-wrap: wrap; }
     .band-link { font-size: 14px; font-weight: 600; color: var(--accent); }
 
-    .tools-intro { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 34px; }
+    .tools-intro { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 660px; margin-bottom: 34px; }
     .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
     .tool { padding: 26px 0; border-top: 1px solid var(--line-soft); }
     .tool-name { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; font-size: 26px; letter-spacing: -0.5px; }
@@ -113,7 +126,9 @@
       .nav-links { gap: 16px; }
       .nav-links a:not(.pill) { display: none; }
 
-      .hero { padding: 130px 24px 60px; }
+      .hero { padding: 130px 24px 50px; }
+      .stats-band { padding: 0 24px 70px; }
+      .stats { grid-template-columns: 1fr 1fr; gap: 30px 20px; }
       .band { padding: 0 24px 80px; }
       .tools-grid { grid-template-columns: 1fr; }
       .footer { padding: 80px 24px 50px; }
@@ -135,53 +150,102 @@
 
 <header id="top" class="hero">
   <h1>Internal tools.</h1>
-  <p>Web apps, automations, and support utilities built to streamline operations, logistics, quality, and product support at RadiusXR.</p>
+  <p>A suite of web apps, automations, and AI tooling I designed and built to run operations, logistics, quality, and product support at RadiusXR - a medical-device company shipping to a fleet of roughly 4,000 devices. Most are Google Apps Script web apps backed by Google Sheets; a few are Node.js services and one Electron desktop app.</p>
 </header>
 
+<section class="stats-band">
+  <div class="stats">
+    <div class="stat"><span class="stat-num">~4,000</span><span class="stat-label">Devices under management</span></div>
+    <div class="stat"><span class="stat-num">30%&rarr;&lt;5%</span><span class="stat-label">Fleet rollout failures</span></div>
+    <div class="stat"><span class="stat-num">10&times;</span><span class="stat-label">Shipping throughput</span></div>
+    <div class="stat"><span class="stat-num">80%</span><span class="stat-label">Fewer onboarding support calls</span></div>
+    <div class="stat"><span class="stat-num">&lt;5 min</span><span class="stat-label">Full system provision</span></div>
+    <div class="stat"><span class="stat-num">50&ndash;100</span><span class="stat-label">LLM jobs per day</span></div>
+    <div class="stat"><span class="stat-num">9+</span><span class="stat-label">Internal tools in daily use</span></div>
+    <div class="stat"><span class="stat-num">~178</span><span class="stat-label">UAT cases across 5 platforms</span></div>
+  </div>
+</section>
+
 <section class="band">
-  <p class="tools-intro">These tools were built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Contact me for a private walkthrough.</p>
+  <p class="tools-intro">These tools were built for internal use, so specific integrations, data flows, and access details are intentionally omitted. What follows is a high-level tour of what each one does and the stack behind it. Contact me for a private walkthrough.</p>
 
   <div class="tools-grid">
 
     <div class="tool">
       <div class="tool-name">Production System</div>
-      <div class="tool-meta">Google Apps Script · Google Sheets</div>
-      <p>End-to-end production tracking and inventory management system used to coordinate manufacturing workflows, component traceability, and device build records.</p>
+      <div class="tool-meta">Apps Script · Google Sheets · Knox MDM</div>
+      <p>Kitting and production-tracking system that provisions device tablets, tracks component traceability, and generates build records. Mobile and desktop surfaces let the floor scan units and provision a full system in under 5 minutes, down from 30 to 45 minutes of manual entry and hand-assembled PDFs. A multi-tab Sheets data model with batched writes and row-level locking keeps concurrent operators consistent.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Release Framework</div>
+      <div class="tool-meta">Apps Script · Knox Manage APIs</div>
+      <p>Tiered rollout framework for pushing app and configuration updates across the ~4,000-tablet fleet. Tier-based rollouts, dynamic-group fallback for legacy devices, and automatic OAuth token rotation brought the rollout failure rate down from about 30% to under 5%.</p>
     </div>
 
     <div class="tool">
       <div class="tool-name">Operations Dashboard</div>
-      <div class="tool-meta">Google Apps Script · Mixpanel</div>
-      <p>Analytics dashboard that aggregates product usage metrics into a single view for leadership and customer-success teams.</p>
-    </div>
-
-    <div class="tool">
-      <div class="tool-name">Returns Tracker</div>
-      <div class="tool-meta">Google Apps Script · Salesforce · FedEx</div>
-      <p>Return merchandise authorization tracker that coordinates shipments, customer records, and return status across support and logistics teams.</p>
-    </div>
-
-    <div class="tool">
-      <div class="tool-name">Shipment Tracker</div>
-      <div class="tool-meta">Node.js · Puppeteer · Google Sheets API</div>
-      <p>Automated shipment-tracking pipeline that collects carrier status updates and writes them into shared operational spreadsheets.</p>
+      <div class="tool-meta">Apps Script · Mixpanel · Claude</div>
+      <p>Real-time analytics surface that folds product usage, trial conversion, and support metrics into one leadership view. Behavioral data from Mixpanel is cached for speed, written summaries are generated on demand through the in-house Claude gateway, and trial-age logic flags accounts nearing conversion deadlines.</p>
     </div>
 
     <div class="tool">
       <div class="tool-name">UAT Tracker</div>
-      <div class="tool-meta">Google Apps Script · Gemini · Jira</div>
-      <p>User acceptance testing coordination tool for logging test results, drafting issues, and tracking validation progress during release cycles.</p>
+      <div class="tool-meta">Apps Script · Gemini · Jira</div>
+      <p>Release user-acceptance-testing tool that logs results, drafts Jira issues with Gemini, and collects stakeholder sign-off. Release-scoped status tracking gates every fleet release before it ships to the field.</p>
     </div>
 
     <div class="tool">
-      <div class="tool-name">ISP2.0 Scripts</div>
-      <div class="tool-meta">Google Apps Script bound script</div>
-      <p>Legacy support script suite used for device programming, data migration, and field-service workflows.</p>
+      <div class="tool-name">Returns Tracker</div>
+      <div class="tool-meta">Apps Script · Salesforce · FedEx</div>
+      <p>Return-merchandise-authorization tracker that coordinates inbound shipments, customer records, and return status across support and logistics. It syncs Salesforce return records and drives a refurbish-to-return-to-stock flow, reconciling inventory as units move through inspection and back to the shelf.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Shipment Tracker</div>
+      <div class="tool-meta">Node.js · Puppeteer · Sheets API</div>
+      <p>Automated carrier-tracking pipeline that collects shipment status on a schedule and writes it into shared operational spreadsheets, giving ops a live view without manual carrier lookups.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Claude Gateway</div>
+      <div class="tool-meta">Google Sheets · Node.js · Claude</div>
+      <p>Shared LLM gateway that lets any internal tool submit a prompt and poll for a result. A sheet-backed job queue is processed by a Node worker running Claude, with model routing, streaming tool-use progress, and scoped access. Reachable by every internal app and handling 50 to 100 prompts a day, it replaced scattered direct API calls with one governed entry point.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Command Center</div>
+      <div class="tool-meta">Electron · Claude Gateway</div>
+      <p>Desktop operations hub that aggregates outstanding tasks from Gmail, Slack, Notion, Jira, and Calendar through scheduled AI routines, surfacing one prioritized action list each morning.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Onboarding Registration</div>
+      <div class="tool-meta">Apps Script · Salesforce</div>
+      <p>Automated customer-onboarding flow that provisions accounts from parameterized Salesforce links. It cut onboarding support calls by 80% and supported a major distribution partnership.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Support Mailer</div>
+      <div class="tool-meta">Apps Script · Google Workspace</div>
+      <p>Campaign tool for the support team that assembles targeted, personalized email drafts for human review before send, keeping a person in the loop on every outbound message.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">Product Tracker</div>
+      <div class="tool-meta">Apps Script · Single-page app</div>
+      <p>Product-management workspace: a hash-routed single-page app for roadmap, feature status, and structured intake of meeting notes into trackable items.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-name">ISP2.0 Suite</div>
+      <div class="tool-meta">Apps Script · Mobile web</div>
+      <p>Production-floor suite covering device programming, a phone-based floor-scan scanner, and an event-sourced unit-master inventory that other tools query over a JSON API. Activity logging and archive-on-swap keep device history intact as components change.</p>
     </div>
 
   </div>
 
-  <p class="tools-note">All descriptions are high-level and non-sensitive. Architecture, endpoints, and sheet structures are not public.</p>
+  <p class="tools-note">All descriptions are high-level and non-sensitive. Architecture, endpoints, credentials, and sheet structures are not public.</p>
 </section>
 
 <footer class="footer">

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sammer Sheikh - Applied AI Engineer Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #faf9f7;
+    --warm-gray: #e8e4df;
+    --mid-gray: #8a847f;
+    --soft-gray: #5a5550;
+    --accent: #c84b31;
+    --blue-ink: #2c3e6b;
+    --code-bg: #f0eee9;
+    --page-w: 8.5in;
+    --page-h: 11in;
+    --margin: 0.23in;
+  }
+
+  @page {
+    size: letter;
+    margin: 0.23in;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 9pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.35;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 0 auto;
+    padding: var(--margin);
+    background: white;
+    position: relative;
+  }
+
+  @media screen {
+    body { background: #d5d0cb; padding: 60px 0 40px; }
+    .page {
+      box-shadow: 0 2px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+      border-radius: 2px;
+    }
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; margin: 0 auto; padding: 0; min-height: auto; }
+    .nav-bar { display: none !important; }
+  }
+
+  .nav-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: #aaa;
+  }
+  .nav-bar .nav-brand {
+    color: white;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    margin-right: auto;
+  }
+  .nav-bar a { color: #888; text-decoration: none; transition: color 0.15s; letter-spacing: 0.04em; }
+  .nav-bar a:hover { color: white; }
+  .nav-btn {
+    background: var(--accent);
+    color: white !important;
+    padding: 5px 14px;
+    border-radius: 3px;
+    font-size: 7.5pt;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .header { margin-bottom: 6px; }
+  .name {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 26pt;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .title-line {
+    font-size: 9.5pt;
+    font-weight: 500;
+    color: var(--blue-ink);
+    margin-top: 2px;
+    margin-bottom: 3px;
+  }
+  .contact {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: var(--soft-gray);
+    letter-spacing: 0.02em;
+  }
+  .contact a {
+    color: var(--soft-gray);
+    text-decoration: none;
+    border-bottom: 1px solid var(--warm-gray);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .contact a:hover { color: var(--accent); border-color: var(--accent); }
+  .contact .sep { color: var(--mid-gray); margin: 0 5px; }
+
+  hr.head-rule {
+    border: none;
+    height: 1px;
+    background: var(--ink);
+    margin: 5px 0 7px;
+  }
+
+  .section { margin-bottom: 7px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-h {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--warm-gray);
+  }
+
+  .summary {
+    font-size: 8.5pt;
+    color: var(--soft-gray);
+    line-height: 1.4;
+  }
+
+  .role { margin-bottom: 5px; }
+  .role:last-child { margin-bottom: 0; }
+
+  .role-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .role-company {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--ink);
+  }
+  .role-company .desc {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--mid-gray);
+    font-size: 8pt;
+    margin-left: 3px;
+  }
+  .role-title {
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--blue-ink);
+    margin-top: 0;
+    margin-bottom: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .role-title .role-dates-inner {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: var(--mid-gray);
+    font-weight: 400;
+  }
+
+  ul.bullets {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  ul.bullets li {
+    position: relative;
+    padding-left: 11px;
+    margin-bottom: 0;
+    font-size: 8.5pt;
+    line-height: 1.38;
+    color: var(--ink);
+  }
+  ul.bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent);
+    font-size: 7.5pt;
+  }
+  ul.bullets li strong { font-weight: 700; color: var(--ink); }
+  ul.bullets a, .project-line span a {
+    color: var(--blue-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  ul.bullets a:hover, .project-line span a:hover { color: var(--accent); }
+
+  .project-line {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    margin-bottom: 2px;
+    padding-left: 11px;
+    position: relative;
+  }
+  .project-line::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent);
+    font-size: 7.5pt;
+  }
+  .project-line a.proj-name {
+    font-weight: 700;
+    color: var(--blue-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--blue-ink);
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .project-line a.proj-name:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .project-line .dash { color: var(--mid-gray); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 1px 12px;
+    font-size: 8.5pt;
+  }
+  .skills-grid dt {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    align-self: baseline;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .skills-grid dd {
+    font-size: 8.5pt;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .skills-grid .sep { color: var(--mid-gray); margin: 0 4px; }
+
+  .edu-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 9pt;
+  }
+  .edu-line .edu-school { font-weight: 700; }
+  .edu-line .edu-deg { color: var(--soft-gray); }
+  .edu-line .edu-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    color: var(--mid-gray);
+  }
+</style>
+</head>
+<body>
+<nav class="nav-bar">
+  <span class="nav-brand">Sammer Sheikh - Applied AI Engineer Resume</span>
+  <a href="#summary">Summary</a>
+  <a href="#experience">Experience</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+  <button class="nav-btn" onclick="window.print()">Export PDF</button>
+</nav>
+
+<div class="page">
+  <header class="header">
+    <div class="name">SAMMER SHEIKH</div>
+    <div class="title-line">Applied AI Engineer · Full-Stack Systems</div>
+    <div class="contact">
+      Pleasanton, CA<span class="sep">·</span>sammerahmadsheikh@outlook.com<span class="sep">·</span><a href="https://www.linkedin.com/in/sammersheikh/">LinkedIn</a><span class="sep">·</span><a href="https://sammersheikh.github.io/sammersheikhportfolio/">Portfolio</a><span class="sep">·</span><a href="https://github.com/sammersheikh">GitHub</a>
+    </div>
+    <hr class="head-rule">
+  </header>
+
+  <section class="section" id="summary">
+    <div class="section-h">Summary</div>
+    <p class="summary">
+      Applied AI engineer with 5 years shipping production software. I design and operate the internal software platform for a Class 1A medical-device company: company-wide LLM gateway (50-100 jobs/day), agent tooling, manufacturing MES-lite, UAT release gates, returns/FedEx logistics, and fleet release for ~4,000 devices. Full-stack across Node.js, Python, Google Apps Script, and Swift. Looking for Applied AI / AI platform roles that own agents, evals, and production reliability end to end.
+    </p>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="section-h">Experience</div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-company">RadiusXR<span class="desc">- XR &amp; low-vision medical device company, Pleasanton, CA</span></div>
+      </div>
+      <div class="role-title">Senior Technical Product Specialist <span class="role-dates-inner">Mar 2025 - Present</span></div>
+      <ul class="bullets">
+        <li>Own Radius's <strong>internal software platform</strong> (9+ tools, Apps Script / Node / Puppeteer) used daily by ~25 people across manufacturing (5-8 floor), QA (~9), support, CS, and leadership: production, UAT, returns, fleet release, analytics, LLM gateway.</li>
+        <li>Designed <strong>claude-queue</strong>, a company-wide <strong>LLM gateway</strong> (<a href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">write-up</a>): async submit/poll, model routing, streaming tool-use progress, OAuth-scoped access; <strong>50-100 prompts/day</strong> across internal apps; replaced scattered direct API calls.</li>
+        <li>Built <strong>UAT Tracker</strong> for ~178 cases across 5 product surfaces: release-scoped coverage, Gemini-drafted Jira bugs, management progress views, and AI-assisted stakeholder sign-off that gates fleet releases.</li>
+        <li>Shipped <strong>Production System</strong> for floor kitting/PTA/NCR with versioned DHR PDFs: full-system provision <strong>under 5 minutes</strong> (from 30-45 min manual assembly); multi-user row locking after concurrent-write failures.</li>
+        <li>Built <strong>Knox MDM release framework</strong> for ~4,000 tablets (tiered rollouts, legacy groups, OAuth rotation): rollout failure <strong>~30% to under 5%</strong>.</li>
+        <li>Built <strong>Returns + logistics stack</strong> (Salesforce RMAs, FedEx labels/batch ship, scheduled tracking sync, refurb-to-stock) and an <strong>Operations Dashboard</strong> (Mixpanel trials/utilization + on-demand AI leadership reports).</li>
+      </ul>
+      <div class="role-title" style="margin-top: 3px;">Technical Product Specialist <span class="role-dates-inner">Jul 2024 - Mar 2025</span></div>
+      <ul class="bullets">
+        <li>Automated <strong>Onboarding Registration</strong> (Salesforce + parameterized URLs): support calls down <strong>80%</strong>; unlocked a major distribution partnership.</li>
+        <li>Built <strong>Inventory &amp; QMS tracking</strong> for FDA Class 1A devices: <strong>1,000+ unit</strong> shipments at ~<strong>10×</strong> prior throughput; Salesforce + FedEx automation.</li>
+        <li>Delivered early <strong>DHR / production automation</strong> path that removed hand-assembled PDF bottlenecks and set up MDSAP/FDA-ready device history generation.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-company">Vagaro<span class="desc">- Dublin, CA</span></div>
+      </div>
+      <div class="role-title">Software Support Engineer <span class="role-dates-inner">Dec 2022 - Jun 2023</span></div>
+      <ul class="bullets">
+        <li>Built <strong>Python automation</strong> for support workflows that raised weekly ticket resolution capacity <strong>30%</strong>; diagnosed a critical intermittent payment bug with engineering.</li>
+        <li>Optimized hot-path <strong>SQL</strong> for appointment scheduling - average query time down <strong>40%</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <div class="role-company">Workday<span class="desc">- Pleasanton, CA</span></div>
+      </div>
+      <div class="role-title">Software Engineer <span class="role-dates-inner">Jul 2019 - Dec 2021</span></div>
+      <ul class="bullets">
+        <li>Automated supplier-invoice approval workflows with messaging - pending-invoice duration down <strong>25%</strong>; increased on-time payments.</li>
+        <li>Built automation test suite for proprietary Xpresso language - pre-production bugs down <strong>15%</strong>; designed schemas and optimized queries for Financial Supplier Accounts.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-h">Selected Applied AI &amp; Systems Projects</div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/claude-queue.html">Claude Queue</a><span class="dash"> - </span><span>Shared LLM job queue: Apps Script / Node submit prompts; local worker runs Claude CLI; responses poll back. Multi-app gateway, tool-use progress, no public endpoints. Open source.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/murmur.html">Murmur</a><span class="dash"> - </span><span>On-device speech-to-text: Watch/iPhone capture, LAN/Multipeer/CloudKit fallbacks, Mac transcription via Parakeet TDT on Neural Engine. Privacy-first, no cloud STT. SwiftUI, TCA.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html">SoundBite</a><span class="dash"> - </span><span>Article-to-audio pipeline: LLM summarization, TTS narration, karaoke-synced text, share extension, offline queue.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/dumbell.html">Dumbell</a><span class="dash"> - </span><span>iOS workout app with AI analysis/workout builder via Cloudflare Worker proxy; SwiftData, CloudKit, StoreKit 2, HealthKit.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://github.com/sammersheikh/ai-skills">AI Skills</a><span class="dash"> - </span><span>Open agent skills for Claude Code / Cursor / Grok: session snapshot handoffs, onboarding from real screen recordings, paginated HTML-to-PDF docs.</span></div>
+    <div class="project-line"><a class="proj-name" href="https://sammersheikh.github.io/sammersheikhportfolio/internal-tools.html">Internal Tools</a><span class="dash"> - </span><span>Production, DHR, UAT, Returns, Shipments, Release, Onboarding, Inventory, Support, Gateway.</span></div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="section-h">Skills</div>
+    <dl class="skills-grid">
+      <dt>Applied AI / LLM</dt>
+      <dd>Production LLM gateways<span class="sep">·</span>Async job queues<span class="sep">·</span>Tool / function calling<span class="sep">·</span>Agent skills &amp; MCP<span class="sep">·</span>Prompt design<span class="sep">·</span>Streaming &amp; polling APIs<span class="sep">·</span>On-device inference (CoreML / Parakeet / Apple Foundation Models)<span class="sep">·</span>Anthropic SDK<span class="sep">·</span>Claude Code / Agent SDK</dd>
+
+      <dt>Languages</dt>
+      <dd>Python<span class="sep">·</span>JavaScript / TypeScript<span class="sep">·</span>Swift<span class="sep">·</span>SQL<span class="sep">·</span>Apps Script<span class="sep">·</span>Bash<span class="sep">·</span>HTML / CSS</dd>
+
+      <dt>Systems / Full-stack</dt>
+      <dd>Node.js<span class="sep">·</span>Express<span class="sep">·</span>React<span class="sep">·</span>Next.js<span class="sep">·</span>Puppeteer<span class="sep">·</span>SwiftUI / TCA<span class="sep">·</span>Electron<span class="sep">·</span>REST integrations<span class="sep">·</span>OAuth 2.0 / SSO</dd>
+
+      <dt>Data / Infra</dt>
+      <dd>PostgreSQL<span class="sep">·</span>MongoDB<span class="sep">·</span>Google Sheets as ops DB<span class="sep">·</span>CloudKit<span class="sep">·</span>Git<span class="sep">·</span>Linux<span class="sep">·</span>CI-minded feature branches / PRs</dd>
+
+      <dt>Integrations</dt>
+      <dd>Salesforce<span class="sep">·</span>Jira<span class="sep">·</span>Mixpanel<span class="sep">·</span>Knox MDM<span class="sep">·</span>FedEx<span class="sep">·</span>Slack<span class="sep">·</span>Notion<span class="sep">·</span>Google Workspace</dd>
+
+      <dt>Domain</dt>
+      <dd>FDA Class 1A medical devices<span class="sep">·</span>MDSAP / QMS<span class="sep">·</span>Release management<span class="sep">·</span>UAT<span class="sep">·</span>Production / DHR automation</dd>
+    </dl>
+  </section>
+
+  <section class="section" id="education">
+    <div class="section-h">Education</div>
+    <div class="edu-line">
+      <span><span class="edu-school">Western Governors University</span> <span class="edu-deg">- B.S. Business, IT Management</span></span>
+      <span class="edu-date">Expected 2026</span>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

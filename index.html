@@ -292,13 +292,21 @@
     .band-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 44px; gap: 16px; flex-wrap: wrap; }
     .band-link { font-size: 14px; font-weight: 600; color: var(--accent); }
 
-    .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .impact-intro {
+      font-size: 17px; color: var(--muted); line-height: 1.65;
+      max-width: 640px; margin: -24px 0 40px;
+    }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px 32px;
+    }
     .impact-num {
       font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
-      font-size: 56px; letter-spacing: -1px;
+      font-size: clamp(32px, 4vw, 44px); letter-spacing: -1px; line-height: 1.05;
     }
-    .impact-title { font-size: 14px; font-weight: 600; margin-top: 6px; }
-    .impact-grid p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: 8px; }
+    .impact-title { font-size: 14px; font-weight: 600; margin-top: 8px; }
+    .impact-grid p { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-top: 6px; }
 
     .xp-row {
       display: grid; grid-template-columns: 160px 1fr; gap: 40px;
@@ -412,22 +420,54 @@
 <section id="impact" class="band" data-stop>
   <div class="band-head">
     <span class="eyebrow">Impact at RadiusXR</span>
+    <a href="internal-tools.html" class="band-link">Internal tools &rarr;</a>
   </div>
+  <p class="impact-intro">I design and ship the internal software platform that runs manufacturing, QA, logistics, fleet release, analytics, and company-wide LLM access for a Class 1A medical-device company.</p>
   <div class="impact-grid">
     <div>
+      <div class="impact-num">4,000+</div>
+      <div class="impact-title">Devices in the fleet</div>
+      <p>Knox Manage release framework: tiered rollouts, legacy-device groups, OAuth token rotation across Android tablets.</p>
+    </div>
+    <div>
+      <div class="impact-num">30%&rarr;&lt;5%</div>
+      <div class="impact-title">Fleet rollout failures</div>
+      <p>Progressive delivery cut failed updates roughly sixfold, reducing field and support firefighting after each release.</p>
+    </div>
+    <div>
+      <div class="impact-num">&lt;5 min</div>
+      <div class="impact-title">Full system provision</div>
+      <p>Production SPA for kitting, PTA, and DHR: down from 30 to 45 minutes of manual entry and hand-assembled PDFs.</p>
+    </div>
+    <div>
       <div class="impact-num">80%</div>
-      <div class="impact-title">Fewer support calls</div>
-      <p>Automated onboarding integrating Salesforce, from first contact to device activation.</p>
+      <div class="impact-title">Fewer onboarding support calls</div>
+      <p>Salesforce-parameterized registration flow from first contact to device activation; unlocked a major distribution partnership.</p>
+    </div>
+    <div>
+      <div class="impact-num">~10&times;</div>
+      <div class="impact-title">Ship throughput</div>
+      <p>Inventory and QMS tracking for Class 1A devices with Salesforce + FedEx logistics; 1,000+ unit shipments at prior capacity.</p>
+    </div>
+    <div>
+      <div class="impact-num">50&ndash;100</div>
+      <div class="impact-title">LLM jobs per day</div>
+      <p>Company-wide Claude Queue gateway: multi-app submit/poll, model routing, tool-use progress; replaced scattered API keys.</p>
+    </div>
+    <div>
+      <div class="impact-num">9+</div>
+      <div class="impact-title">Production internal tools</div>
+      <p>Used daily by ~25 people across manufacturing (5&ndash;8 floor), QA (~9), support, CS, and leadership.</p>
+    </div>
+    <div>
+      <div class="impact-num">~178</div>
+      <div class="impact-title">UAT cases, 5 platforms</div>
+      <p>Release-scoped testing with AI-drafted Jira bugs and stakeholder sign-off before fleet push.</p>
     </div>
     <div>
       <div class="impact-num">$150k</div>
-      <div class="impact-title">Weekly revenue boost</div>
-      <p>Inventory &amp; QMS tracking with automated bulk shipment logistics for Class 1A devices.</p>
-    </div>
-    <div>
-      <div class="impact-num">4,000+</div>
-      <div class="impact-title">Devices managed</div>
-      <p>Knox MDM release system with phased rollouts and rollback plans: 90% time reduction.</p>
+      <div class="impact-title">Weekly ship capacity unlocked</div>
+      <p>Higher inventory and bulk logistics throughput on the Class 1A production path (revenue capacity from volume, not a pricing change).</p>
     </div>
   </div>
 </section>

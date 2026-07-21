@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Privacy Policy · Murmur</title>
+<link rel="icon" href="./images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F3EB;
+    --surface: #FFFDF8;
+    --ink: #1c1a16;
+    --sub: #6f6a5f;
+    --fade: #a39c8d;
+    --accent: #B0623A;
+    --line: rgba(28, 26, 22, 0.1);
+    --nav-bg: rgba(247, 243, 235, 0.85);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(28, 26, 22, 0.06);
+    z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-icon { width: 28px; height: 28px; border-radius: 7px; overflow: hidden; }
+  .nav-icon img { width: 100%; height: 100%; display: block; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 120px 22px 96px; }
+  .eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+  }
+  .meta { color: var(--fade); font-size: 13px; margin: 0 0 40px; }
+  h2 { font-size: 20px; font-weight: 700; margin: 44px 0 12px; line-height: 1.3; }
+  h3 { font-size: 16px; font-weight: 700; margin: 24px 0 8px; }
+  p, li { font-size: 16px; color: var(--ink); }
+  p { margin: 0 0 16px; }
+  ul { margin: 0 0 16px; padding-left: 22px; }
+  li { margin: 0 0 8px; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  strong { font-weight: 700; }
+  .foot {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--fade);
+    font-size: 13px;
+  }
+  .foot a { color: var(--fade); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="murmur.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/murmur/icon.png" alt="Murmur app icon">
+      </div>
+      Murmur
+    </a>
+  </nav>
+
+  <div class="wrap">
+    <p class="eyebrow">Murmur</p>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: July 21, 2026</p>
+
+    <p>Murmur ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how information is handled when you use the Murmur apps for iPhone, Apple Watch, the Murmur keyboard extension, and the optional companion Mac app.</p>
+
+    <p>Murmur is designed to keep your voice and transcripts on <strong>your</strong> devices whenever possible. We do not operate a Murmur cloud account that stores your dictations for us to read.</p>
+
+    <h2>Who this covers</h2>
+    <ul>
+      <li><strong>iPhone app (Murmur)</strong> - relay, history, Remote controls, pairing, on-device capture</li>
+      <li><strong>Apple Watch app</strong> - hold-to-talk and hands-free capture that relays through your iPhone</li>
+      <li><strong>Murmur keyboard</strong> - system keyboard that hops into the app for dictation, then inserts text</li>
+      <li><strong>Mac app (optional companion)</strong> - local speech-to-text and typing into the frontmost Mac app; distributed outside the App Store</li>
+    </ul>
+
+    <h2>Information we process</h2>
+
+    <h3>Voice and transcripts</h3>
+    <ul>
+      <li>Audio you record while dictating (microphone)</li>
+      <li>Transcripts produced on-device (iPhone Speech, or on your Mac with local models such as Parakeet)</li>
+      <li>Dictation history and optional Canvas / capture notes you save</li>
+    </ul>
+    <p>Audio is used only to deliver your dictation. When the Mac companion is used, clips are sent to <strong>your Mac</strong> for local transcription. We do not receive your audio or transcripts on Murmur-operated servers.</p>
+
+    <h3>Device and connection data</h3>
+    <ul>
+      <li><strong>Local network / Bonjour / Multipeer:</strong> used so your iPhone can discover and deliver clips to your Mac on your LAN or a peer link you control</li>
+      <li><strong>Pairing tokens and hosts:</strong> stored on your devices so only authorized phones can talk to your Mac ingest endpoint</li>
+      <li><strong>Camera (optional):</strong> only to scan the pairing QR code shown on your Mac; images are not uploaded to us</li>
+    </ul>
+
+    <h3>iCloud (CloudKit)</h3>
+    <p>With iCloud signed in, Murmur may sync settings, pairing-related tokens, history, and (when enabled) away-relay clips through <strong>your private CloudKit database</strong>. That data is stored under Apple's CloudKit rules for private databases. We cannot open your private CloudKit records.</p>
+
+    <h3>Custom keyboard (full access)</h3>
+    <p>The Murmur keyboard may request <strong>Full Access</strong> so it can coordinate with the Murmur container app (App Group) to start dictation and insert the finished transcript into the current text field. With Full Access, a keyboard technically can use broader system capabilities; Murmur uses it only for:</p>
+    <ul>
+      <li>Sharing short-lived session state and transcripts via the App Group with the Murmur app</li>
+      <li>Opening the Murmur app to record and transcribe (keyboard extensions cannot own the microphone session on current iOS)</li>
+      <li>Inserting the resulting text into the host app</li>
+    </ul>
+    <p>Murmur does not use the keyboard to scrape passwords, keylog other apps, or sell what you type. You can deny Full Access; some hop features will be limited until it is enabled.</p>
+
+    <h3>Background audio</h3>
+    <p>The iPhone app may use an audio background mode so an <strong>active dictation or warm redictation session</strong> can finish after you leave the Murmur UI (for example, while the keyboard hop returns you to another app). That audio path is for your dictation session, not for advertising or tracking.</p>
+
+    <h2>How we use information</h2>
+    <ul>
+      <li>To capture, relay, transcribe, and insert the text you asked for</li>
+      <li>To show history, stats, and Canvas notes you create</li>
+      <li>To pair devices and keep Remote / LAN features working on your network</li>
+      <li>To sync settings and history across your Apple devices via CloudKit when you use iCloud</li>
+    </ul>
+
+    <h2>Data sharing</h2>
+    <p>We do not sell your personal data. Data leaves your device only in these cases:</p>
+    <ul>
+      <li><strong>Your Mac companion:</strong> when you dictate to the Mac, audio and metadata go to your Mac over LAN, Multipeer, or (if you enable away relay) your private iCloud</li>
+      <li><strong>Apple CloudKit / iCloud:</strong> private sync under Apple's terms</li>
+      <li><strong>Apple system services:</strong> on-device speech recognition and other OS APIs as you authorize</li>
+    </ul>
+    <p>We do not send your dictations to a Murmur-operated analytics or ad network.</p>
+
+    <h2>Data retention and control</h2>
+    <ul>
+      <li>History and clips live on your devices (and your iCloud private DB if sync is on)</li>
+      <li>Delete history in-app where available, or delete the app to remove local data</li>
+      <li>Revoke microphone, speech, camera, local network, or iCloud access in iOS Settings at any time</li>
+      <li>Disable the Murmur keyboard or Full Access in iOS Settings &gt; General &gt; Keyboard</li>
+    </ul>
+
+    <h2>Children's privacy</h2>
+    <p>Murmur is not directed at children under 13. We do not knowingly collect personal information from children under 13.</p>
+
+    <h2>International users</h2>
+    <p>Processing happens on your devices and, when you use iCloud, in Apple's CloudKit regions associated with your Apple ID.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We may update this Privacy Policy from time to time. Changes will be reflected by updating the "Last updated" date above.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about this Privacy Policy? Contact us at
+    <a href="mailto:sammerahmadsheikh@outlook.com">sammerahmadsheikh@outlook.com</a>.</p>
+    <p>Sammer Sheikh · Murmur</p>
+
+    <div class="foot">
+      Murmur ·
+      <a href="murmur-privacy.html">Privacy</a> ·
+      <a href="murmur-support.html">Support</a> ·
+      <a href="murmur.html">Product</a> ·
+      Built by <a href="index.html">Sammer Sheikh</a>
+    </div>
+  </div>
+</body>
+</html>

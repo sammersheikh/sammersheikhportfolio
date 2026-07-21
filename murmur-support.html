@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Support · Murmur</title>
+<link rel="icon" href="./images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F3EB;
+    --ink: #1c1a16;
+    --sub: #6f6a5f;
+    --fade: #a39c8d;
+    --accent: #B0623A;
+    --line: rgba(28, 26, 22, 0.1);
+    --nav-bg: rgba(247, 243, 235, 0.85);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(28, 26, 22, 0.06);
+    z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-icon { width: 28px; height: 28px; border-radius: 7px; overflow: hidden; }
+  .nav-icon img { width: 100%; height: 100%; display: block; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 120px 22px 96px; }
+  .eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 24px;
+  }
+  h2 { font-size: 20px; font-weight: 700; margin: 36px 0 12px; }
+  p, li { font-size: 16px; }
+  p { margin: 0 0 16px; color: var(--sub); }
+  ul { margin: 0 0 16px; padding-left: 22px; color: var(--sub); }
+  li { margin: 0 0 8px; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  strong { color: var(--ink); font-weight: 700; }
+  .foot {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--fade);
+    font-size: 13px;
+  }
+  .foot a { color: var(--fade); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="murmur.html" class="nav-brand">
+      <div class="nav-icon">
+        <img src="images/murmur/icon.png" alt="Murmur app icon">
+      </div>
+      Murmur
+    </a>
+  </nav>
+
+  <div class="wrap">
+    <p class="eyebrow">Murmur</p>
+    <h1>Support</h1>
+
+    <p>Murmur turns speech into text on your devices. Dictate from your Apple Watch or iPhone, use the Murmur keyboard on iOS, and optionally type the transcript into the frontmost app on your Mac with the companion Mac app.</p>
+
+    <h2>Common questions</h2>
+    <ul>
+      <li><strong>Do I need a Mac?</strong> No for basic iPhone dictation, history, and the Murmur keyboard. The Mac companion is optional: install it when you want transcripts typed into desktop apps.</li>
+      <li><strong>Where does transcription run?</strong> On your devices. The Mac app uses local speech models. Phone/Watch paths use on-device speech or your Mac when you relay there. Audio is not sent to Murmur-operated servers.</li>
+      <li><strong>Keyboard setup.</strong> iOS Settings &gt; General &gt; Keyboard &gt; Keyboards &gt; Add New Keyboard &gt; Murmur. Enable <strong>Allow Full Access</strong> when prompted so the keyboard can hand off to the Murmur app and insert the transcript.</li>
+      <li><strong>Watch not sending.</strong> Keep the iPhone unlocked/nearby, open Murmur once after install, and ensure Local Network permission is allowed. Series 5 watches use the iPhone as a hop (they cannot reach the Mac alone on typical Wi-Fi).</li>
+      <li><strong>Mac not found.</strong> Same Wi-Fi as the iPhone, Murmur Mac app running, Local Network allowed on both, and pairing via iCloud (same Apple ID) or the Mac pairing QR in Settings &gt; Devices &amp; Pairing.</li>
+      <li><strong>Remote / trackpad.</strong> Optional. Enable Remote features on the Mac first; the iPhone only talks to your paired Mac on the local network with a token.</li>
+      <li><strong>iCloud.</strong> Optional sync for settings and history. Away relay via iCloud is settings-gated and off by default on the phone.</li>
+      <li><strong>Mac download.</strong> The Mac app is distributed as a notarized DMG (not the Mac App Store):
+        <a href="https://github.com/sammersheikh/murmur-releases/releases">github.com/sammersheikh/murmur-releases</a>.</li>
+      <li><strong>Requirements.</strong> iPhone on a recent iOS version (see App Store listing), optional Apple Watch, optional Mac for desktop typing.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Email
+    <a href="mailto:sammerahmadsheikh@outlook.com">sammerahmadsheikh@outlook.com</a>
+    with your device models, iOS/macOS versions, and a short description of the issue. Screenshots of the Home / Settings screens help. Do not send sensitive transcript content you would not want in email.</p>
+
+    <h2>Legal</h2>
+    <p>
+      <a href="murmur-privacy.html">Privacy Policy</a> ·
+      <a href="murmur.html">Product page</a>
+    </p>
+
+    <div class="foot">
+      Murmur ·
+      <a href="murmur-privacy.html">Privacy</a> ·
+      <a href="murmur-support.html">Support</a> ·
+      <a href="murmur.html">Product</a> ·
+      Built by <a href="index.html">Sammer Sheikh</a>
+    </div>
+  </div>
+</body>
+</html>

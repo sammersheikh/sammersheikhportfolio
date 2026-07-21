@@ -512,7 +512,7 @@
     <a href="#impact">Impact</a>
     <a href="#applied-ai">Applied AI</a>
     <a href="#tools">Tools</a>
-    <a href="#projects">Projects</a>
+    <a href="#projects">Personal</a>
     <a href="#experience">Experience</a>
     <a href="#contact">Contact</a>
     <a href="resume.html" class="pill">Resume &rarr;</a>
@@ -583,30 +583,15 @@
     <span class="eyebrow">Applied AI</span>
     <a href="claude-queue.html" class="band-link">Claude Queue write-up &rarr;</a>
   </div>
-  <p class="tools-intro">Production LLM systems and agent tooling first. Shared gateway used company-wide, then open skills that make coding agents reliable.</p>
+  <p class="tools-intro"><strong>At RadiusXR (work):</strong> production LLM systems and agent tooling. Shared gateway used company-wide. Open-source agent skills live under Personal projects.</p>
   <div class="tools-grid">
     <a href="claude-queue.html" class="tool" style="display:block; color:inherit">
       <div class="tool-name">Claude Queue</div>
-      <div class="tool-meta">LLM gateway &middot; Node &middot; Apps Script &middot; Claude Code</div>
+      <div class="tool-meta">Work &middot; LLM gateway &middot; Node &middot; Apps Script &middot; Claude Code</div>
       <p>Company-wide LLM job queue: apps submit prompts, a local worker runs Claude CLI, results poll back. Model routing, tool-use progress, OAuth-scoped access. 50-100 prompts/day across internal tools. No public endpoints, no cloud API keys on the worker path.</p>
     </a>
-    <div class="tool">
-      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/snapshot" target="_blank" rel="noopener">snapshot</a>
-      <div class="tool-meta">Agent skill &middot; session handoff</div>
-      <p>Keeps project <code>CLAUDE.md</code> honest: updates stale sections, appends a length-capped dated current-state block, archives older entries, commits the docs, and prints a paste-ready handoff for the next session.</p>
-    </div>
-    <div class="tool">
-      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/onboarding-screens" target="_blank" rel="noopener">onboarding-screens</a>
-      <div class="tool-meta">iOS &middot; macOS &middot; SwiftUI</div>
-      <p>Builds first-run tours from real app screen recordings, not mockups: app-drawn touch indicators, simulator and window capture, ffmpeg cut pipeline, and gapless loop players in a paged card UI.</p>
-    </div>
-    <div class="tool">
-      <a class="tool-name" href="https://github.com/sammersheikh/ai-skills/tree/main/skills/frontend-pdf" target="_blank" rel="noopener">frontend-pdf</a>
-      <div class="tool-meta">HTML &middot; print CSS &middot; PDF export</div>
-      <p>Paginated HTML documents that print cleanly to PDF. Agents edit HTML far more reliably than PDF; browser print exports the final artifact.</p>
-    </div>
   </div>
-  <div class="tools-note">Skills: <a href="https://github.com/sammersheikh/ai-skills" target="_blank" rel="noopener">github.com/sammersheikh/ai-skills</a>. Queue write-up: <a href="claude-queue.html">claude-queue.html</a> &middot; <a href="https://github.com/sammersheikh/claude-queue" target="_blank" rel="noopener">source</a>.</div>
+  <div class="tools-note">Queue write-up: <a href="claude-queue.html">claude-queue.html</a> &middot; <a href="https://github.com/sammersheikh/claude-queue" target="_blank" rel="noopener">source</a>. Personal agent skills: <a href="#projects">Personal projects</a> and <a href="https://github.com/sammersheikh/ai-skills" target="_blank" rel="noopener">github.com/sammersheikh/ai-skills</a>.</div>
 </section>
 <section id="tools" class="band" data-stop>
   <div class="band-head">
@@ -649,7 +634,8 @@
   <div class="tools-note">Built for internal use. Specific integrations, data flows, and access details are intentionally omitted. Ask me for a private walkthrough.</div>
 </section>
 <div id="projects" class="projects-label">
-  <span class="eyebrow">Featured systems &amp; products</span>
+  <span class="eyebrow">Personal projects</span>
+  <p class="tools-intro" style="margin:12px 0 0; max-width:42rem">Built on my own time, separate from RadiusXR work. Consumer apps, desktop tools, and open agent skills.</p>
 </div>
 <div class="scene" data-scene data-stop>
   <div class="scene-pin alt">
@@ -727,7 +713,7 @@
   </div>
 </div>
 <div class="also-label" data-stop>
-  <span class="eyebrow">Also shipped</span>
+  <span class="eyebrow">Also personal</span>
 </div>
 <div class="also">
   <div class="also-rows">
@@ -747,6 +733,11 @@
       <div class="also-title">Live Lyric</div>
       <p>Identifies playing songs and shows time-synced lyrics with a hero typography view.</p>
       <div class="also-badge">iOS app</div>
+    </a>
+    <a href="https://github.com/sammersheikh/ai-skills" class="also-row" data-also="3" target="_blank" rel="noopener">
+      <div class="also-title">AI Skills</div>
+      <p>Open agent skills for Claude Code / Cursor / Grok: session handoffs, onboarding from real screen recordings, paginated HTML-to-PDF.</p>
+      <div class="also-badge">Open source &middot; personal</div>
     </a>
   </div>
   <div class="also-panel">
@@ -780,6 +771,13 @@
     <div class="also-slide center">
       <div class="phone-mock">
         <img src="./images/lyric/spectrum-cycle.gif" alt="Live Lyric app screens cycling from listening to synced lyrics" loading="lazy">
+      </div>
+    </div>
+    <div class="also-slide center" style="background:var(--bg-alt); padding:32px;">
+      <div style="max-width:320px; text-align:left;">
+        <div style="font-size:13px; font-weight:600; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;">Open source · personal</div>
+        <div style="font-family:'Source Serif 4', Georgia, serif; font-size:32px; font-weight:600; letter-spacing:-0.02em; margin-bottom:12px;">AI Skills</div>
+        <p style="font-size:15px; color:var(--muted); line-height:1.55;">snapshot handoffs, onboarding-screens from real captures, frontend-pdf print pipeline. Built for Claude Code / Cursor / Grok agents.</p>
       </div>
     </div>
   </div>
@@ -866,7 +864,7 @@
     also = i;
     slides.forEach(function (s, idx) { s.classList.toggle('on', idx === i); });
     rows.forEach(function (r, idx) { r.classList.toggle('active', idx === i); });
-    /* the Live Lyric slide is a bare phone, no panel box around it */
+    /* Live Lyric (2) is a bare phone; AI Skills (3) is a text card inside the panel */
     if (panel) panel.classList.toggle('bare', i === 2);
   }
   rows.forEach(function (r, i) {

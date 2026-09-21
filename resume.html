@@ -268,27 +268,42 @@
   .project-line .dash { color: var(--mid-gray); }
 
   .skills-grid {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 1px 12px;
+    display: grid !important;
+    grid-template-columns: minmax(100px, 26%) minmax(0, 1fr) !important;
+    column-gap: 12px;
+    row-gap: 3px;
+    align-items: start;
     font-size: 8.5pt;
+    width: 100%;
   }
   .skills-grid dt {
     font-family: 'DM Mono', monospace;
-    font-size: 7pt;
-    letter-spacing: 0.08em;
+    font-size: 6.5pt;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--mid-gray);
-    align-self: baseline;
-    padding-top: 2px;
-    white-space: nowrap;
+    align-self: start;
+    padding-top: 1px;
+    margin: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    grid-column: 1;
   }
   .skills-grid dd {
     font-size: 8.5pt;
     color: var(--ink);
-    line-height: 1.4;
+    line-height: 1.35;
+    margin: 0 !important;
+    margin-inline-start: 0 !important;
+    padding: 0;
+    min-width: 0;
+    grid-column: 2;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
-  .skills-grid .sep { color: var(--mid-gray); margin: 0 4px; }
+  .skills-grid .sep { color: var(--mid-gray); margin: 0 3px; }
 
   .edu-line {
     display: flex;

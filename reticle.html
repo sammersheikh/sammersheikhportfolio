@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reticle · Screenshot faster</title>
-  <meta name="description" content="Reticle is a free macOS screenshot tool with instant clipboard capture, fast markup, screenshot chaining, and smart OCR filenames.">
+  <meta name="description" content="Reticle is a free macOS menu bar screenshot tool: instant clipboard capture, a focused annotation editor, screenshot chaining, region copy/paste, area video recording, and smart OCR or AI filenames.">
   <link rel="icon" href="./images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,22 +92,22 @@
     }
     .hero-shots {
       display: flex; justify-content: center; align-items: center;
-      gap: 24px; margin-top: 56px; flex-wrap: wrap;
+      gap: 28px; margin-top: 56px; flex-wrap: wrap;
     }
-    .hero-shots img { border-radius: 14px; }
-    .shot-capture {
-      width: min(340px, 80vw);
-      box-shadow: 0 24px 70px rgba(28, 26, 22, 0.22);
+    .hero-shots img { border-radius: 16px; }
+    .shot-menu {
+      height: min(360px, 52vw); width: auto;
+      box-shadow: 0 24px 70px rgba(28, 26, 22, 0.24);
       transform: rotate(-3deg);
     }
     .shot-editor {
-      width: min(460px, 86vw);
+      height: min(400px, 56vw); width: auto; max-width: 100%;
       box-shadow: 0 30px 80px rgba(28, 26, 22, 0.26);
       position: relative; z-index: 2;
     }
-    .shot-naming {
-      width: min(340px, 80vw);
-      box-shadow: 0 24px 70px rgba(28, 26, 22, 0.22);
+    .shot-prefs {
+      height: min(360px, 52vw); width: auto;
+      box-shadow: 0 24px 70px rgba(28, 26, 22, 0.24);
       transform: rotate(3deg);
     }
 
@@ -131,7 +131,9 @@
       display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center;
     }
     .card.wide img { width: 100%; border-radius: 14px; box-shadow: 0 14px 40px rgba(28, 26, 22, 0.14); }
+    .card.wide img.native { width: min(300px, 100%); justify-self: center; }
     .card-img { width: 100%; border-radius: 12px; box-shadow: 0 14px 40px rgba(28, 26, 22, 0.14); margin-top: 20px; }
+    .card-img.tall { width: min(300px, 100%); display: block; margin: 20px auto 0; }
 
     /* ---------- Closing / tech stack ---------- */
     .closing { text-align: center; padding: 130px 40px 90px; }
@@ -213,13 +215,13 @@
 </nav>
 
 <header class="hero">
-  <div class="eyebrow">Free macOS capture tool</div>
+  <div class="eyebrow">Free macOS menu bar app</div>
   <h1>Screenshot faster.</h1>
-  <p>Replaces the default macOS screenshot flow with instant clipboard capture, fast markup, screenshot chaining, and smart OCR filenames.</p>
+  <p>Reticle lives in your menu bar and turns the macOS capture flow into one motion: press a shortcut, grab what you need, and it is already on your clipboard. Annotate only when you want to.</p>
   <div class="hero-shots">
-    <img src="./images/reticle/capture.png" alt="Reticle area capture" class="shot-capture" width="1280" height="800">
-    <img src="./images/reticle/editor-with-content.png" alt="Reticle annotation editor" class="shot-editor" width="1280" height="800">
-    <img src="./images/reticle/naming.png" alt="Reticle OCR filename suggestions" class="shot-naming" width="1280" height="800">
+    <img src="./images/reticle/menu.png" alt="Reticle menu bar panel" class="shot-menu" width="680" height="1280">
+    <img src="./images/reticle/editor.png" alt="Reticle annotation editor" class="shot-editor" width="1600" height="1025">
+    <img src="./images/reticle/preferences.png" alt="Reticle preferences" class="shot-prefs" width="960" height="1600">
   </div>
 </header>
 
@@ -229,35 +231,59 @@
       <article class="card" data-reveal>
         <div class="card-num">01</div>
         <h2>Capture without friction</h2>
-        <p>Area, fullscreen, and window screenshots are shortcut-driven and copied to the clipboard instantly. Take the shot, paste it, move on.</p>
+        <p>Area, fullscreen, and window captures are shortcut-driven and land on the clipboard instantly. Record a region to video when a still is not enough.</p>
       </article>
 
       <article class="card" data-reveal>
         <div class="card-num">02</div>
         <h2>Annotate like you mean it</h2>
-        <p>Arrows, rectangles, ovals, lines, freehand, text, highlight, blur, counters, crop, undo, and redo: all in one focused editor.</p>
+        <p>Arrows, rectangles, ovals, lines, freehand, text, highlight, blur, counters, crop, and undo in one focused editor, with a rebuilt toolbar and stroke controls.</p>
       </article>
 
       <article class="card wide" data-reveal>
         <div>
           <div class="card-num">03</div>
           <h2>Chain screenshots together</h2>
-          <p>Capture multiple steps in a row, queue them automatically, cycle through edits, and paste the full set at once when the context matters.</p>
+          <p>Capture a run of steps, queue them automatically, cycle through edits, and paste the whole batch at once. The new thumbnail keeps every shot, copy, and edit one click away.</p>
         </div>
-        <img src="./images/reticle/chain.png" alt="Reticle screenshot chaining" width="1280" height="800" loading="lazy">
+        <img src="./images/reticle/thumbnail.png" alt="Reticle thumbnail with queue count and actions" class="native" width="560" height="400" loading="lazy">
       </article>
 
       <article class="card" data-reveal>
         <div class="card-num">04</div>
-        <h2>Name files with OCR</h2>
-        <p>macOS Vision OCR reads visible text and scores headings, titles, and useful UI labels so screenshots save with meaningful filenames.</p>
+        <h2>Smart filenames, on device or AI</h2>
+        <p>macOS Vision OCR reads the screen and names the file for you. Turn on optional DeepSeek naming for AI suggestions, with OCR as the fallback. Nothing leaves the Mac unless you enable it.</p>
+        <img src="./images/reticle/naming.png" alt="Reticle smart naming preferences" class="card-img tall" width="960" height="1600" loading="lazy">
       </article>
 
       <article class="card" data-reveal>
         <div class="card-num">05</div>
-        <h2>Tune the workflow</h2>
-        <p>Preferences cover keyboard shortcuts, default tools, colors, stroke width, font size, auto-save folders, chaining, and queue timeouts.</p>
-        <img src="./images/reticle/preferences.png" alt="Reticle preferences" class="card-img" width="1280" height="800" loading="lazy">
+        <h2>Tune every shortcut</h2>
+        <p>Rebuilt Preferences: segmented panes for General, Naming, Shortcuts, and About, with click-to-record keycap controls for every capture and recording action.</p>
+        <img src="./images/reticle/shortcuts.png" alt="Reticle shortcut preferences with keycap controls" class="card-img tall" width="960" height="1600" loading="lazy">
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card-num">06</div>
+        <h2>Everything in the menu bar</h2>
+        <p>Left-click the icon for a redesigned panel: every capture and record mode with its shortcut, a live recording timer, your latest shot with Edit, Copy, and Reveal, plus one-click access to Preferences and the tour.</p>
+        <img src="./images/reticle/menu.png" alt="Reticle menu bar panel" class="card-img tall" width="680" height="1280" loading="lazy">
+      </article>
+
+      <article class="card" data-reveal>
+        <div class="card-num">07</div>
+        <h2>Guided from the first launch</h2>
+        <p>A six-page welcome tour walks through capture, annotate, chain, and export, with a live permission checklist so screen recording is granted before you need it.</p>
+        <img src="./images/reticle/onboarding.png" alt="Reticle first-run welcome tour" class="card-img" width="1432" height="1352" loading="lazy">
+      </article>
+
+      <article class="card wide" data-reveal>
+        <div>
+          <div class="card-num">08</div>
+          <h2>A tour and What&rsquo;s New for every release</h2>
+          <p>Every release ships a What&rsquo;s New card and a searchable feature tour, so the new tools are easy to find without digging through release notes.</p>
+        </div>
+        <img src="./images/reticle/tour.png" alt="Reticle feature tour" width="1752" height="1312" loading="lazy">
       </article>
     </div>
   </section>
@@ -267,11 +293,11 @@
     <h2>Built for the screenshots you actually send.</h2>
     <p>A free, private macOS utility designed around speed, clarity, and fewer tiny workflow papercuts.</p>
     <div class="badges">
-      <span class="badge">Electron 28</span>
+      <span class="badge">Electron</span>
       <span class="badge">Fabric.js</span>
       <span class="badge">macOS Vision OCR</span>
-      <span class="badge">electron-store</span>
-      <span class="badge">electron-builder</span>
+      <span class="badge">DeepSeek (optional)</span>
+      <span class="badge">electron-updater</span>
     </div>
     <a class="cta" href="https://github.com/sammersheikh/reticle-releases/releases" target="_blank" rel="noopener">Download for Mac &darr;</a>
   </section>

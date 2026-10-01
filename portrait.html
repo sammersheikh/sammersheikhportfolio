@@ -291,11 +291,23 @@
   <script>
     // ─── Config ───
     const IMAGE_PATHS = {
-      center: 'images/portrait/face-center.png',
-      left:   'images/portrait/face-left.png',
-      right:  'images/portrait/face-right.png',
-      up:     'images/portrait/face-up.png',
-      down:   'images/portrait/face-down.png',
+      center:           'images/portrait/face-center.png',
+      left:             'images/portrait/face-left.png',
+      right:            'images/portrait/face-right.png',
+      up:               'images/portrait/face-up.png',
+      down:             'images/portrait/face-down.png',
+      upleft:           'images/portrait/face-upleft.png',
+      upright:          'images/portrait/face-upright.png',
+      downleft:         'images/portrait/face-downleft.png',
+      downright:        'images/portrait/face-downright.png',
+      upSlightLeft:     'images/portrait/face-up-slightleft.png',
+      upSlightRight:    'images/portrait/face-up-slightright.png',
+      rightSlightUp:    'images/portrait/face-right-slightup.png',
+      rightSlightDown:  'images/portrait/face-right-slightdown.png',
+      downSlightRight:  'images/portrait/face-down-slightright.png',
+      downSlightLeft:   'images/portrait/face-down-slightleft.png',
+      leftSlightDown:   'images/portrait/face-left-slightdown.png',
+      leftSlightUp:     'images/portrait/face-left-slightup.png',
     };
 
     const STARE_DURATION = 2000;
@@ -382,28 +394,59 @@
       mouseY = t.clientY / window.innerHeight;
     }, { passive: true });
 
-    document.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      hasMouse = true;
+      idleTime = 0;
+      mouseX = e.clientX / window.innerWidth;
+      mouseY = e.clientY / window.innerHeight;
+    });
+
+    document.addEventListener('touchstart', (e) => {
+      hasMouse = true;
+      idleTime = 0;
+      const t = e.touches[0];
+      mouseX = t.clientX / window.innerWidth;
+      mouseY = t.clientY / window.innerHeight;
+    }, { passive: true });
+
+    // Double-tap or long press for stare effect
+    let lastTap = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        triggerStare();
+      }
+      lastTap = now;
+    });
+
+    document.addEventListener('dblclick', () => {
       triggerStare();
     });
 
-    document.addEventListener('touchstart', () => {
-      triggerStare();
-    }, { passive: true });
-
-    // Device orientation for mobile
-    if (window.DeviceOrientationEvent) {
+    // Device orientation for mobile (iOS 13+ requires permission)
+    function enableOrientation() {
       window.addEventListener('deviceorientation', (e) => {
         if (e.gamma !== null && e.beta !== null) {
           hasMouse = true;
           idleTime = 0;
-          // gamma: left-right tilt (-90 to 90)
-          // beta: front-back tilt (-180 to 180)
           mouseX = 0.5 + (e.gamma / 90) * 0.5;
           mouseY = 0.5 + ((e.beta - 45) / 90) * 0.5;
           mouseX = Math.max(0, Math.min(1, mouseX));
           mouseY = Math.max(0, Math.min(1, mouseY));
         }
       });
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // iOS 13+ — request on first touch
+      document.addEventListener('touchstart', function iosOrientationRequest() {
+        DeviceOrientationEvent.requestPermission().then(state => {
+          if (state === 'granted') enableOrientation();
+        }).catch(() => {});
+        document.removeEventListener('touchstart', iosOrientationRequest);
+      }, { once: true });
+    } else if (window.DeviceOrientationEvent) {
+      enableOrientation();
     }
 
     function triggerStare() {
@@ -420,10 +463,9 @@
     }
 
     // ─── Render ───
-    function drawFace(img, alpha) {
-      if (!img || alpha <= 0.001) return;
-      ctx.globalAlpha = alpha;
-      // Cover-fit the image into the canvas
+    // Draw a single image cover-fit
+    function drawFace(img) {
+      if (!img) return;
       const cw = canvas.width, ch = canvas.height;
       const iw = img.naturalWidth, ih = img.naturalHeight;
       const scale = Math.max(cw / iw, ch / ih);
@@ -431,6 +473,43 @@
       const ox = (cw - sw) / 2, oy = (ch - sh) / 2;
       ctx.drawImage(img, ox, oy, sw, sh);
     }
+
+    // Pick the best image from 17 zones using angle sectors (like a compass)
+    function pickFace(x, y) {
+      const absX = Math.abs(x);
+      const absY = Math.abs(y);
+      const deadzone = 0.15;
+
+      if (absX < deadzone && absY < deadzone) return 'center';
+
+      // Get angle in degrees (0 = right, 90 = down, etc.)
+      const angle = ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+
+      // 16 sectors of 22.5° each, mapped to 16 directions
+      // Angle 0 = right, 90 = down, 180 = left, 270 = up
+      if (angle < 11.25 || angle >= 348.75)  return 'right';
+      if (angle < 33.75)  return 'rightSlightDown';
+      if (angle < 56.25)  return 'downright';
+      if (angle < 78.75)  return 'downSlightRight';
+      if (angle < 101.25) return 'down';
+      if (angle < 123.75) return 'downSlightLeft';
+      if (angle < 146.25) return 'downleft';
+      if (angle < 168.75) return 'leftSlightDown';
+      if (angle < 191.25) return 'left';
+      if (angle < 213.75) return 'leftSlightUp';
+      if (angle < 236.25) return 'upleft';
+      if (angle < 258.75) return 'upSlightLeft';
+      if (angle < 281.25) return 'up';
+      if (angle < 303.75) return 'upSlightRight';
+      if (angle < 326.25) return 'upright';
+      return 'rightSlightUp';
+    }
+
+    let currentFace = 'center';
+    let displayedFace = 'center';
+    let crossfadeProgress = 1; // 1 = fully showing currentFace
+    let previousFace = 'center';
+    const CROSSFADE_SPEED = 0.12;
 
     function render(timestamp) {
       requestAnimationFrame(render);
@@ -440,54 +519,49 @@
         targetX = 0;
         targetY = 0;
       } else if (!hasMouse) {
-        // Idle drift
         idleTime += 16;
         targetX = Math.sin(idleTime * IDLE_DRIFT_SPEED) * IDLE_DRIFT_AMOUNT;
         targetY = Math.cos(idleTime * IDLE_DRIFT_SPEED * 0.7) * IDLE_DRIFT_AMOUNT * 0.6;
       } else {
-        // Mouse tracking: convert 0-1 to -1..1
         targetX = (mouseX - 0.5) * 2;
         targetY = (mouseY - 0.5) * 2;
-        // Clamp
         targetX = Math.max(-1, Math.min(1, targetX));
         targetY = Math.max(-1, Math.min(1, targetY));
-
-        // Add subtle idle micro-drift for "aliveness"
         idleTime += 16;
         targetX += Math.sin(idleTime * 0.002) * 0.03;
         targetY += Math.cos(idleTime * 0.0015) * 0.02;
       }
 
-      // Lerp
       const speed = isStaring ? STARE_LERP_SPEED : LERP_SPEED;
       currentX += (targetX - currentX) * speed;
       currentY += (targetY - currentY) * speed;
 
-      // Calculate blend weights
-      // Center weight is higher when close to center
-      const dist = Math.sqrt(currentX * currentX + currentY * currentY);
-      const centerWeight = Math.max(0, 1 - dist * 1.5);
+      // Pick target face
+      const targetFace = pickFace(currentX, currentY);
 
-      // Directional weights
-      const leftWeight  = Math.max(0, -currentX) * (1 - centerWeight);
-      const rightWeight = Math.max(0,  currentX) * (1 - centerWeight);
-      const upWeight    = Math.max(0, -currentY) * (1 - centerWeight);
-      const downWeight  = Math.max(0,  currentY) * (1 - centerWeight);
+      if (targetFace !== currentFace) {
+        previousFace = currentFace;
+        currentFace = targetFace;
+        crossfadeProgress = 0;
+      }
 
-      // Normalize
-      const total = centerWeight + leftWeight + rightWeight + upWeight + downWeight;
-      const norm = total > 0 ? 1 / total : 1;
+      // Advance crossfade
+      if (crossfadeProgress < 1) {
+        crossfadeProgress = Math.min(1, crossfadeProgress + CROSSFADE_SPEED);
+      }
 
-      // Clear and draw
+      // Draw
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalAlpha = 1;
 
-      // Draw base (center) first, then blend others on top
-      drawFace(images.center, centerWeight * norm);
-      drawFace(images.left,   leftWeight * norm);
-      drawFace(images.right,  rightWeight * norm);
-      drawFace(images.up,     upWeight * norm);
-      drawFace(images.down,   downWeight * norm);
+      if (crossfadeProgress < 1 && images[previousFace]) {
+        ctx.globalAlpha = 1 - crossfadeProgress;
+        drawFace(images[previousFace]);
+      }
+
+      if (images[currentFace]) {
+        ctx.globalAlpha = crossfadeProgress;
+        drawFace(images[currentFace]);
+      }
 
       ctx.globalAlpha = 1;
     }

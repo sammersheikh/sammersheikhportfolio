@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sammer Sheikh — Eyes Follow You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #e8e0d4;
+      font-family: 'Cormorant Garamond', serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      cursor: crosshair;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .portrait-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .frame-wrapper {
+      position: relative;
+      width: 320px;
+      height: 400px;
+    }
+
+    .frame {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      border: 3px solid #8b7235;
+      box-shadow:
+        inset 0 0 20px rgba(139, 114, 53, 0.3),
+        0 0 0 2px #1a1508,
+        0 0 0 6px #8b7235,
+        0 0 0 8px #5a4a20,
+        0 0 0 10px #1a1508,
+        0 0 0 14px #6b5a28,
+        0 0 0 16px #3d3215,
+        0 0 30px rgba(0,0,0,0.8),
+        0 0 60px rgba(0,0,0,0.5);
+    }
+
+    .frame::before, .frame::after {
+      content: '❧';
+      position: absolute;
+      font-size: 28px;
+      color: #8b7235;
+      opacity: 0.7;
+      text-shadow: 0 0 8px rgba(139, 114, 53, 0.5);
+    }
+
+    .frame::before {
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .frame::after {
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
+    }
+
+    .corner {
+      position: absolute;
+      font-size: 20px;
+      color: #8b7235;
+      opacity: 0.5;
+      z-index: 11;
+      pointer-events: none;
+    }
+    .corner.tl { top: -18px; left: -18px; }
+    .corner.tr { top: -18px; right: -18px; transform: scaleX(-1); }
+    .corner.bl { bottom: -18px; left: -18px; transform: scaleY(-1); }
+    .corner.br { bottom: -18px; right: -18px; transform: scale(-1); }
+
+    .inner-border {
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(139, 114, 53, 0.3);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Stack images on top of each other */
+    .portrait-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.15s ease-out;
+      opacity: 0;
+    }
+
+    .portrait-img.active {
+      opacity: 1;
+    }
+
+    .name-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      color: rgba(232, 224, 212, 0.25);
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(232, 224, 212, 0.15);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+    }
+
+    .ambient-glow {
+      position: absolute;
+      width: 400px;
+      height: 480px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse, rgba(139, 114, 53, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      animation: glow-breathe 4s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0a;
+      z-index: 1000;
+      transition: opacity 0.8s ease;
+      gap: 16px;
+    }
+
+    .loader.hidden { opacity: 0; pointer-events: none; }
+
+    .loader-bar {
+      width: 120px;
+      height: 1px;
+      background: rgba(139, 114, 53, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      width: 40%;
+      background: rgba(139, 114, 53, 0.7);
+      animation: load-sweep 1.2s ease-in-out infinite;
+    }
+
+    @keyframes load-sweep {
+      0% { left: -40%; }
+      100% { left: 100%; }
+    }
+
+    .loader-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: rgba(232, 224, 212, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .frame-wrapper { width: 260px; height: 330px; }
+      .ambient-glow { width: 320px; height: 400px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-text">preparing portrait…</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <div class="particles" id="particles"></div>
+
+  <div class="portrait-container">
+    <div class="ambient-glow"></div>
+    <div class="frame-wrapper" id="frameWrapper">
+      <!-- All eye-gaze images stacked -->
+      <img class="portrait-img active" id="img-center" src="images/eyes/eyes-center.png" alt="">
+      <img class="portrait-img" id="img-left" src="images/eyes/eyes-left.png" alt="">
+      <img class="portrait-img" id="img-right" src="images/eyes/eyes-right.png" alt="">
+      <img class="portrait-img" id="img-up" src="images/eyes/eyes-up.png" alt="">
+      <img class="portrait-img" id="img-down" src="images/eyes/eyes-down.png" alt="">
+      <img class="portrait-img" id="img-upleft" src="images/eyes/eyes-upleft.png" alt="">
+      <img class="portrait-img" id="img-upright" src="images/eyes/eyes-upright.png" alt="">
+      <img class="portrait-img" id="img-downleft" src="images/eyes/eyes-downleft.png" alt="">
+      <img class="portrait-img" id="img-downright" src="images/eyes/eyes-downright.png" alt="">
+
+      <div class="frame"></div>
+      <div class="inner-border"></div>
+      <span class="corner tl">✦</span>
+      <span class="corner tr">✦</span>
+      <span class="corner bl">✦</span>
+      <span class="corner br">✦</span>
+    </div>
+    <div class="name-text">Sammer Sheikh</div>
+  </div>
+
+  <script>
+    // ─── State ───
+    let mouseX = 0.5, mouseY = 0.5;
+    let currentX = 0, currentY = 0;
+    let targetX = 0, targetY = 0;
+    let hasMouse = false;
+    let idleTime = 0;
+    let activeFace = 'center';
+
+    const LERP_SPEED = 0.1;
+    const IDLE_DRIFT_SPEED = 0.0008;
+    const IDLE_DRIFT_AMOUNT = 0.12;
+
+    // ─── Particles ───
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+        container.appendChild(p);
+      }
+    }
+
+    // ─── Input ───
+    document.addEventListener('mousemove', (e) => {
+      hasMouse = true; idleTime = 0;
+      mouseX = e.clientX / window.innerWidth;
+      mouseY = e.clientY / window.innerHeight;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      hasMouse = true; idleTime = 0;
+      const t = e.touches[0];
+      mouseX = t.clientX / window.innerWidth;
+      mouseY = t.clientY / window.innerHeight;
+    }, { passive: true });
+
+    document.addEventListener('click', (e) => {
+      hasMouse = true; idleTime = 0;
+      mouseX = e.clientX / window.innerWidth;
+      mouseY = e.clientY / window.innerHeight;
+    });
+
+    document.addEventListener('touchstart', (e) => {
+      hasMouse = true; idleTime = 0;
+      const t = e.touches[0];
+      mouseX = t.clientX / window.innerWidth;
+      mouseY = t.clientY / window.innerHeight;
+    }, { passive: true });
+
+    // iOS device orientation
+    function enableOrientation() {
+      window.addEventListener('deviceorientation', (e) => {
+        if (e.gamma !== null && e.beta !== null) {
+          hasMouse = true; idleTime = 0;
+          mouseX = Math.max(0, Math.min(1, 0.5 + (e.gamma / 90) * 0.5));
+          mouseY = Math.max(0, Math.min(1, 0.5 + ((e.beta - 45) / 90) * 0.5));
+        }
+      });
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      document.addEventListener('touchstart', function req() {
+        DeviceOrientationEvent.requestPermission().then(s => { if (s === 'granted') enableOrientation(); }).catch(() => {});
+        document.removeEventListener('touchstart', req);
+      }, { once: true });
+    } else if (window.DeviceOrientationEvent) {
+      enableOrientation();
+    }
+
+    // ─── Pick direction ───
+    function pickFace(x, y) {
+      const absX = Math.abs(x);
+      const absY = Math.abs(y);
+      if (absX < 0.18 && absY < 0.18) return 'center';
+
+      const angle = ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+
+      if (angle < 22.5 || angle >= 337.5)  return 'right';
+      if (angle < 67.5)  return 'downright';
+      if (angle < 112.5) return 'down';
+      if (angle < 157.5) return 'downleft';
+      if (angle < 202.5) return 'left';
+      if (angle < 247.5) return 'upleft';
+      if (angle < 292.5) return 'up';
+      return 'upright';
+    }
+
+    // ─── Render loop ───
+    function update() {
+      requestAnimationFrame(update);
+
+      if (!hasMouse) {
+        idleTime += 16;
+        targetX = Math.sin(idleTime * IDLE_DRIFT_SPEED) * IDLE_DRIFT_AMOUNT;
+        targetY = Math.cos(idleTime * IDLE_DRIFT_SPEED * 0.7) * IDLE_DRIFT_AMOUNT * 0.6;
+      } else {
+        targetX = (mouseX - 0.5) * 2;
+        targetY = (mouseY - 0.5) * 2;
+        targetX = Math.max(-1, Math.min(1, targetX));
+        targetY = Math.max(-1, Math.min(1, targetY));
+        idleTime += 16;
+        targetX += Math.sin(idleTime * 0.002) * 0.02;
+        targetY += Math.cos(idleTime * 0.0015) * 0.015;
+      }
+
+      currentX += (targetX - currentX) * LERP_SPEED;
+      currentY += (targetY - currentY) * LERP_SPEED;
+
+      const newFace = pickFace(currentX, currentY);
+      if (newFace !== activeFace) {
+        document.getElementById('img-' + activeFace).classList.remove('active');
+        document.getElementById('img-' + newFace).classList.add('active');
+        activeFace = newFace;
+      }
+    }
+
+    // ─── Init ───
+    function init() {
+      createParticles();
+
+      // Wait for all images to load
+      const imgs = document.querySelectorAll('.portrait-img');
+      let loaded = 0;
+      const total = imgs.length;
+
+      imgs.forEach(img => {
+        if (img.complete) {
+          loaded++;
+        } else {
+          img.addEventListener('load', () => {
+            loaded++;
+            if (loaded >= total) reveal();
+          });
+          img.addEventListener('error', () => {
+            loaded++;
+            if (loaded >= total) reveal();
+          });
+        }
+      });
+
+      if (loaded >= total) reveal();
+
+      function reveal() {
+        const loader = document.getElementById('loader');
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 800);
+      }
+
+      idleTime = performance.now();
+      requestAnimationFrame(update);
+    }
+
+    init();
+  </script>
+</body>
+</html>

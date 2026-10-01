@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sammer Sheikh — 3D Portrait</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      overflow: hidden;
+      height: 100vh; width: 100vw;
+      font-family: 'Cormorant Garamond', serif;
+      display: flex; align-items: center; justify-content: center;
+      cursor: crosshair;
+    }
+    #canvas3d { display: block; width: 100%; height: 100%; position: fixed; inset: 0; }
+    .vignette {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
+      pointer-events: none; z-index: 10;
+    }
+    .name-text {
+      position: fixed; bottom: 12%; left: 50%; transform: translateX(-50%);
+      font-size: 14px; letter-spacing: 0.2em;
+      color: rgba(232,224,212,0.25);
+      text-transform: uppercase; font-weight: 300;
+      z-index: 20; pointer-events: none;
+    }
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 15; }
+    .particle {
+      position: absolute; width: 2px; height: 2px;
+      background: rgba(232,224,212,0.12);
+      border-radius: 50%; animation: float linear infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.12; }
+      90% { opacity: 0.12; }
+      100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+    }
+    .loader {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #0a0a0a; z-index: 1000;
+      transition: opacity 1s ease; gap: 16px;
+    }
+    .loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-bar { width: 120px; height: 1px; background: rgba(139,114,53,0.2); position: relative; overflow: hidden; }
+    .loader-bar::after {
+      content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 40%;
+      background: rgba(139,114,53,0.7); animation: sweep 1.2s ease-in-out infinite;
+    }
+    @keyframes sweep { 0% { left: -40%; } 100% { left: 100%; } }
+    .loader-text { font-size: 11px; letter-spacing: 0.15em; color: rgba(232,224,212,0.3); }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-text">loading 3d model…</div>
+    <div class="loader-bar"></div>
+  </div>
+  <div class="vignette"></div>
+  <div class="particles" id="particles"></div>
+  <canvas id="canvas3d"></canvas>
+  <div class="name-text">Sammer Sheikh</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+    // ─── Config ───
+    var MAX_ROT_Y = 0.5;    // max yaw (left/right) in radians (~29°)
+    var MAX_ROT_X = 0.25;   // max pitch (up/down)
+    var LERP = 0.06;
+    var IDLE_SPEED = 0.3;
+    var IDLE_AMOUNT = 0.12;
+
+    // ─── State ───
+    var mx = 0, my = 0;     // mouse normalized -1..1
+    var crx = 0, cry = 0;   // current rotation
+    var trx = 0, try_ = 0;  // target rotation
+    var hasMouse = false;
+    var t = 0;
+
+    // ─── Scene ───
+    var canvas = document.getElementById('canvas3d');
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a0a);
+
+    var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.01, 100);
+    camera.position.set(0, 0, 2.5);
+
+    // ─── Lighting ───
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+
+    var keyLight = new THREE.DirectionalLight(0xfff5e8, 1.2);
+    keyLight.position.set(2, 2, 3);
+    scene.add(keyLight);
+
+    var fillLight = new THREE.DirectionalLight(0xc0d0e8, 0.5);
+    fillLight.position.set(-2, 0.5, 2);
+    scene.add(fillLight);
+
+    var rimLight = new THREE.PointLight(0x8b7235, 1.5, 8);
+    rimLight.position.set(0, 1, -2);
+    scene.add(rimLight);
+
+    // Bottom fill to light chin/neck
+    var bottomLight = new THREE.DirectionalLight(0xe8e0d4, 0.3);
+    bottomLight.position.set(0, -2, 1);
+    scene.add(bottomLight);
+
+    // ─── Load 3D Model ───
+    var modelGroup = new THREE.Group();
+    scene.add(modelGroup);
+
+    var loader = new THREE.GLTFLoader();
+    loader.load('images/head-3d.glb', function(gltf) {
+      var model = gltf.scene;
+
+      // Center and scale the model
+      var box = new THREE.Box3().setFromObject(model);
+      var center = box.getCenter(new THREE.Vector3());
+      var size = box.getSize(new THREE.Vector3());
+      var maxDim = Math.max(size.x, size.y, size.z);
+      var scale = 1.5 / maxDim;
+
+      model.position.sub(center);
+      model.scale.setScalar(scale);
+      model.position.y *= scale;
+
+      modelGroup.add(model);
+
+      // Hide loader
+      var el = document.getElementById('loader');
+      el.classList.add('hidden');
+      setTimeout(function() { el.remove(); }, 1000);
+
+    }, function(progress) {
+      // Loading progress
+      if (progress.total > 0) {
+        var pct = Math.round(progress.loaded / progress.total * 100);
+        var txt = document.querySelector('.loader-text');
+        if (txt) txt.textContent = 'loading 3d model… ' + pct + '%';
+      }
+    }, function(error) {
+      console.error('GLB load error:', error);
+      var txt = document.querySelector('.loader-text');
+      if (txt) txt.textContent = 'failed to load model';
+    });
+
+    // ─── Input ───
+    function onInput(nx, ny) {
+      hasMouse = true;
+      mx = nx; my = ny;
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      onInput((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      var tt = e.touches[0];
+      onInput((tt.clientX / innerWidth) * 2 - 1, (tt.clientY / innerHeight) * 2 - 1);
+    }, { passive: true });
+
+    document.addEventListener('touchstart', function(e) {
+      var tt = e.touches[0];
+      onInput((tt.clientX / innerWidth) * 2 - 1, (tt.clientY / innerHeight) * 2 - 1);
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', function() {
+      hasMouse = false;
+    }, { passive: true });
+
+    // iOS orientation
+    function enableOri() {
+      addEventListener('deviceorientation', function(e) {
+        if (e.gamma !== null && e.beta !== null) {
+          onInput(
+            Math.max(-1, Math.min(1, e.gamma / 40)),
+            Math.max(-1, Math.min(1, (e.beta - 50) / 40))
+          );
+        }
+      }, { passive: true });
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      document.addEventListener('touchstart', function req() {
+        DeviceOrientationEvent.requestPermission().then(function(s) { if (s === 'granted') enableOri(); }).catch(function(){});
+        document.removeEventListener('touchstart', req);
+      }, { once: true });
+    } else if (window.DeviceOrientationEvent) {
+      enableOri();
+    }
+
+    // ─── Resize ───
+    addEventListener('resize', function() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ─── Particles ───
+    (function() {
+      var c = document.getElementById('particles');
+      for (var i = 0; i < 18; i++) {
+        var p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+        c.appendChild(p);
+      }
+    })();
+
+    // ─── Animate ───
+    function animate() {
+      requestAnimationFrame(animate);
+      t += 0.016;
+
+      if (!hasMouse) {
+        // Idle: slow look around
+        try_ = Math.sin(t * IDLE_SPEED) * IDLE_AMOUNT;
+        trx = Math.cos(t * IDLE_SPEED * 0.7) * IDLE_AMOUNT * 0.4;
+      } else {
+        try_ = mx * MAX_ROT_Y;
+        trx = -my * MAX_ROT_X;
+        // Micro drift
+        try_ += Math.sin(t * 1.5) * 0.01;
+        trx += Math.cos(t * 1.1) * 0.006;
+      }
+
+      // Smooth double lerp
+      cry += (try_ - cry) * LERP;
+      crx += (trx - crx) * LERP;
+
+      // Apply rotation to the model group
+      modelGroup.rotation.y = cry;
+      modelGroup.rotation.x = crx;
+
+      // Subtle breathing
+      var b = 1 + Math.sin(t * 0.8) * 0.002;
+      modelGroup.scale.set(b, b, b);
+
+      // Dynamic lighting follows gaze
+      keyLight.position.x = 2 + cry * 1.5;
+      rimLight.position.x = -cry * 2;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

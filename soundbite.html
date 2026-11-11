@@ -3,359 +3,686 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soundbite &middot; Listen to Any Article</title>
-  <meta name="description" content="An iOS app that turns articles into narrated audio. Save from anywhere, read along with time-synced captions, and catch up with daily briefs.">
+  <title>SoundBite: Share any article, hear it in 2 minutes</title>
+  <meta name="description" content="SoundBite turns any article into a narrated audio summary with word-by-word highlighting, plus a daily news brief read aloud. Free on iPhone.">
+  <meta name="apple-itunes-app" content="app-id=6746467846">
+  <meta name="theme-color" content="#F2ECDC" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171310" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html">
   <link rel="icon" href="./images/favicon.ico">
+  <link rel="apple-touch-icon" href="./images/soundbite/icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SoundBite">
+  <meta property="og:title" content="SoundBite: Share any article, hear it in 2 minutes">
+  <meta property="og:description" content="A narrated summary with word-by-word highlighting, and your daily news brief read aloud. Free on iPhone.">
+  <meta property="og:url" content="https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html">
+  <meta property="og:image" content="https://sammersheikh.github.io/sammersheikhportfolio/images/soundbite/og-soundbite.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SoundBite on iPhone: a daily brief and an article with word-synced highlighting">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SoundBite: Share any article, hear it in 2 minutes">
+  <meta name="twitter:description" content="A narrated summary with word-by-word highlighting, and your daily news brief read aloud. Free on iPhone.">
+  <meta name="twitter:image" content="https://sammersheikh.github.io/sammersheikhportfolio/images/soundbite/og-soundbite.png">
+  <meta name="twitter:image:alt" content="SoundBite on iPhone: a daily brief and an article with word-synced highlighting">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoundBite",
+    "operatingSystem": "iOS 18 or later",
+    "applicationCategory": "NewsApplication",
+    "description": "Share any article and hear a narrated summary with word-by-word highlighting. Get a personalized daily news brief read aloud.",
+    "url": "https://sammersheikh.github.io/sammersheikhportfolio/soundbite.html",
+    "downloadUrl": "https://apps.apple.com/app/id6746467846",
+    "image": "https://sammersheikh.github.io/sammersheikhportfolio/images/soundbite/icon.png",
+    "author": { "@type": "Person", "name": "Sammer Sheikh" },
+    "offers": [
+      { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "SoundBite Pro monthly", "price": "4.99", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "SoundBite Pro annual", "price": "39.99", "priceCurrency": "USD" }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #F7F3EB;
-      --card: #FFFDF8;
-      --ink: #1c1a16;
-      --muted: #6f6a5f;
-      --faint: #a39c8d;
-      --accent: #B0623A;
-      --line: rgba(28, 26, 22, 0.1);
-      --line-soft: rgba(28, 26, 22, 0.08);
+      --bg: #F2ECDC;
+      --tone: #E8DFC9;
+      --ink: #1F1A14;
+      --muted: #5E5242;
+      --accent: #B45309;
+      --on-accent: #FFFFFF;
+      --field: #1B1612;
+      --field-ink: #F2ECDC;
+      --field-muted: #CFC3AC;
+      --field-accent: #E39A5C;
+      --phone: #0D0A08;
+      --hl: rgba(180, 83, 9, 0.2);
+      --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --margin: clamp(20px, 4vw, 48px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171310;
+        --tone: #221C16;
+        --ink: #F2ECDC;
+        --muted: #C9BCA6;
+        --accent: #D88A4C;
+        --on-accent: #171310;
+        --field: #0E0B09;
+        --hl: rgba(216, 138, 76, 0.3);
+        --phone: #000000;
+      }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    @media (prefers-reduced-motion: no-preference) {
-      html { scroll-behavior: smooth; }
-    }
-
+    html { -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--ink);
+      font-family: var(--sans); font-size: 18px; line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-
-    a { color: var(--ink); text-decoration: none; }
-    a:hover { color: var(--accent); }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-    ::selection { background: rgba(176, 98, 58, 0.2); }
-
-    /* ---------- Nav ---------- */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 40px;
-      background: rgba(247, 243, 235, 0.85);
-      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(28, 26, 22, 0.06);
+    img, video, picture { display: block; max-width: 100%; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 3px;
     }
-    .nav-back { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .field a:focus-visible, .field button:focus-visible { outline-color: var(--field-accent); }
+    ::selection { background: var(--hl); }
+    .skip {
+      position: absolute; left: -9999px; top: 8px; background: var(--ink); color: var(--bg);
+      padding: 10px 16px; z-index: 100;
+    }
+    .skip:focus { left: 8px; }
+
+    .wrap { max-width: 1248px; margin: 0 auto; padding: 0 var(--margin); }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 600; text-wrap: balance; }
+    h2 { font-size: clamp(32px, 4.4vw, 56px); line-height: 1.08; letter-spacing: -0.02em; }
+    h3 { font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; }
+    p + p { margin-top: 16px; }
+    .lede { font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55; max-width: 34em; }
+    .muted { color: var(--muted); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 48px;
+      padding: 0 26px; background: var(--accent); color: var(--on-accent);
+      font-weight: 600; font-size: 17px; text-decoration: none; border-radius: 999px;
+      border: 0; cursor: pointer; font-family: var(--sans);
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .btn:hover { opacity: .9; }
+    .btn:active { transform: scale(.97); }
+    .btn-quiet { background: transparent; color: inherit; text-decoration: underline; text-underline-offset: 4px; padding: 0 6px; }
+    .badge { display: inline-block; line-height: 0; transition: transform .15s ease; }
+    .badge:hover { transform: translateY(-2px); }
+    .badge:active { transform: scale(.97); }
+    .badge img { height: 56px; width: auto; }
+
+    /* Nav */
+    .nav { background: var(--bg); position: sticky; top: 0; z-index: 50; }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+    .nav-back { font-size: 15px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 12px 0; }
     .nav-back:hover { color: var(--accent); }
-    .nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 18px;
-    }
-    .nav-brand img { width: 28px; height: 28px; border-radius: 7px; }
-    .pill-soon {
-      font-size: 13px; font-weight: 600; padding: 8px 18px;
-      border: 1.5px solid var(--ink); border-radius: 999px; white-space: nowrap;
-    }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a { font-size: 15px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 12px 10px; }
+    .nav-links a:hover { color: var(--accent); }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 700; font-size: 21px; text-decoration: none; }
+    .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav .btn { min-height: 44px; padding: 0 20px; font-size: 15px; }
 
-    /* ---------- Hero ---------- */
-    .hero { max-width: 1100px; margin: 0 auto; padding: 170px 40px 40px; text-align: center; }
-    .hero-kicker {
-      font-size: 13px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--accent);
-    }
-    .hero h1 {
-      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
-      font-size: clamp(48px, 7vw, 88px); letter-spacing: -2px; line-height: 1.05;
-      margin: 16px 0 0; text-wrap: balance;
-    }
-    .hero p {
-      font-size: 20px; color: var(--muted); line-height: 1.6;
-      max-width: 560px; margin: 24px auto 0;
-    }
+    /* Phones */
+    .phone { background: var(--phone); padding: 7px; border-radius: 36px; width: 100%; }
+    .phone img, .phone video { width: 100%; height: auto; border-radius: 29px; aspect-ratio: 886 / 1920; object-fit: cover; background: #000; }
+    .phone video { aspect-ratio: 720 / 1566; }
 
-    .hero-phones { display: flex; justify-content: center; gap: 0; margin-top: 56px; }
-    .phone {
-      width: clamp(150px, 36vw, 270px);
-      background: #1a1a1a; padding: 10px; border-radius: 36px;
-      box-shadow: 0 30px 80px rgba(28, 26, 22, 0.22);
-      flex-shrink: 0;
-    }
-    .phone video {
-      width: 100%; border-radius: 26px; display: block;
-      aspect-ratio: 9 / 19.5; object-fit: cover;
-    }
-    .phone-left { transform: translateX(13%) rotate(-6deg); z-index: 1; }
-    .phone-right { transform: translateX(-13%) rotate(6deg); z-index: 2; }
+    /* Hero */
+    .hero { padding: clamp(36px, 6vw, 88px) 0 clamp(72px, 9vw, 140px); }
+    .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+    .hero h1 { font-size: clamp(34px, 4.3vw, 62px); line-height: 1.02; letter-spacing: -0.03em; }
+    .hero .lede { margin-top: 28px; }
+    .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 36px; }
+    .hero-facts { margin-top: 44px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 640px; }
+    .hero-facts { list-style: none; }
+    .hero-facts b { display: block; font-family: var(--serif); font-size: clamp(26px, 3vw, 38px); line-height: 1.05; font-weight: 600; letter-spacing: -0.02em; }
+    .hero-facts span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--muted); }
+    .hero-phones { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .hero-phones .phone:nth-child(2) { margin-top: clamp(40px, 7vw, 96px); }
 
-    /* ---------- Feature rows ---------- */
-    .features { max-width: 1100px; margin: 0 auto; padding: 90px 40px 0; }
-    .feature-rows { display: flex; flex-direction: column; gap: 110px; }
-    .feature-row {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center;
-    }
-    .feature-copy h2 {
-      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
-      font-size: clamp(30px, 3.5vw, 44px); letter-spacing: -1px; line-height: 1.15; margin: 0;
-    }
-    .feature-copy p {
-      font-size: 17px; color: var(--muted); line-height: 1.7;
-      max-width: 440px; margin: 16px 0 0;
-    }
-    .feature-media { display: flex; justify-content: center; }
-    .phone-sm {
-      width: clamp(180px, 24vw, 230px);
-      background: #1a1a1a; padding: 8px; border-radius: 30px;
-      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.18);
-    }
-    .phone-sm video {
-      width: 100%; border-radius: 22px; display: block;
-      aspect-ratio: 9 / 19.5; object-fit: cover;
-    }
+    /* Sections */
+    .sec { padding: clamp(72px, 10vw, 152px) 0; }
+    .field { background: var(--field); color: var(--field-ink); }
+    .field .muted { color: var(--field-muted); }
+    .field .btn { background: var(--field-accent); color: #171310; }
+    .tone { background: var(--tone); }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 7vw, 120px); align-items: center; }
+    .split.flip > :first-child { order: 2; }
+    .split .copy > * + * { margin-top: 20px; }
+    .split .copy h2 + p { margin-top: 24px; }
 
-    /* ---------- Card grid ---------- */
-    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 110px; }
-    .card {
-      background: var(--card); border: 1px solid var(--line-soft);
-      border-radius: 24px; padding: 32px;
-      box-shadow: 0 8px 30px rgba(28, 26, 22, 0.06);
-    }
-    .card-media { display: flex; justify-content: center; margin-bottom: 24px; }
-    .phone-xs { width: 170px; background: #1a1a1a; padding: 7px; border-radius: 26px; }
-    .phone-xs video {
-      width: 100%; border-radius: 20px; display: block;
-      aspect-ratio: 9 / 19.5; object-fit: cover;
-    }
-    .card h3 {
-      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
-      font-size: 24px; margin: 0;
-    }
-    .card p { font-size: 15px; color: var(--muted); line-height: 1.6; margin: 10px 0 0; }
+    /* Live karaoke */
+    .karaoke-box { padding: clamp(24px, 3.5vw, 48px); background: var(--bg); border-radius: 28px; }
+    .karaoke { font-family: var(--serif); font-size: clamp(22px, 2.5vw, 31px); line-height: 1.5; }
+    .karaoke .w { color: var(--muted); cursor: pointer; border-radius: 6px; padding: 0 1px; transition: color .15s ease, background-color .15s ease; }
+    .karaoke .w.done { color: var(--ink); }
+    .karaoke .w.now { color: var(--ink); background: var(--hl); }
+    .karaoke .w:hover { background: var(--hl); }
+    .karaoke-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
+    .karaoke-bar .btn { min-width: 128px; }
+    .karaoke-bar small { font-size: 15px; color: var(--muted); }
+    .no-js-note { display: none; }
 
-    /* ---------- Closer ---------- */
-    .closer { text-align: center; padding: 130px 40px 90px; }
-    .closer-icon {
-      width: 110px; height: 110px; border-radius: 26px;
-      box-shadow: 0 20px 60px rgba(28, 26, 22, 0.15);
-    }
-    .closer h2 {
-      font-family: 'Source Serif 4', Georgia, serif; font-weight: 600;
-      font-size: clamp(38px, 5vw, 64px); letter-spacing: -1.5px; line-height: 1.1;
-      margin: 32px 0 0;
-    }
-    .closer > p { font-size: 18px; color: var(--muted); margin: 18px 0 0; }
-    .tech-pills {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 10px; margin-top: 36px;
-    }
-    .tech-pill {
-      font-size: 13px; font-weight: 500; padding: 8px 18px;
-      border: 1px solid rgba(28, 26, 22, 0.18); border-radius: 999px;
-      color: var(--muted); background: var(--card);
-    }
+    /* How it works */
+    .how-head { max-width: 760px; }
+    .steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 64px); margin-top: clamp(40px, 6vw, 80px); align-items: start; }
+    .steps li:nth-child(2) { margin-top: clamp(24px, 6vw, 88px); }
+    .steps .phone { max-width: 290px; margin-bottom: 28px; }
+    .steps h3 { margin-bottom: 10px; }
 
-    /* ---------- Footer ---------- */
-    .footer {
-      border-top: 1px solid var(--line); padding: 40px;
-      text-align: center; font-size: 14px; color: var(--faint);
-    }
-    .footer a { color: var(--muted); font-weight: 600; }
-    .footer a:hover { color: var(--accent); }
-    .footer-legal { margin-top: 12px; }
-    .footer-legal a { font-weight: 500; }
+    /* Brief */
+    .brief-media { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .brief-media .phone:nth-child(2) { margin-top: clamp(32px, 6vw, 80px); }
+    .list { list-style: none; margin-top: 24px; }
+    .list li { padding: 10px 0 10px 28px; position: relative; }
+    .list li::before { content: ""; position: absolute; left: 4px; top: 22px; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+    .field .list li::before { background: var(--field-accent); }
+    .try { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .try p { margin: 0; padding: 16px 20px; background: var(--tone); border-radius: 16px; font-family: var(--serif); font-size: 24px; line-height: 1.3; }
+    .tone .try p { background: var(--bg); }
+    .crop { overflow: hidden; border-radius: 28px; background: var(--phone); padding: 7px 7px 0; }
+    .crop img { width: 100%; height: auto; aspect-ratio: 886 / 840; object-fit: cover; object-position: top; border-radius: 22px 22px 0 0; }
+    .crop.bottom img { object-position: bottom; }
 
-    /* ---------- Reveal on scroll (skipped entirely under reduced motion) ---------- */
+    /* RSVP */
+    .rsvp { background: var(--field); color: var(--field-ink); border-radius: 28px; padding: clamp(24px, 3vw, 40px); }
+    .rsvp-word { font-family: var(--serif); font-size: clamp(44px, 7vw, 88px); line-height: 1.1; text-align: center; min-height: 1.3em; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; }
+    .rsvp-word i { font-style: normal; color: var(--field-accent); }
+    .rsvp-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-top: 24px; }
+    .rsvp-bar button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; cursor: pointer; font: 600 15px var(--sans); background: #2E261E; color: var(--field-ink); }
+    .rsvp-bar button[aria-pressed="true"], .rsvp-bar .btn { background: var(--field-accent); color: #171310; }
+    .rsvp-bar button:active { transform: scale(.97); }
+
+    /* Pocket */
+    .pocket { background: var(--accent); color: var(--on-accent); }
+    .pocket h2 { max-width: 14em; }
+    .pocket .split { align-items: start; }
+    .pocket .lede { margin-top: 24px; }
+    .pocket .list li::before { background: var(--on-accent); }
+    .pocket .btn { background: var(--on-accent); color: var(--accent); }
+    .pocket a { color: inherit; }
+    .pocket .phone { max-width: 320px; margin: 0 auto; }
+    @media (prefers-color-scheme: dark) { .pocket { color: #171310; } .pocket .btn { background: #171310; color: var(--accent); } .pocket .list li::before { background: #171310; } }
+    .pocket .badge-note { margin-top: 28px; }
+
+    /* Voices */
+    .langs { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 28px; }
+    .langs span { padding: 8px 18px; background: var(--tone); border-radius: 999px; font-weight: 600; font-size: 18px; }
+    .voice-img { max-width: 340px; margin: 0 auto; }
+
+    /* Pricing */
+    .price-head { max-width: 780px; }
+    .plans { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(16px, 2.5vw, 32px); margin-top: clamp(36px, 5vw, 64px); }
+    .plan { background: var(--tone); border-radius: 28px; padding: clamp(28px, 3.5vw, 48px); }
+    .plan.free { background: #2A231C; }
+    .plan.pro { background: var(--field-accent); color: #171310; }
+    .plan.pro .list li::before { background: #171310; }
+    .plan.pro .sub { color: #3A2A1B; }
+    .mt { margin-top: 24px; }
+    .mt-l { margin-top: 32px; }
+    .plan .amount { font-family: var(--serif); font-size: clamp(44px, 5vw, 68px); font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-top: 12px; }
+    .plan .amount small { font-size: 24px; letter-spacing: 0; font-weight: 400; font-family: inherit; }
+    .plan .sub { margin-top: 10px; color: var(--muted); }
+    .prices { display: flex; flex-wrap: wrap; gap: 28px 48px; margin-top: 12px; }
+    .plan.free .sub, .field .fine { color: var(--field-muted); }
+    .fine { margin-top: 28px; font-size: 15px; color: var(--muted); max-width: 52em; }
+
+    /* FAQ */
+    .faq-wrap { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 7vw, 120px); align-items: start; }
+    .faq-wrap > div:first-child { position: sticky; top: 100px; }
+    details { background: var(--tone); border-radius: 20px; }
+    details + details { margin-top: 12px; }
+    summary { list-style: none; cursor: pointer; padding: 22px 28px; font-family: var(--serif); font-size: 24px; line-height: 1.25; font-weight: 600; display: flex; justify-content: space-between; gap: 16px; align-items: center; min-height: 64px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-family: var(--sans); font-weight: 400; font-size: 28px; line-height: 1; color: var(--accent); flex-shrink: 0; transition: transform .2s ease; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details .ans { padding: 0 28px 26px; max-width: 42em; }
+    details .ans p + p { margin-top: 12px; }
+    details .ans a { color: var(--accent); }
+
+    /* Closer + footer */
+    .closer { text-align: left; }
+    .closer .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px 48px; align-items: end; }
+    .closer h2 { font-size: clamp(38px, 6.4vw, 88px); letter-spacing: -0.03em; line-height: 1; }
+    .closer .lede { margin-top: 24px; }
+    .closer .badge img { height: 64px; }
+    .footer { background: var(--field); color: var(--field-ink); padding: clamp(48px, 6vw, 88px) 0 40px; overflow: hidden; }
+    .footer-mark { font-family: var(--serif); font-weight: 700; font-size: clamp(56px, 16.5vw, 230px); letter-spacing: -0.04em; line-height: 0.9; white-space: nowrap; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 40px; font-size: 18px; color: var(--field-muted); }
+    .footer-links a { color: var(--field-ink); padding: 10px 0; display: inline-block; }
+    .footer-links a:hover { color: var(--field-accent); }
+    .footer small { display: block; margin-top: 12px; color: var(--field-muted); font-size: 14px; }
+
+    /* Motion */
     @media (prefers-reduced-motion: no-preference) {
-      html.js [data-reveal] {
-        opacity: 0; transform: translateY(28px);
-        transition: opacity 0.7s ease, transform 0.7s ease;
-      }
-      html.js [data-reveal].in { opacity: 1; transform: none; }
+      html.js [data-r] { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; transition-delay: calc(var(--i, 0) * 80ms); }
+      html.js [data-r].in { opacity: 1; transform: none; }
     }
 
-    /* ---------- Small screens ---------- */
-    @media (max-width: 860px) {
-      .feature-rows { gap: 70px; }
-      .feature-row { grid-template-columns: 1fr; gap: 36px; }
-      .feature-copy { order: 1; }
-      .feature-media { order: 2; }
-      .card-grid { grid-template-columns: 1fr; margin-top: 70px; }
+    @media (max-width: 900px) {
+      .hero .wrap, .split, .faq-wrap, .plans, .closer .wrap { grid-template-columns: 1fr; }
+      .hero-phones { max-width: 460px; }
+      .split.flip > :first-child { order: 0; }
+      .steps { grid-template-columns: 1fr; }
+      .steps li:nth-child(2) { margin-top: 0; }
+      .steps li { display: grid; grid-template-columns: minmax(120px, 36%) 1fr; gap: 20px; align-items: center; }
+      .steps .phone { margin-bottom: 0; }
+      .faq-wrap > div:first-child { position: static; }
+      .brief-media { max-width: 460px; }
+      .nav-back, .nav-links { display: none; }
+      .nav .wrap { justify-content: space-between; }
     }
-
-    @media (max-width: 600px) {
-      .nav { padding: 14px 18px; }
-      .nav-brand { font-size: 16px; }
-      .nav-brand img { width: 24px; height: 24px; border-radius: 6px; }
-      .pill-soon { display: none; }
-
-      .hero { padding: 130px 20px 30px; }
-      .features { padding: 70px 20px 0; }
-      .feature-copy p { font-size: 16px; }
-      .card { padding: 26px; }
-      .closer { padding: 90px 20px 60px; }
-      .footer { padding: 32px 20px; }
+    @media (max-width: 520px) {
+      .badge img { height: 52px; }
+      .hero-facts { grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+      .hero-facts span { font-size: 15px; }
+      .steps li { grid-template-columns: 1fr; }
+      .steps .phone { max-width: 240px; margin-bottom: 8px; }
+      summary { padding: 18px 20px; }
+      details .ans { padding: 0 20px 22px; }
+      .nav .btn { padding: 0 16px; }
     }
   </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <a href="index.html" class="nav-back">&larr; Sammer Sheikh</a>
-  <div class="nav-brand">
-    <img src="./images/soundbite/icon.png" alt="Soundbite app icon">
-    Soundbite
+<nav class="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="nav-back" href="index.html">&larr; Sammer Sheikh</a>
+    <div class="nav-links"><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+    <a class="brand" href="#top"><img src="./images/soundbite/icon.png" width="32" height="32" alt="">SoundBite</a>
+    <a class="btn" href="https://apps.apple.com/app/id6746467846">Get the app</a>
   </div>
-  <span class="pill-soon">Coming soon</span>
 </nav>
 
-<header class="hero">
-  <div class="hero-kicker">iOS &middot; Audio</div>
-  <h1>Listen to any article.</h1>
-  <p>Turns long reads into narrated audio. Save from anywhere, read along with time-synced captions, and catch up with personalized briefs.</p>
-  <div class="hero-phones">
-    <div class="phone phone-left">
-      <video src="./images/soundbite/library-scroll.mp4" autoplay muted loop playsinline aria-label="Soundbite library scrolling through saved articles"></video>
+<main id="main">
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Share any article, hear it in 2 minutes.</h1>
+      <p class="lede">SoundBite turns the link into a narrated summary and highlights each word as it is spoken. It also reads you a daily news brief built from your interests.</p>
+      <div class="hero-cta">
+        <a class="badge" href="https://apps.apple.com/app/id6746467846" aria-label="Download SoundBite on the App Store">
+          <picture>
+            <source srcset="./images/soundbite/badge-app-store-white.svg" media="(prefers-color-scheme: dark)">
+            <img src="./images/soundbite/badge-app-store-black.svg" width="168" height="56" alt="Download on the App Store">
+          </picture>
+        </a>
+      </div>
+      <ul class="hero-facts" aria-label="At a glance">
+        <li><b>5</b><span>free articles a week</span></li>
+        <li><b>8</b><span>narrator voices</span></li>
+        <li><b>$4.99</b><span>a month for Pro</span></li>
+      </ul>
     </div>
-    <div class="phone phone-right">
-      <video src="./images/soundbite/player-karaoke.mp4" autoplay muted loop playsinline aria-label="Soundbite player highlighting words as they are spoken"></video>
+    <div class="hero-phones">
+      <div class="phone"><img src="./images/soundbite/shot-01-brief-home.webp" fetchpriority="high" width="700" height="1517" alt="SoundBite home screen: today's daily brief with a Listen button and a custom brief on space and astronomy"></div>
+      <div class="phone"><img src="./images/soundbite/shot-03-article-reader.webp" width="700" height="1517" alt="SoundBite article view with a 2 minute 58 second listen and the summary text"></div>
     </div>
   </div>
 </header>
 
-<section class="features">
-  <div class="feature-rows">
-
-    <div class="feature-row" data-reveal>
-      <div class="feature-copy">
-        <h2>Real app tour, real captures</h2>
-        <p>The in-app onboarding is cut from actual screen recordings, not mockups. Share into Soundbite, read along with karaoke captions, highlight a passage, auto-scroll, then RSVP mode: one word at a time.</p>
-      </div>
-      <div class="feature-media">
-        <div class="phone-sm">
-          <video src="./images/soundbite/onboarding-tour.mp4" autoplay muted loop playsinline aria-label="Soundbite onboarding tour: share, read-along, highlight, auto-scroll, and RSVP clips stitched together"></video>
-        </div>
-      </div>
+<section class="sec tone" aria-labelledby="karaoke-h">
+  <div class="wrap split">
+    <div class="copy">
+      <h2 id="karaoke-h" data-r>Follow every word as it is spoken.</h2>
+      <p class="lede" data-r style="--i:1">Every summary is narrated with word-level timing, so the text lights up in step with the voice. Skim ahead, tap any word to jump there, and never lose your place.</p>
+      <p class="muted" data-r style="--i:2">This demo runs silently in your browser. In the app, the voice is real and the timing comes from the narration itself.</p>
     </div>
-
-    <div class="feature-row" data-reveal>
-      <div class="feature-copy">
-        <h2>Save from anywhere</h2>
-        <p>Tap the share button in Safari and send any article straight to your Soundbite library. No copy-paste, no leaving the page.</p>
+    <div class="karaoke-box" data-ui data-r style="--i:2">
+      <p class="karaoke" id="karaoke" aria-label="Imagine a world where creatures create their own light. That is the reality for thousands of species on Earth, from fireflies in backyards to mysterious fish in the deepest oceans.">
+        <span class="w done">Imagine</span> <span class="w">a</span> <span class="w">world</span> <span class="w">where</span> <span class="w">creatures</span> <span class="w">create</span> <span class="w">their</span> <span class="w">own</span> <span class="w">light.</span> <span class="w">That</span> <span class="w">is</span> <span class="w">the</span> <span class="w">reality</span> <span class="w">for</span> <span class="w">thousands</span> <span class="w">of</span> <span class="w">species</span> <span class="w">on</span> <span class="w">Earth,</span> <span class="w">from</span> <span class="w">fireflies</span> <span class="w">in</span> <span class="w">backyards</span> <span class="w">to</span> <span class="w">mysterious</span> <span class="w">fish</span> <span class="w">in</span> <span class="w">the</span> <span class="w">deepest</span> <span class="w">oceans.</span>
+      </p>
+      <div class="karaoke-bar">
+        <button class="btn" id="karaoke-toggle" type="button" hidden>Pause</button>
+        <small id="karaoke-hint" hidden>Tap any word to jump to it.</small>
       </div>
-      <div class="feature-media">
-        <div class="phone-sm">
-          <video src="./images/soundbite/onboarding-share-flow.mp4" autoplay muted loop playsinline aria-label="Sharing an article from Safari into SoundBite"></video>
-        </div>
-      </div>
-    </div>
-
-    <div class="feature-row" data-reveal>
-      <div class="feature-media">
-        <div class="phone-sm">
-          <video src="./images/soundbite/onboarding-read.mp4" autoplay muted loop playsinline aria-label="Read-along player with word-by-word highlighting from the app tour"></video>
-        </div>
-      </div>
-      <div class="feature-copy">
-        <h2>Read along</h2>
-        <p>The player highlights each word as it is spoken, so you can follow along or skim ahead. Tap any sentence to jump to that moment.</p>
-      </div>
-    </div>
-
-    <div class="feature-row" data-reveal>
-      <div class="feature-copy">
-        <h2>Catch up with briefs</h2>
-        <p>Get a curated daily rundown of the topics you care about. Each brief is summarized and narrated so you can listen on the go.</p>
-      </div>
-      <div class="feature-media">
-        <div class="phone-sm">
-          <video src="./images/soundbite/daily-brief.mp4" autoplay muted loop playsinline aria-label="Daily brief playing in Soundbite"></video>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="card-grid">
-    <div class="card" data-reveal>
-      <div class="card-media">
-        <div class="phone-xs">
-          <video src="./images/soundbite/submit-url.mp4" autoplay muted loop playsinline aria-label="Pasting a link into Soundbite"></video>
-        </div>
-      </div>
-      <h3>Paste a link, start listening</h3>
-      <p>Drop any URL and the article is processed in the background: narration waiting in your library.</p>
-    </div>
-    <div class="card" data-reveal>
-      <div class="card-media">
-        <div class="phone-xs">
-          <video src="./images/soundbite/voice-picker.mp4" autoplay muted loop playsinline aria-label="Choosing a narrator voice"></video>
-        </div>
-      </div>
-      <h3>Pick your narrator</h3>
-      <p>A range of natural-sounding voices. Switch anytime without re-processing.</p>
-    </div>
-    <div class="card" data-reveal>
-      <div class="card-media">
-        <div class="phone-xs">
-          <video src="./images/soundbite/dark-mode.mp4" autoplay muted loop playsinline aria-label="Soundbite switching to dark mode"></video>
-        </div>
-      </div>
-      <h3>Easy on the eyes</h3>
-      <p>Dark mode adapts the whole app while keeping the warm editorial feel.</p>
     </div>
   </div>
 </section>
 
-<section class="closer" data-reveal>
-  <img src="./images/soundbite/icon.png" alt="Soundbite app icon" class="closer-icon" loading="lazy">
-  <h2>Read less,<br>listen more.</h2>
-  <p>Native iOS app for article narration, daily briefs, and synced read-along.</p>
-  <div class="tech-pills">
-    <span class="tech-pill">Swift</span>
-    <span class="tech-pill">SwiftUI</span>
-    <span class="tech-pill">Unreal Speech</span>
-    <span class="tech-pill">Exa AI</span>
-    <span class="tech-pill">SwiftData</span>
-    <span class="tech-pill">CloudKit</span>
+<section class="sec" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="how-head">
+      <h2 id="how-h" data-r>Share a link. Get a summary. Press play.</h2>
+      <p class="lede mt" data-r style="--i:1">Basic read-aloud only speaks the whole page. SoundBite does the reading first, so you hear the point of the article, not the cookie banner.</p>
+    </div>
+    <ol class="steps">
+      <li data-r style="--i:1">
+        <div class="phone"><video src="./images/soundbite/onboarding-share-flow.mp4" poster="./images/soundbite/poster-onboarding-share-flow.webp" width="600" height="1302" muted loop playsinline preload="none" aria-label="Sharing a Wikipedia article from Safari into SoundBite"></video></div>
+        <div>
+          <h3>Share any article</h3>
+          <p class="muted">Tap Share in Safari or any app and pick SoundBite. Or paste a link inside the app. It is added to your library in one tap.</p>
+        </div>
+      </li>
+      <li data-r style="--i:2">
+        <div class="phone"><video src="./images/soundbite/submit-url.mp4" poster="./images/soundbite/poster-submit-url.webp" width="720" height="1566" muted loop playsinline preload="none" aria-label="Pasting a link into the Add an article sheet and tapping Submit"></video></div>
+        <div>
+          <h3>Get a summary in minutes</h3>
+          <p class="muted">An AI summary of the article is written and narrated in the background. Turn on notifications and it tells you when it is ready.</p>
+        </div>
+      </li>
+      <li data-r style="--i:3">
+        <div class="phone"><video src="./images/soundbite/player-karaoke.mp4" poster="./images/soundbite/poster-player-karaoke.webp" width="720" height="1566" muted loop playsinline preload="none" aria-label="The player highlighting each word as it is spoken"></video></div>
+        <div>
+          <h3>Listen and follow along</h3>
+          <p class="muted">Words highlight as they are spoken. Speed it up to 2x, save highlights as you go, and find everything again in your history.</p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
+
+<section class="sec field" id="brief" aria-labelledby="brief-h">
+  <div class="wrap split flip">
+    <div class="brief-media">
+      <div class="phone" data-r style="--i:1"><img src="./images/soundbite/shot-04-interests-new.webp" loading="lazy" width="700" height="1517" alt="The Interests screen: topics you picked and custom instructions for steering your briefs"></div>
+      <div class="phone" data-r style="--i:2"><video src="./images/soundbite/daily-brief.mp4" poster="./images/soundbite/poster-daily-brief.webp" width="720" height="1566" muted loop playsinline preload="none" aria-label="A daily brief opening in SoundBite"></video></div>
+    </div>
+    <div class="copy">
+      <h2 id="brief-h" data-r>Your daily news brief, read aloud.</h2>
+      <p class="lede" data-r style="--i:1">Pick topics, or just tell SoundBite in plain language what to focus on and what to skip. Every day it writes a brief from sources on the web and narrates it.</p>
+      <ul class="list" data-r style="--i:2">
+        <li>Drawn from the sources on the web, with the story text one tap away</li>
+        <li>Tune it with plain instructions, like "focus on practical takeaways, skip industry gossip"</li>
+        <li>Free accounts get one brief a week. Pro gets one every day, and can regenerate it on demand.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="custom" aria-labelledby="custom-h">
+  <div class="wrap split">
+    <div class="copy">
+      <h2 id="custom-h" data-r>Brief me on anything.</h2>
+      <p class="lede" data-r style="--i:1">Type a topic, a person, or a question. SoundBite searches the web and narrates a custom brief. Schedule it to repeat daily, on weekdays, or on one day of the week. <span class="muted">(SoundBite Pro)</span></p>
+      <div class="try" data-r style="--i:2" aria-label="Examples of custom brief prompts">
+        <p>Space and astronomy discoveries</p>
+        <p>What changed in battery tech this month?</p>
+        <p>Everything about the Premier League title race</p>
+      </div>
+    </div>
+    <div class="crop bottom" data-r style="--i:2"><img src="./images/soundbite/shot-01-brief-home.webp" loading="lazy" width="700" height="1517" alt="A custom brief card titled Space and astronomy discoveries, drawn from 8 sources on the web, with a Listen button"></div>
+  </div>
+</section>
+
+<section class="sec tone" id="speed" aria-labelledby="speed-h">
+  <div class="wrap split flip">
+    <div class="rsvp" data-r style="--i:1">
+      <div class="rsvp-word" id="rsvp-word" aria-hidden="true">Speed</div>
+      <div class="rsvp-bar" id="rsvp-bar" hidden>
+        <button type="button" class="btn" id="rsvp-toggle">Pause</button>
+        <button type="button" data-wpm="200" aria-pressed="false">200 wpm</button>
+        <button type="button" data-wpm="350" aria-pressed="true">350 wpm</button>
+        <button type="button" data-wpm="500" aria-pressed="false">500 wpm</button>
+      </div>
+    </div>
+    <div class="copy">
+      <h2 id="speed-h" data-r>Or read it one word at a time.</h2>
+      <p class="lede" data-r style="--i:1">Switch the player to speed-reading view and each word flashes in the same spot, in sync with the audio. It is a quick way to get through a long summary when you can look but not listen.</p>
+      <p class="muted" data-r style="--i:2">The demo on the left is a simple stand-in for the in-app view.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec pocket" id="pocket" aria-labelledby="pocket-h">
+  <div class="wrap split">
+    <div>
+      <h2 id="pocket-h" data-r>Moving from Pocket? Finish the pile.</h2>
+      <p class="lede" data-r style="--i:1">Your read-later pile, finally finished. Pocket closed in 2025, and Omnivore before it. A saved-links list only helps if you get through it, and SoundBite turns the links you still care about into something you can finish on a walk.</p>
+      <ul class="list" data-r style="--i:2">
+        <li>Open the links you saved and share the ones you still want</li>
+        <li>Listen to a short narrated summary instead of adding another tab</li>
+        <li>Your history keeps every summary, highlight and bookmark</li>
+      </ul>
+      <p class="badge-note" data-r style="--i:3">There is no bulk import from Pocket yet. Links go in one at a time, and the free plan covers five a week.</p>
+    </div>
+    <div class="phone" data-r style="--i:2"><img src="./images/soundbite/shot-02-history-list-v3.webp" loading="lazy" width="700" height="1517" alt="SoundBite History: 27 items in the archive, 21 minutes listened this month, and a list of summarized articles"></div>
+  </div>
+</section>
+
+<section class="sec" id="voices" aria-labelledby="voices-h">
+  <div class="wrap split flip">
+    <div class="phone voice-img" data-r style="--i:1"><img src="./images/soundbite/shot-06-voice-picker-new.webp" loading="lazy" width="700" height="1517" alt="The voice picker listing narrators, each with a preview button"></div>
+    <div class="copy">
+      <h2 id="voices-h" data-r>Pick your narrator.</h2>
+      <p class="lede" data-r style="--i:1">Eight English narrator voices, American and British, from warm to dry to formal. Preview any of them before you pick. SoundBite Pro also narrates in other languages.</p>
+      <div class="langs" data-r style="--i:2" aria-label="Narration languages">
+        <span>English</span><span>Spanish</span><span>French</span><span>Italian</span><span>Portuguese</span><span>Hindi</span>
+      </div>
+      <p class="muted" data-r style="--i:3">The free plan includes the default narrator, Lauren. The other voices and all non-English narration are part of Pro.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec field" id="pricing" aria-labelledby="pricing-h">
+  <div class="wrap">
+    <div class="price-head">
+      <h2 id="pricing-h" data-r>Free to start. Pro when you want more.</h2>
+      <p class="lede muted mt" data-r style="--i:1">No ads. Pro is an optional subscription you can cancel any time in your App Store account settings.</p>
+    </div>
+    <div class="plans">
+      <div class="plan free" data-r style="--i:1">
+        <h3>Free</h3>
+        <p class="amount">$0</p>
+        <p class="sub">Every account, no card needed.</p>
+        <ul class="list">
+          <li>5 article summaries a week</li>
+          <li>1 daily brief a week</li>
+          <li>The default narrator voice</li>
+          <li>Word-synced reading, speed-reading view, highlights and history</li>
+        </ul>
+      </div>
+      <div class="plan pro" data-r style="--i:2">
+        <h3>SoundBite Pro</h3>
+        <div class="prices">
+          <div><p class="amount">$4.99<small> / month</small></p></div>
+          <div><p class="amount">$39.99<small> / year</small></p><p class="sub">About $3.33 a month</p></div>
+        </div>
+        <ul class="list">
+          <li>Unlimited article summaries</li>
+          <li>A daily brief every day, regenerated on demand</li>
+          <li>Unlimited custom briefs on any topic, with scheduling</li>
+          <li>All 8 English narrator voices, plus Spanish, French, Italian, Portuguese and Hindi</li>
+        </ul>
+      </div>
+    </div>
+    <p class="fine">SoundBite Pro is an auto-renewing subscription, charged to your Apple ID at confirmation of purchase. It renews automatically unless canceled at least 24 hours before the end of the current period. Manage or cancel it in your App Store account settings. Prices are in US dollars and may vary by region.</p>
+    <p class="mt-l"><a class="badge" href="https://apps.apple.com/app/id6746467846" aria-label="Download SoundBite on the App Store"><img src="./images/soundbite/badge-app-store-white.svg" loading="lazy" width="168" height="56" alt="Download on the App Store"></a></p>
+  </div>
+</section>
+
+<section class="sec" id="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-wrap">
+    <div>
+      <h2 id="faq-h" data-r>Questions people ask.</h2>
+      <p class="lede muted mt" data-r style="--i:1">Something missing? Write to <a href="mailto:sammerahmadsheikh@outlook.com?subject=SoundBite">sammerahmadsheikh@outlook.com</a>.</p>
+    </div>
+    <div>
+      <details data-r>
+        <summary>Is this just text-to-speech?</summary>
+        <div class="ans"><p>No. Plain read-aloud speaks every word on the page. SoundBite first writes an AI summary of the article, then narrates that summary with word-by-word highlighting, so you get the point in a couple of minutes.</p></div>
+      </details>
+      <details data-r>
+        <summary>What happens to the articles I send?</summary>
+        <div class="ans">
+          <p>The article link and its text are sent to outside services that generate the summary and the audio. Summaries are written by DeepSeek, narration runs on Modal, brief sources are found with Exa, and generated audio is stored on AWS S3. They process the data only to provide the feature, and SoundBite does not sell your personal information.</p>
+          <p>The full list is in the <a href="soundbite-privacy.html">Privacy Policy</a>. Please do not send content you would not want processed this way.</p>
+        </div>
+      </details>
+      <details data-r>
+        <summary>Can I delete my account and data?</summary>
+        <div class="ans"><p>Yes, in the app: Profile, then Delete account. You can also delete any article or brief at any time, which removes its audio. Account deletion signs you out everywhere straight away, and your data is purged after a 30-day grace period. Signing back in during that window cancels the deletion. Or email <a href="mailto:sammerahmadsheikh@outlook.com?subject=SoundBite%20account%20deletion">sammerahmadsheikh@outlook.com</a> and it will be handled for you.</p></div>
+      </details>
+      <details data-r>
+        <summary>Which languages does it narrate in?</summary>
+        <div class="ans"><p>English (eight voices), Spanish, French, Italian, Portuguese and Hindi. English narration with the default voice is free. The other voices and languages are part of SoundBite Pro. The app itself is in English.</p></div>
+      </details>
+      <details data-r>
+        <summary>What does it cost?</summary>
+        <div class="ans"><p>The free plan gives you 5 article summaries and 1 daily brief a week with the default voice. SoundBite Pro is $4.99 a month or $39.99 a year. There is no free trial right now, and the free plan is the way to try it.</p></div>
+      </details>
+      <details data-r>
+        <summary>Which devices does it run on?</summary>
+        <div class="ans"><p>iPhone with iOS 18 or later. You can sign in with Apple. There is no Android or web version.</p></div>
+      </details>
+      <details data-r>
+        <summary>Can I import my saved links from Pocket?</summary>
+        <div class="ans"><p>Not in bulk. You share or paste links one at a time, which works well for the handful you really want to get through.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="sec tone closer" aria-labelledby="close-h">
+  <div class="wrap">
+    <div>
+      <h2 id="close-h" data-r>Hear it, instead of saving it.</h2>
+      <p class="lede" data-r style="--i:1">Free on the App Store. Five summaries a week to start.</p>
+    </div>
+    <a class="badge" data-r style="--i:2" href="https://apps.apple.com/app/id6746467846" aria-label="Download SoundBite on the App Store">
+      <picture>
+        <source srcset="./images/soundbite/badge-app-store-white.svg" media="(prefers-color-scheme: dark)">
+        <img src="./images/soundbite/badge-app-store-black.svg" loading="lazy" width="168" height="56" alt="Download on the App Store">
+      </picture>
+    </a>
+  </div>
+</section>
+
+</main>
 
 <footer class="footer">
-  <p>Built by <a href="index.html">Sammer Sheikh</a> &middot; 2026</p>
-  <p class="footer-legal"><a href="soundbite-terms.html">Terms of Use</a> &middot; <a href="soundbite-privacy.html">Privacy Policy</a></p>
+  <div class="wrap">
+    <div class="footer-mark" aria-hidden="true">SoundBite</div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="soundbite-terms.html">Terms of Use</a>
+      <a href="soundbite-privacy.html">Privacy Policy</a>
+      <a href="mailto:sammerahmadsheikh@outlook.com?subject=SoundBite%20support">Support</a>
+      <a href="https://apps.apple.com/app/id6746467846">App Store</a>
+      <a href="index.html">Built by Sammer Sheikh</a>
+    </nav>
+    <small>Apple, the Apple logo and App Store are trademarks of Apple Inc. SoundBite is an independent app.</small>
+  </div>
 </footer>
 
 <script>
 (function () {
-  document.documentElement.classList.add('js');
+  var root = document.documentElement;
+  root.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Keep every demo video muted regardless of browser quirks */
-  document.querySelectorAll('video').forEach(function (v) {
-    v.muted = true;
-    v.volume = 0;
-    v.setAttribute('muted', '');
-  });
-
-  /* Reveal on scroll: one-time fade-in, disabled under reduced motion */
-  var els = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-    els.forEach(function (el) { el.classList.add('in'); });
-    return;
+  /* Entrance reveals */
+  var els = [].slice.call(document.querySelectorAll('[data-r]'));
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(function (e) { io.observe(e); });
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
+
+  /* Clips play only while on screen; reduced motion keeps the poster */
+  var vids = [].slice.call(document.querySelectorAll('video'));
+  vids.forEach(function (v) { v.muted = true; v.volume = 0; });
+  if (!reduce && 'IntersectionObserver' in window) {
+    var vio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var p = e.target.play && (e.isIntersecting ? e.target.play() : e.target.pause());
+        if (p && p.catch) p.catch(function () {});
+      });
+    }, { threshold: 0.35 });
+    vids.forEach(function (v) { vio.observe(v); });
+  }
+
+  /* Karaoke demo: silent, driven by a timer. Tap a word to jump. */
+  var k = document.getElementById('karaoke');
+  var words = [].slice.call(k.querySelectorAll('.w'));
+  var kBtn = document.getElementById('karaoke-toggle');
+  var kHint = document.getElementById('karaoke-hint');
+  var pos = 0, kTimer = null, kPlaying = false, kSeen = false;
+  function paint() {
+    words.forEach(function (w, i) {
+      w.classList.toggle('done', i < pos);
+      w.classList.toggle('now', i === pos);
     });
-  }, { threshold: 0.15 });
-  els.forEach(function (el) { io.observe(el); });
+  }
+  function kTick() {
+    pos = (pos + 1) % (words.length + 3);
+    if (pos >= words.length) { words.forEach(function (w) { w.classList.add('done'); w.classList.remove('now'); }); return; }
+    paint();
+  }
+  function kStart() { if (kTimer) return; kPlaying = true; kBtn.textContent = 'Pause'; kTimer = setInterval(kTick, 330); }
+  function kStop() { kPlaying = false; kBtn.textContent = 'Play'; clearInterval(kTimer); kTimer = null; }
+  kBtn.hidden = false; kHint.hidden = false;
+  kBtn.addEventListener('click', function () { kPlaying ? kStop() : kStart(); });
+  words.forEach(function (w, i) { w.addEventListener('click', function () { pos = i; paint(); }); });
+  pos = 0; paint();
+  if (reduce) { kBtn.textContent = 'Play'; }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !kSeen) { kSeen = true; kStart(); }
+      });
+    }, { threshold: 0.5 }).observe(k);
+  } else { kStart(); }
+
+  /* RSVP demo: one word at a time with the optimal recognition point marked */
+  var text = 'Scientists have found that bioluminescence has evolved independently at least forty times, which is why a firefly in a backyard and a fish in the deep sea share the same trick.'.split(' ');
+  var rw = document.getElementById('rsvp-word');
+  var rBar = document.getElementById('rsvp-bar');
+  var rBtn = document.getElementById('rsvp-toggle');
+  var rWpm = 350, rI = 0, rTimer = null, rOn = false, rSeen = false;
+  function orp(w) {
+    var core = w.replace(/[^A-Za-z0-9]/g, '');
+    var n = core.length, idx = n <= 1 ? 0 : n <= 5 ? 1 : n <= 9 ? 2 : 3;
+    var cut = 0, c = 0;
+    for (var i = 0; i < w.length; i++) { if (/[A-Za-z0-9]/.test(w[i])) { if (c === idx) { cut = i; break; } c++; } }
+    return w.slice(0, cut) + '<i>' + w.charAt(cut) + '</i>' + w.slice(cut + 1);
+  }
+  function rShow() { rw.innerHTML = orp(text[rI]); }
+  function rTick() { rI = (rI + 1) % text.length; rShow(); }
+  function rStart() { if (rTimer) return; rOn = true; rBtn.textContent = 'Pause'; rTimer = setInterval(rTick, 60000 / rWpm); }
+  function rStop() { rOn = false; rBtn.textContent = 'Play'; clearInterval(rTimer); rTimer = null; }
+  rBar.hidden = false; rShow();
+  rBtn.addEventListener('click', function () { rOn ? rStop() : rStart(); });
+  [].forEach.call(rBar.querySelectorAll('[data-wpm]'), function (b) {
+    b.addEventListener('click', function () {
+      rWpm = +b.getAttribute('data-wpm');
+      [].forEach.call(rBar.querySelectorAll('[data-wpm]'), function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      if (rOn) { rStop(); rStart(); }
+    });
+  });
+  if (reduce) { rBtn.textContent = 'Play'; }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !rSeen) { rSeen = true; rStart(); }
+      });
+    }, { threshold: 0.5 }).observe(rw);
+  } else { rStart(); }
 })();
 </script>
-
 </body>
 </html>
